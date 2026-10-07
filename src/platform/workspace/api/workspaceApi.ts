@@ -463,7 +463,7 @@ export const workspaceApi = {
       )
       return response.data
     } catch (err) {
-      handleAxiosError(err)
+      handleAxiosError(err, 'checkDeploymentCompatibility')
     }
   },
 
