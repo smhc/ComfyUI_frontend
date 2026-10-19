@@ -5,7 +5,7 @@
     data-testid="error-overlay-deployment-offer"
   >
     <span class="size-4 shrink-0" aria-hidden="true" />
-    <span class="min-w-0 flex-1 truncate text-sm text-base-foreground">
+    <span class="min-w-0 flex-1 truncate text-sm text-foreground">
       {{ t('errorOverlay.runsOn', { deployment: first.label }) }}
     </span>
     <Button
