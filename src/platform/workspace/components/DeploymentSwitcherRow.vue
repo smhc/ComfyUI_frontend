@@ -20,8 +20,8 @@
         :class="
           cn(
             'flex items-center gap-1 text-xs',
-            mark.kind === 'runs' && 'text-success-background',
-            mark.kind === 'missing' && 'text-warning-background',
+            mark.kind === 'runs' && 'text-success',
+            mark.kind === 'missing' && 'text-warning',
             mark.kind === 'unknown' && 'text-muted-foreground'
           )
         "

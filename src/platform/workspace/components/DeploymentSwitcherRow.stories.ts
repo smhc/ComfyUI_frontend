@@ -36,7 +36,7 @@ const meta: Meta<typeof DeploymentSwitcherRow> = {
   decorators: [
     () => ({
       template:
-        '<div class="w-80 rounded-lg border border-border-default bg-base-background"><story /></div>'
+        '<div class="w-80 rounded-lg border border-border bg-background"><story /></div>'
     })
   ]
 }
