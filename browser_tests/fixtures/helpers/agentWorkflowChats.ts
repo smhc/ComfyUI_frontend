@@ -64,7 +64,18 @@ export class AgentWorkflowChatsMock {
 
     await page.route('**/api/agent/threads?*', (route) => {
       this.listReads += 1
-      return route.fulfill(jsonRoute(agentThreadPage(threads)))
+      const workflowId = new URL(route.request().url()).searchParams.get(
+        'workflow_id'
+      )
+      return route.fulfill(
+        jsonRoute(
+          agentThreadPage(
+            workflowId === null
+              ? threads
+              : threads.filter((thread) => thread.workflow_id === workflowId)
+          )
+        )
+      )
     })
     await page.route('**/api/agent/threads/*/messages', (route) => {
       if (route.request().method() !== 'GET') return route.fallback()

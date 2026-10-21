@@ -1,11 +1,10 @@
 import { describe, expect, it, vi } from 'vitest'
+import { fromPartial } from '@total-typescript/shoehorn'
 import { nextTick, ref, watch } from 'vue'
 
 import { useWorkflowStore } from '@/platform/workflow/management/stores/workflowStore'
 import type { LoadedComfyWorkflow } from '@/platform/workflow/management/stores/workflowStore'
 import { reportError } from '@/platform/telemetry/reportError'
-// fallow-ignore-next-line boundary-violation -- shared integration fixture builds a loaded graph.
-import { createMockLoadedWorkflow } from '@/utils/__tests__/litegraphTestUtils'
 
 import type {
   AgentMessages,
@@ -1076,7 +1075,7 @@ describe('useAgentConversationStore', () => {
     })
 
     it('keeps a background question answered and its tab working after a stale refetch', () => {
-      const workflow = createMockLoadedWorkflow({
+      const workflow = fromPartial<LoadedComfyWorkflow>({
         path: 'workflows/a.json',
         instanceId: 'workflow-a'
       })
@@ -2490,7 +2489,7 @@ describe('useAgentConversationStore', () => {
     type Store = ReturnType<typeof useAgentConversationStore>
 
     function openTab(path: string): LoadedComfyWorkflow {
-      const tab = createMockLoadedWorkflow({ path, instanceId: path })
+      const tab = fromPartial<LoadedComfyWorkflow>({ path, instanceId: path })
       tab.unload = vi.fn()
       tab.rename = vi.fn(async (newPath: string) =>
         Object.assign(tab, { path: newPath })

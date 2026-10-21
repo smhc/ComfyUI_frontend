@@ -5,6 +5,7 @@ import type {
   UploadImageResponse
 } from '@comfyorg/ingest-types'
 import { zAgentPostMessageRequest } from '@comfyorg/ingest-types/zod'
+import { fromPartial } from '@total-typescript/shoehorn'
 import { assert, beforeEach, describe, expect, it, vi } from 'vitest'
 import { effectScope, nextTick } from 'vue'
 
@@ -16,12 +17,11 @@ vi.mock(import('@/composables/auth/useCurrentUser'))
 vi.mock(import('@/platform/skills/api/skillsApi'), { spy: true })
 import { reportError } from '@/platform/telemetry/reportError'
 import { useWorkflowStore } from '@/platform/workflow/management/stores/workflowStore'
+import type { LoadedComfyWorkflow } from '@/platform/workflow/management/stores/comfyWorkflow'
 import { StorageKeys } from '@/platform/workflow/persistence/base/storageKeys'
 import { api } from '@/scripts/api'
 import { createNodeLocatorId } from '@/types/nodeIdentification'
 import { toNodeId } from '@/types/nodeId'
-// fallow-ignore-next-line boundary-violation -- shared integration fixture builds a loaded graph.
-import { createMockLoadedWorkflow } from '@/utils/__tests__/litegraphTestUtils'
 
 import type {
   AgentAnswerAccepted,
@@ -4317,7 +4317,7 @@ describe('useAgentSession (v1 composition root)', () => {
         )
       })
       useWorkflowStore().attachWorkflow(
-        createMockLoadedWorkflow({
+        fromPartial<LoadedComfyWorkflow>({
           path: 'workflows/a.json',
           instanceId: 'tab-a'
         }),

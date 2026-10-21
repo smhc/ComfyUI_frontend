@@ -38,8 +38,6 @@ import { useFreeUsePlacement } from './experiments/freeUsePlacement'
 
 setupInlinePromptEditorDom()
 
-// fallow-ignore-next-line boundary-violation -- integration test composes the skill catalog.
-import { useSkillPacksStore } from '@/platform/skills/stores/skillPacksStore'
 import type { ComfyWorkflow } from '@/platform/workflow/management/stores/comfyWorkflow'
 import { useWorkflowService } from '@/platform/workflow/core/services/workflowService'
 import { useTeamWorkspaceStore } from '@/platform/workspace/stores/teamWorkspaceStore'
@@ -5889,7 +5887,12 @@ describe('AgentPanelRoot history', () => {
                 kind: 'skill',
                 name: 'portrait',
                 description: 'Keep the subject recognizable',
-                scope: useSkillPacksStore().scope,
+                scope: JSON.stringify([
+                  location.origin,
+                  api.apiURL('/agent/skills'),
+                  useCurrentUser().resolvedUserInfo.value?.id ?? null,
+                  useTeamWorkspaceStore().workspaceId ?? null
+                ]),
                 textOffset: 0
               } satisfies ComposerReference
             ]

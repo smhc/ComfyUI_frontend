@@ -13,26 +13,20 @@ import { computed, nextTick, ref } from 'vue'
 
 vi.mock(import('firebase/auth'))
 
-// fallow-ignore-next-line boundary-violation -- integration test composes the app host.
 import { i18n } from '@/i18n'
 import { useCurrentUser } from '@/composables/auth/useCurrentUser'
-// fallow-ignore-next-line boundary-violation -- integration test composes billing state.
 import { useBillingContext } from '@/composables/billing/useBillingContext'
 import { useWorkflowService } from '@/platform/workflow/core/services/workflowService'
 import type { ComfyWorkflow } from '@/platform/workflow/management/stores/comfyWorkflow'
 import { useWorkflowStore } from '@/platform/workflow/management/stores/workflowStore'
 import type { LoadedComfyWorkflow } from '@/platform/workflow/management/stores/workflowStore'
-// fallow-ignore-next-line boundary-violation -- integration fixture needs the wire workflow shape.
 import type { ComfyWorkflowJSON } from '@/platform/workflow/validation/schemas/workflowSchema'
-// fallow-ignore-next-line boundary-violation -- integration test composes billing state.
 import { useBillingCapabilities } from '@/platform/workspace/composables/useBillingCapabilities'
-// fallow-ignore-next-line boundary-violation -- integration test composes workspace state.
 import { useWorkspaceUI } from '@/platform/workspace/composables/useWorkspaceUI'
 import { api } from '@/scripts/api'
 import { useAuthStore } from '@/stores/authStore'
 import { useWorkflowTabActivityStore } from '@/stores/workflowTabActivityStore'
 import { getFilenameDetails } from '@/utils/formatUtil'
-// fallow-ignore-next-line boundary-violation -- shared integration fixture builds a loaded graph.
 import { createMockLoadedWorkflow } from '@/utils/__tests__/litegraphTestUtils'
 
 import AgentPanelRoot from './AgentPanelRoot.vue'
@@ -78,29 +72,22 @@ vi.mock<unknown>(import('./composables/agent/useAgentConsent'), () => ({
     withConsent: async (_trigger: unknown, onAccept: () => void) => onAccept()
   })
 }))
-// fallow-ignore-next-line boundary-violation -- integration test isolates the canvas host.
 vi.mock<unknown>(import('@/composables/canvas/useFocusNode'), () => ({
   useFocusNode: () => ({ focusNodeInstance: vi.fn() })
 }))
-// fallow-ignore-next-line boundary-violation -- integration test isolates the cloud host.
 vi.mock<unknown>(
   import('@/platform/cloud/subscription/composables/useAccountPreconditionDialog'),
   () => ({ useAccountPreconditionDialog: () => ({ open: vi.fn() }) })
 )
-// fallow-ignore-next-line boundary-violation -- integration test selects the cloud host.
 vi.mock(import('@/platform/distribution/types'), () => ({ isCloud: true }))
-// fallow-ignore-next-line boundary-violation -- integration test isolates telemetry.
 vi.mock(import('@/platform/telemetry'))
 vi.mock(import('@/platform/telemetry/reportError'))
 vi.mock(import('@/composables/auth/useCurrentUser'))
 vi.mock(import('@/platform/workflow/core/services/workflowService'))
-// fallow-ignore-next-line boundary-violation -- integration test composes billing state.
 vi.mock(import('@/composables/billing/useBillingContext'), { spy: true })
-// fallow-ignore-next-line boundary-violation -- integration test composes billing state.
 vi.mock(import('@/platform/workspace/composables/useBillingCapabilities'), {
   spy: true
 })
-// fallow-ignore-next-line boundary-violation -- integration test composes workspace state.
 vi.mock(import('@/platform/workspace/composables/useWorkspaceUI'), {
   spy: true
 })

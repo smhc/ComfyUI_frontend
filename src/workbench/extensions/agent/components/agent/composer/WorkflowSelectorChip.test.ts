@@ -1,4 +1,5 @@
 import { getActivePinia } from 'pinia'
+import { fromPartial } from '@total-typescript/shoehorn'
 import { render, screen, within } from '@testing-library/vue'
 import userEvent from '@testing-library/user-event'
 import type { Pinia } from 'pinia'
@@ -10,8 +11,7 @@ import type { ComponentProps } from 'vue-component-type-helpers'
 import enMessages from '@/locales/en/main.json' with { type: 'json' }
 import { useWorkflowStore } from '@/platform/workflow/management/stores/workflowStore'
 import { useWorkflowTabActivityStore } from '@/stores/workflowTabActivityStore'
-// fallow-ignore-next-line boundary-violation -- shared integration fixture builds a loaded graph.
-import { createMockLoadedWorkflow } from '@/utils/__tests__/litegraphTestUtils'
+import type { LoadedComfyWorkflow } from '@/platform/workflow/management/stores/comfyWorkflow'
 
 import { toTurnId } from '@/workbench/extensions/agent/schemas/agentApiSchema'
 import { useAgentConversationStore } from '@/workbench/extensions/agent/stores/agent/agentConversationStore'
@@ -293,7 +293,10 @@ describe('WorkflowSelectorChip', () => {
     const workflowStore = useWorkflowStore()
     for (const tab of tabs)
       workflowStore.attachWorkflow(
-        createMockLoadedWorkflow({ path: tab.path, instanceId: tab.path }),
+        fromPartial<LoadedComfyWorkflow>({
+          path: tab.path,
+          instanceId: tab.path
+        }),
         workflowStore.openWorkflows.length
       )
     const conversation = useAgentConversationStore()

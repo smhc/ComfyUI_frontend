@@ -187,7 +187,6 @@
           "src/workbench/extensions/agent/AgentPanelRoot.vue",
           "src/workbench/extensions/agent/composables/agent/useAgentTargetNavigation.ts",
           "src/workbench/extensions/agent/composables/useAgentDockMount.test.ts",
-          "src/workbench/extensions/agent/AgentPanelRoot.tabActivity.test.ts",
           "src/workbench/extensions/agent/composables/useAgentDockMount.ts",
           "src/workbench/extensions/agent/crdt/agentCrdtProjection.frameDelta.test.ts",
           "src/workbench/extensions/agent/crdt/agentCrdtProjection.integration.test.ts",
