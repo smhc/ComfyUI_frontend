@@ -96,19 +96,22 @@ describe('BillingAutoTopUpCard', () => {
     label: string
     lines: string[]
     action: string
+    expectedIcon: string
   }>([
     {
       status: 'failed',
       label: 'Failed',
       lines: [FAILED],
-      action: 'Update payment'
+      action: 'Update payment',
+      expectedIcon: 'icon-[lucide--external-link]'
     },
     {
       status: 'off',
       settings: notConfigured,
       label: 'Off',
       lines: ['Refills credits when your balance runs low'],
-      action: 'Turn on'
+      action: 'Turn on',
+      expectedIcon: 'icon-[lucide--external-link]'
     },
     {
       status: 'on_hold',
@@ -117,23 +120,33 @@ describe('BillingAutoTopUpCard', () => {
         RULE,
         'No default payment method. Set one to resume auto top-up.'
       ],
-      action: 'Update payment'
+      action: 'Update payment',
+      expectedIcon: 'icon-[lucide--external-link]'
     },
     {
       status: 'paused_by_budget',
       label: 'Paused',
       lines: [RULE, 'Monthly limit reached. Resumes November 28.'],
-      action: 'Manage'
+      action: 'Manage',
+      expectedIcon: 'icon-[lucide--arrow-up-right]'
     },
     {
       status: 'on',
       label: 'On',
       lines: [RULE, 'Monthly limit: $50 of $200 used'],
-      action: 'Manage'
+      action: 'Manage',
+      expectedIcon: 'icon-[lucide--arrow-up-right]'
     }
   ])(
     'renders the served $status status',
-    async ({ status, settings = configured, label, lines, action }) => {
+    async ({
+      status,
+      settings = configured,
+      label,
+      lines,
+      action,
+      expectedIcon
+    }) => {
       renderCard({ ...settings, status })
 
       expect(
@@ -149,11 +162,7 @@ describe('BillingAutoTopUpCard', () => {
         'href',
         'https://platform.test/profile/billing'
       )
-      expect(link).toContainHTML(
-        action === 'Manage'
-          ? 'icon-[lucide--arrow-up-right]'
-          : 'icon-[lucide--external-link]'
-      )
+      expect(link).toContainHTML(expectedIcon)
       expect(screen.getByTestId('billing-auto-top-up-card')).toContainHTML(
         'rounded-xl'
       )

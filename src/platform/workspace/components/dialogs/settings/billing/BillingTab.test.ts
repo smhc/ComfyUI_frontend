@@ -200,14 +200,19 @@ describe('BillingTab', () => {
             .map((button) => button.textContent.trim())
         ).toEqual(buttons)
         expect(banner).toHaveClass('rounded-xl', 'p-3')
-        const [label] = buttons
-        if (label) {
-          expect(
-            within(banner).getByRole('button', { name: label })
-          ).toHaveClass('h-8')
-        }
       }
     )
+
+    it('uses md sizing for the owner action', () => {
+      arrange({ isPaused: true, canManageBilling: true })
+
+      expect(
+        within(screen.getByTestId('billing-paused-banner')).getByRole(
+          'button',
+          { name: 'Update payment' }
+        )
+      ).toHaveClass('h-8')
+    })
 
     it('opens the billing portal from Update payment', async () => {
       const { manageSubscription } = arrange({ isPaused: true })
