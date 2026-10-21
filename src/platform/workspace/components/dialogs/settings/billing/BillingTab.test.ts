@@ -5,7 +5,10 @@ import { describe, expect, it, vi } from 'vitest'
 import { computed, ref } from 'vue'
 import { createI18n } from 'vue-i18n'
 
-import type { SubscriptionState } from '@comfyorg/ingest-types'
+import type {
+  BillingCapabilitiesResponse,
+  SubscriptionState
+} from '@comfyorg/ingest-types'
 
 import enMessages from '@/locales/en/main.json'
 import { useBillingContext } from '@/composables/billing/useBillingContext'
@@ -57,7 +60,7 @@ interface Scenario {
   subscription?: SubscriptionInfo | null
   subscriptionStatus?: 'active' | 'canceled' | 'ended' | null
   subscriptionState?: SubscriptionState | null
-  planKind?: 'none' | 'self_serve' | 'sales_managed' | null
+  planKind?: NonNullable<BillingCapabilitiesResponse['plan_kind']> | null
   isInitialized?: boolean
   error?: string | null
   canManageSubscription?: boolean

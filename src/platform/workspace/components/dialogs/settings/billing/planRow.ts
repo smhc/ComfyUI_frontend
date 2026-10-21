@@ -1,4 +1,7 @@
-import type { SubscriptionState } from '@comfyorg/ingest-types'
+import type {
+  BillingCapabilitiesResponse,
+  SubscriptionState
+} from '@comfyorg/ingest-types'
 
 import type {
   BillingStatus,
@@ -53,7 +56,7 @@ export type PlanRowAction =
   | 'choosePlan'
   | 'contactSales'
 
-export type PlanKind = 'none' | 'self_serve' | 'sales_managed'
+export type PlanKind = NonNullable<BillingCapabilitiesResponse['plan_kind']>
 
 export const CONTACT_SALES_URL = 'mailto:support@comfy.org'
 
