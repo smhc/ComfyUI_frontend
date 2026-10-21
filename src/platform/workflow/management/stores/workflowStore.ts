@@ -444,7 +444,7 @@ export const useWorkflowStore = defineStore('workflow', () => {
           openWorkflowPaths.value = openWorkflowPaths.value.filter(
             (openPath) => openPath !== path
           )
-          forgetNodeHistories(workflow)
+          workflow.unload()
           return true
         }
       )

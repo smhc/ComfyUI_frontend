@@ -157,7 +157,8 @@ export const useSubgraphNavigationStore = defineStore(
       if (getActiveGraphId() === graphId)
         canvasScheduler.cancel('subgraph-navigation-fit')
 
-      const expectedKey = buildCacheKey(graphId)
+      const workflow = workflowStore.activeWorkflow
+      const expectedKey = buildCacheKey(graphId, workflow)
       const viewport = viewportCache.get(expectedKey)
       if (viewport) {
         applyViewport(viewport)
@@ -167,7 +168,9 @@ export const useSubgraphNavigationStore = defineStore(
       // First visit — fit to content so subgraph nodes are visible
       canvasScheduler.schedule({
         key: 'subgraph-navigation-fit',
-        isCurrent: () => getActiveGraphId() === graphId,
+        isCurrent: () =>
+          getActiveGraphId() === graphId &&
+          workflowStore.activeWorkflow === workflow,
         run: () => {
           if (!canvas.graph?.nodes.length) return
           useLitegraphServiceAccess().fitView()
