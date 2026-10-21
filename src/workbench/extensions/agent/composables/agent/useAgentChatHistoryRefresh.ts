@@ -126,23 +126,10 @@ export function useAgentChatHistoryRefresh({
     const newerFilteredWorkflowIds = new Set(
       newerFilteredEntries.map(([workflowId]) => workflowId)
     )
-    const newestFilteredById = new Map<
-      string,
-      { generation: number; session: ChatSession }
-    >()
-    for (const [, entry] of newerFilteredEntries) {
-      for (const session of entry.sessions) {
-        const previous = newestFilteredById.get(session.id)
-        if (!previous || entry.generation > previous.generation) {
-          newestFilteredById.set(session.id, {
-            generation: entry.generation,
-            session
-          })
-        }
-      }
-    }
-    const newerFiltered = [...newestFilteredById.values()].map(
-      ({ session }) => session
+    const newerFiltered = newerFilteredEntries.flatMap(([, entry]) =>
+      entry.sessions.filter(
+        ({ id }) => latestAppliedByThread.get(id) === entry.generation
+      )
     )
     const refreshedIds = new Set(newerFiltered.map(({ id }) => id))
     history.replaceAll([
@@ -155,6 +142,9 @@ export function useAgentChatHistoryRefresh({
     ])
     for (const [workflowId, entry] of filteredHistory) {
       if (entry.generation <= generation) filteredHistory.delete(workflowId)
+    }
+    for (const [id, threadGeneration] of latestAppliedByThread) {
+      if (threadGeneration <= generation) latestAppliedByThread.delete(id)
     }
   }
 
