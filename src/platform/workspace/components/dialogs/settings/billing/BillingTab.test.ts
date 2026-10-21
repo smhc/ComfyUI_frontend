@@ -285,7 +285,7 @@ describe('BillingTab', () => {
     arrange({ planKind: 'sales_managed', canSubscribeSelfServe: false })
 
     const link = screen.getByRole('link', { name: 'Contact sales' })
-    expect(link).toHaveAttribute('href', 'mailto:support@comfy.org')
+    expect(link).toHaveAttribute('href', 'https://comfy.org/contact/')
     expect(link).toHaveAttribute('target', '_blank')
     expect(link).toHaveAttribute('rel', 'noopener')
     expect(link).toHaveClass('no-underline')

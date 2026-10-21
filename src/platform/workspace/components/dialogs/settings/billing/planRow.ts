@@ -58,7 +58,7 @@ export type PlanRowAction =
 
 export type PlanKind = NonNullable<BillingCapabilitiesResponse['plan_kind']>
 
-export const CONTACT_SALES_URL = 'mailto:support@comfy.org'
+export const CONTACT_SALES_URL = 'https://comfy.org/contact/'
 
 type BillingTabLoad = 'loading' | 'error' | 'ready'
 
