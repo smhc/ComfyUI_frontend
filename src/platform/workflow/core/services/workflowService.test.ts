@@ -491,6 +491,41 @@ describe('useWorkflowService', () => {
     })
   })
 
+  describe('openWorkflow with a live graph', () => {
+    let previous: LoadedComfyWorkflow
+    let next: LoadedComfyWorkflow
+
+    beforeEach(() => {
+      previous = createModeTestWorkflow({ path: 'workflows/previous.json' })
+      next = createModeTestWorkflow({ path: 'workflows/next.json' })
+      next.adoptGraph(app.createRootGraph())
+      useWorkflowStore().activeWorkflow = previous
+      vi.mocked(app.activateRootGraph).mockClear()
+    })
+
+    it('shows the owned graph instead of reconfiguring from serialized state', async () => {
+      await useWorkflowService().openWorkflow(next)
+
+      expect(app.loadGraphData).not.toHaveBeenCalled()
+      expect(app.activateRootGraph).toHaveBeenCalledWith(next.graph)
+      expect(app.rootGraph).toBe(next.graph)
+      expect(next.changeTracker.restore).toHaveBeenCalled()
+      expect(useWorkflowStore().activeWorkflow?.path).toBe(next.path)
+    })
+
+    it('still reconfigures when the open is forced', async () => {
+      await useWorkflowService().openWorkflow(next, { force: true })
+
+      expect(app.loadGraphData).toHaveBeenCalledWith(
+        expect.anything(),
+        true,
+        true,
+        next,
+        expect.anything()
+      )
+    })
+  })
+
   describe('openWorkflow ordering', () => {
     it('reloads canvas edits made after the reload was requested', async () => {
       const workflow = createModeTestWorkflow()
@@ -2207,6 +2242,14 @@ describe('useWorkflowService', () => {
       expect(
         useNodeOutputStore().restorePreviewsForWorkflow
       ).toHaveBeenCalledWith(existingWorkflow.path)
+    })
+
+    it('should hand the configured root graph to the activated workflow', async () => {
+      workflowStore.activeWorkflow = existingWorkflow
+
+      await useWorkflowService().afterLoadNewGraph('repeat', makeWorkflowData())
+
+      expect(existingWorkflow.graph).toBe(app.rootGraph)
     })
 
     it('should reuse equivalent UUIDs regardless of casing', async () => {

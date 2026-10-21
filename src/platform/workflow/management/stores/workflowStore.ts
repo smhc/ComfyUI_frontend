@@ -325,6 +325,7 @@ export const useWorkflowStore = defineStore('workflow', () => {
     )
     useWorkflowDraftStoreV2().removeDraft(workflow.path)
     if (workflow.isTemporary) {
+      workflow.releaseGraph()
       forgetNodeHistories(workflow)
       clearThumbnail(workflow.key)
       delete workflowLookup.value[workflow.path]

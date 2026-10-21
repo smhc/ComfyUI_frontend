@@ -594,6 +594,12 @@ export const useSubgraphNavigationStore = defineStore(
       }, 0)
     }
 
+    /** Swallow the hash write caused by moving the canvas onto `graph`; the
+     *  workflow load that follows publishes the real hash. */
+    function suppressRootGraphHash(graph: LGraph): void {
+      pendingWorkflowResetGraph = graph
+    }
+
     return {
       activeSubgraph,
       navigationStack,
@@ -602,6 +608,7 @@ export const useSubgraphNavigationStore = defineStore(
       saveViewport,
       restoreViewport,
       saveCurrentViewport,
+      suppressRootGraphHash,
       beginWorkflowNavigation,
       endWorkflowNavigation,
       navigateToGraph,
