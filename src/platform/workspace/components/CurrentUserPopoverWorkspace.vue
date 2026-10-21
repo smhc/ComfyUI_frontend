@@ -286,7 +286,6 @@ import { useBillingCapabilities } from '@/platform/workspace/composables/useBill
 import { useWorkspaceUI } from '@/platform/workspace/composables/useWorkspaceUI'
 import { useTeamWorkspaceStore } from '@/platform/workspace/stores/teamWorkspaceStore'
 import { useSettingsDialog } from '@/platform/settings/composables/useSettingsDialog'
-import { useFeatureFlags } from '@/composables/useFeatureFlags'
 import { useBillingDialogs } from '@/composables/billing/useBillingDialogs'
 import { useProcessingTopupPayment } from '@/platform/workspace/composables/useProcessingTopupPayment'
 import { useWorkspaceDialogs } from '@/platform/workspace/composables/useWorkspaceDialogs'
@@ -322,9 +321,8 @@ const { accountActionsOnly = false } = defineProps<{
   accountActionsOnly?: boolean
 }>()
 
-const { flags } = useFeatureFlags()
 const { payment: processingPayment } = useProcessingTopupPayment(
-  () => !accountActionsOnly && flags.unifiedBillingSettingsEnabled
+  () => !accountActionsOnly
 )
 
 const { buildDocsUrl, docsPaths } = useExternalLink()
