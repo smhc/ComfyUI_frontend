@@ -37,6 +37,7 @@ export class AgentPanel {
   public readonly dockedPanel: Locator
   public readonly dockedPanelShell: Locator
   public readonly fileInput: Locator
+  public readonly historyButton: Locator
   public readonly nodeSelectionBanner: Locator
   public readonly openButton: Locator
   public readonly resizeHandle: Locator
@@ -48,6 +49,7 @@ export class AgentPanel {
   public readonly stopButton: Locator
   public readonly suggestedPrompts: Locator
   private readonly toasts: ToastHelper
+  public readonly userMessageBubbles: Locator
   public readonly workflowPicker: Locator
   public readonly workflowSwitch: Locator
   public readonly workSummary: Locator
@@ -88,6 +90,9 @@ export class AgentPanel {
     this.dockedPanel = page.getByTestId('docked-agent-panel')
     this.dockedPanelShell = page.getByTestId('docked-agent-panel-shell')
     this.fileInput = this.root.getByTestId('agent-file-input')
+    this.historyButton = this.root.getByRole('button', {
+      name: enMessages.agent.showChatHistory
+    })
     this.nodeSelectionBanner = page.getByTestId('node-selection-mode-banner')
     this.openButton = page.getByRole('button', {
       name: enMessages.agent.entryButton,
@@ -126,6 +131,14 @@ export class AgentPanel {
     this.workSummary = this.root.getByRole('button', {
       name: new RegExp(`^${escapeRegExp(enMessages.agent.worked)}`)
     })
+    this.userMessageBubbles = this.root.getByTestId('user-message-bubble')
+  }
+
+  async openChatFromHistory(title: string): Promise<void> {
+    await this.historyButton.click()
+    const row = this.root.getByRole('button', { name: title, exact: true })
+    await expect(row).toBeEnabled()
+    await row.click()
   }
 
   async scrollAssetsToEnd(): Promise<void> {
