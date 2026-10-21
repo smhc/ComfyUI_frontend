@@ -1213,6 +1213,15 @@ export class ComfyApp implements IComfyApp {
    * closed out, exactly as if `rootGraph.configure` itself had thrown.
    * Callers still decide what to return/rethrow.
    */
+  private disownFailedLoadGraph(workflow: string | null | ComfyWorkflow): void {
+    if (
+      workflow instanceof ComfyWorkflow &&
+      workflow.graph === this.rootGraphInternal
+    ) {
+      workflow.releaseGraph()
+    }
+  }
+
   private async reportGraphLoadFailure(error: unknown): Promise<void> {
     useDialogService().showErrorDialog(error, {
       title: t('errorDialog.loadWorkflowTitle'),
@@ -1436,6 +1445,7 @@ export class ComfyApp implements IComfyApp {
       // suppression/loading-state a `beforeLoadGraph` listener opened for
       // this load, since nothing ever notifies it the load ended.
       try {
+        if (clean) this.disownFailedLoadGraph(workflow)
         await this.reportGraphLoadFailure(error)
       } finally {
         ChangeTracker.isLoadingGraph = false
@@ -1536,8 +1546,8 @@ export class ComfyApp implements IComfyApp {
           }
         }
       } catch (error) {
+        if (clean) this.disownFailedLoadGraph(workflow)
         await this.reportGraphLoadFailure(error)
-        // Resolves rather than throws: the close/replacement guards read this outcome.
         return false
       }
       const configuredGraphState = this.rootGraph.state
