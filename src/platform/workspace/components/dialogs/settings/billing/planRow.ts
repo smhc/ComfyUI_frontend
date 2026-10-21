@@ -47,7 +47,15 @@ export type PlanRowState =
     }
   | { kind: 'unknown' }
 
-export type PlanRowAction = 'manage' | 'subscribe' | 'choosePlan'
+export type PlanRowAction =
+  | 'manage'
+  | 'subscribe'
+  | 'choosePlan'
+  | 'contactSales'
+
+export type PlanKind = 'none' | 'self_serve' | 'sales_managed'
+
+export const CONTACT_SALES_URL = 'mailto:support@comfy.org'
 
 type BillingTabLoad = 'loading' | 'error' | 'ready'
 
@@ -100,11 +108,15 @@ export function derivePlanRow(facts: PlanRowFacts): PlanRowState {
   }
 }
 
-/** The plan action for a state, shown only when the server grants `can_subscribe_self_serve`. */
+/** Self-serve actions follow `can_subscribe_self_serve`. `sales_managed` is Contact sales. */
 export function planRowAction(
   state: PlanRowState,
-  { canSubscribeSelfServe }: { canSubscribeSelfServe: boolean }
+  {
+    canSubscribeSelfServe,
+    planKind
+  }: { canSubscribeSelfServe: boolean; planKind: PlanKind | null }
 ): PlanRowAction | null {
+  if (planKind === 'sales_managed') return 'contactSales'
   if (!canSubscribeSelfServe) return null
   switch (state.kind) {
     case 'activating':
@@ -118,6 +130,14 @@ export function planRowAction(
     case 'ending':
       return null
   }
+}
+
+export function contactSalesButtonVariant(facts: {
+  isCloud: boolean
+  subscriptionStatus: BillingSubscriptionStatus | null
+}): 'inverted' | 'secondary' {
+  if (!facts.isCloud) return 'secondary'
+  return facts.subscriptionStatus === 'ended' ? 'inverted' : 'secondary'
 }
 
 interface BillingTabLoadFacts {

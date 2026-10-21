@@ -57,6 +57,7 @@ interface Scenario {
   subscription?: SubscriptionInfo | null
   subscriptionStatus?: 'active' | 'canceled' | 'ended' | null
   subscriptionState?: SubscriptionState | null
+  planKind?: 'none' | 'self_serve' | 'sales_managed' | null
   isInitialized?: boolean
   error?: string | null
   canManageSubscription?: boolean
@@ -117,6 +118,9 @@ function arrange(scenario: Scenario = {}) {
     fromPartial({
       canSubscribeSelfServe: computed(
         () => scenario.canSubscribeSelfServe ?? true
+      ),
+      planKind: computed(() =>
+        receiveServerFact('plan_kind', scenario.planKind ?? null)
       ),
       canRevertScheduledChange: computed(
         () => scenario.canRevertScheduledChange ?? false
@@ -272,6 +276,31 @@ describe('BillingTab', () => {
       'Billed monthly. Next invoice November 15.'
     )
     expect(screen.queryByText(/Activating your/)).not.toBeInTheDocument()
+  })
+
+  it('replaces Manage with Contact sales when plan_kind is sales_managed', () => {
+    arrange({ planKind: 'sales_managed', canSubscribeSelfServe: false })
+
+    const link = screen.getByRole('link', { name: 'Contact sales' })
+    expect(link).toHaveAttribute('href', 'mailto:support@comfy.org')
+    expect(link).toHaveAttribute('target', '_blank')
+    expect(link).toHaveAttribute('rel', 'noopener')
+    expect(link).toHaveClass('no-underline')
+    expect(
+      screen.queryByRole('link', { name: 'Manage' })
+    ).not.toBeInTheDocument()
+  })
+
+  it('keeps the secondary Contact sales button off Cloud, including when the plan has ended', () => {
+    arrange({
+      planKind: 'sales_managed',
+      subscriptionStatus: 'ended'
+    })
+
+    expect(screen.getByRole('link', { name: 'Contact sales' })).toHaveAttribute(
+      'data-variant',
+      'secondary'
+    )
   })
 
   it('renders an active plan with Manage and the owner handoff linked to the billing site', () => {

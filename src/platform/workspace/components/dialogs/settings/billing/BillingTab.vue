@@ -30,6 +30,7 @@
       <BillingPlanRow
         :state="planRow"
         :action="action"
+        :sales-variant="salesVariant"
         :can-manage-subscription="capabilities.canManageSubscription.value"
       />
       <BillingCreditsCard
@@ -77,12 +78,14 @@ import { useBillingDialogs } from '@/composables/billing/useBillingDialogs'
 import { useFeatureFlags } from '@/composables/useFeatureFlags'
 import { useTelemetry } from '@/platform/telemetry'
 import { paymentIntentSourceForAddCreditsClick } from '@/platform/telemetry/utils/paymentIntentSource'
+import { isCloud } from '@/platform/distribution/types'
 import WorkspaceHeaderMenu from '@/platform/workspace/components/dialogs/settings/WorkspaceHeaderMenu.vue'
 import BillingPausedBanner from '@/platform/workspace/components/dialogs/settings/billing/BillingPausedBanner.vue'
 import BillingAutoTopUpCard from '@/platform/workspace/components/dialogs/settings/billing/BillingAutoTopUpCard.vue'
 import BillingCreditsCard from '@/platform/workspace/components/dialogs/settings/billing/BillingCreditsCard.vue'
 import BillingPlanRow from '@/platform/workspace/components/dialogs/settings/billing/BillingPlanRow.vue'
 import {
+  contactSalesButtonVariant,
   deriveBillingTabLoad,
   planRowAction
 } from '@/platform/workspace/components/dialogs/settings/billing/planRow'
@@ -119,7 +122,15 @@ const load = computed(() =>
 
 const action = computed(() =>
   planRowAction(planRow.value, {
-    canSubscribeSelfServe: capabilities.canSubscribeSelfServe.value
+    canSubscribeSelfServe: capabilities.canSubscribeSelfServe.value,
+    planKind: capabilities.planKind.value
+  })
+)
+
+const salesVariant = computed(() =>
+  contactSalesButtonVariant({
+    isCloud,
+    subscriptionStatus: billing.subscriptionStatus.value
   })
 )
 

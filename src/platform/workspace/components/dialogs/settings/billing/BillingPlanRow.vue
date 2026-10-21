@@ -20,11 +20,11 @@
       <Button
         v-if="action"
         as="a"
-        :href="plansUrl"
+        :href="action === 'contactSales' ? CONTACT_SALES_URL : plansUrl"
         target="_blank"
         rel="noopener"
-        :variant="action === 'manage' ? 'secondary' : 'inverted'"
-        class="shrink-0"
+        :variant="buttonVariant"
+        :class="cn('shrink-0', action === 'contactSales' && 'no-underline')"
       >
         {{ $t(`workspacePanel.billingTab.plan.actions.${action}`) }}
         <i class="icon-[lucide--external-link] size-4" aria-hidden="true" />
@@ -34,27 +34,42 @@
 </template>
 
 <script setup lang="ts">
+import { cn } from '@comfyorg/tailwind-utils'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import Button from '@/components/ui/button/Button.vue'
 import BillingPlanLifecycle from '@/platform/workspace/components/dialogs/settings/billing/BillingPlanLifecycle.vue'
-import { formatPlanDate } from '@/platform/workspace/components/dialogs/settings/billing/planRow'
+import {
+  CONTACT_SALES_URL,
+  formatPlanDate
+} from '@/platform/workspace/components/dialogs/settings/billing/planRow'
 import type {
   PlanRowAction,
   PlanRowState
 } from '@/platform/workspace/components/dialogs/settings/billing/planRow'
 import { platformLink } from '@/platform/workspace/utils/platformLink'
 
-const { state, action, canManageSubscription } = defineProps<{
+const {
+  state,
+  action,
+  canManageSubscription,
+  salesVariant = 'secondary'
+} = defineProps<{
   state: PlanRowState
   action: PlanRowAction | null
   canManageSubscription: boolean
+  salesVariant?: 'inverted' | 'secondary'
 }>()
 
 const { t, locale } = useI18n()
 
 const plansUrl = computed(() => platformLink('/profile/billing/plans'))
+
+const buttonVariant = computed(() => {
+  if (action === 'contactSales') return salesVariant
+  return action === 'manage' ? 'secondary' : 'inverted'
+})
 
 const title = computed(() => {
   if (state.kind === 'noPlan') {

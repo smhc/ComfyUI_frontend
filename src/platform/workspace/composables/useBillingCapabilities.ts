@@ -197,6 +197,9 @@ function useBillingCapabilitiesInternal() {
   const autoTopUpSetup = computed(
     () => resolvedResponse.value?.auto_top_up_setup ?? null
   )
+  const planKind = computed(() =>
+    receiveServerFact('plan_kind', resolvedResponse.value?.plan_kind ?? null)
+  )
   const paymentRecoveryAvailable = computed(() =>
     receiveServerFact(
       'payment_recovery_available',
@@ -553,6 +556,7 @@ function useBillingCapabilitiesInternal() {
     canDowngradeToPersonal,
     canManageAutoTopUp,
     autoTopUpSetup,
+    planKind,
     paymentRecoveryAvailable,
     runDeniedPaymentPastDue,
     isReady,

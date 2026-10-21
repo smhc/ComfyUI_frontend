@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import {
+  contactSalesButtonVariant,
   deriveBillingTabLoad,
   derivePlanRow,
   formatPlanDate,
@@ -206,17 +207,72 @@ describe('planRowAction', () => {
     { state: 'ended', expected: 'choosePlan' },
     { state: 'ending', expected: null }
   ])('offers $expected for $state when granted', ({ state, expected }) => {
-    expect(planRowAction(states[state], { canSubscribeSelfServe: true })).toBe(
-      expected
-    )
+    expect(
+      planRowAction(states[state], {
+        canSubscribeSelfServe: true,
+        planKind: 'self_serve'
+      })
+    ).toBe(expected)
   })
 
   it.for(Object.keys(states))(
     'offers nothing for %s when not granted',
     (key) => {
       expect(
-        planRowAction(states[key], { canSubscribeSelfServe: false })
+        planRowAction(states[key], {
+          canSubscribeSelfServe: false,
+          planKind: null
+        })
       ).toBeNull()
+    }
+  )
+
+  it.for(Object.keys(states))(
+    'replaces the action with Contact sales for %s when plan_kind is sales_managed',
+    (key) => {
+      expect(
+        planRowAction(states[key], {
+          canSubscribeSelfServe: false,
+          planKind: 'sales_managed'
+        })
+      ).toBe('contactSales')
+    }
+  )
+})
+
+describe('contactSalesButtonVariant', () => {
+  it.for([
+    {
+      isCloud: true,
+      subscriptionStatus: 'ended' as const,
+      expected: 'inverted' as const
+    },
+    {
+      isCloud: true,
+      subscriptionStatus: 'canceled' as const,
+      expected: 'secondary' as const
+    },
+    {
+      isCloud: true,
+      subscriptionStatus: 'active' as const,
+      expected: 'secondary' as const
+    },
+    {
+      isCloud: false,
+      subscriptionStatus: 'ended' as const,
+      expected: 'secondary' as const
+    },
+    {
+      isCloud: false,
+      subscriptionStatus: 'canceled' as const,
+      expected: 'secondary' as const
+    }
+  ])(
+    'is $expected when cloud is $isCloud and status is $subscriptionStatus',
+    ({ isCloud, subscriptionStatus, expected }) => {
+      expect(contactSalesButtonVariant({ isCloud, subscriptionStatus })).toBe(
+        expected
+      )
     }
   )
 })
