@@ -117,7 +117,10 @@
     </ContextMenuPortal>
   </ContextMenuRoot>
   <WorkflowTabPopover
-    ref="popoverRef"
+    v-model:open="popoverOpen"
+    v-model:clicked="popoverClicked"
+    :anchor="workflowTabRef"
+    :hovered="popoverHovered"
     :workflow-filename="workflowOption.workflow.filename"
     :thumbnail-url="thumbnailUrl"
     :is-active-tab="isActiveTab"
@@ -131,7 +134,7 @@ import {
   ContextMenuRoot,
   ContextMenuTrigger
 } from 'reka-ui'
-import { computed, onUnmounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 import Button from '@/components/ui/button/Button.vue'
@@ -195,7 +198,9 @@ const workflowStore = useWorkflowStore()
 const settingStore = useSettingStore()
 const executionStore = useExecutionStore()
 const workflowTabRef = ref<HTMLElement | null>(null)
-const popoverRef = ref<InstanceType<typeof WorkflowTabPopover> | null>(null)
+const popoverOpen = ref(false)
+const popoverHovered = ref(false)
+const popoverClicked = ref(false)
 const workflowThumbnail = useWorkflowThumbnail()
 
 // Use computed refs to cache autosave settings
@@ -302,17 +307,18 @@ const thumbnailUrl = computed(() => {
   return workflowThumbnail.getThumbnail(workflowOption.workflow.key)
 })
 
-// Event handlers that delegate to the popover component
-const handleMouseEnter = (event: Event) => {
-  popoverRef.value?.showPopover(event)
+const handleMouseEnter = () => {
+  popoverClicked.value = false
+  popoverHovered.value = true
 }
 
 const handleMouseLeave = () => {
-  popoverRef.value?.hidePopover()
+  popoverHovered.value = false
 }
 
-const handleClick = (event: Event) => {
-  popoverRef.value?.togglePopover(event)
+const handleClick = () => {
+  if (!popoverOpen.value) popoverClicked.value = true
+  popoverOpen.value = !popoverOpen.value
 }
 
 const onCloseWorkflow = (option: WorkflowOption) =>
@@ -407,9 +413,5 @@ usePragmaticDroppable(tabGetter, {
       workflowStore.reorderWorkflows(fromIndex, toIndex)
     }
   }
-})
-
-onUnmounted(() => {
-  popoverRef.value?.hidePopover()
 })
 </script>
