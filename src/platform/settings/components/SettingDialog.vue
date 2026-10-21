@@ -5,8 +5,12 @@
     size="md"
     :content-padding="isWorkspaceCategoryActive ? 'none' : 'default'"
     header-padding="symmetric"
-    close-button-variant="textonly"
-    close-icon="icon-[lucide--x] size-4"
+    :close-button-variant="
+      unifiedBillingSettingsEnabled ? 'textonly' : undefined
+    "
+    :close-icon="
+      unifiedBillingSettingsEnabled ? 'icon-[lucide--x] size-4' : undefined
+    "
   >
     <template #leftPanelHeaderTitle>
       <i class="icon-[lucide--settings]" />
