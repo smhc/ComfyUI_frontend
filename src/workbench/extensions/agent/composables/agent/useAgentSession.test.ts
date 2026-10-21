@@ -20,6 +20,7 @@ import { StorageKeys } from '@/platform/workflow/persistence/base/storageKeys'
 import { api } from '@/scripts/api'
 import { createNodeLocatorId } from '@/types/nodeIdentification'
 import { toNodeId } from '@/types/nodeId'
+// fallow-ignore-next-line boundary-violation -- shared integration fixture builds a loaded graph.
 import { createMockLoadedWorkflow } from '@/utils/__tests__/litegraphTestUtils'
 
 import type {

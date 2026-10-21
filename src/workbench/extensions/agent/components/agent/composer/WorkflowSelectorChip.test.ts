@@ -10,6 +10,7 @@ import type { ComponentProps } from 'vue-component-type-helpers'
 import enMessages from '@/locales/en/main.json' with { type: 'json' }
 import { useWorkflowStore } from '@/platform/workflow/management/stores/workflowStore'
 import { useWorkflowTabActivityStore } from '@/stores/workflowTabActivityStore'
+// fallow-ignore-next-line boundary-violation -- shared integration fixture builds a loaded graph.
 import { createMockLoadedWorkflow } from '@/utils/__tests__/litegraphTestUtils'
 
 import { toTurnId } from '@/workbench/extensions/agent/schemas/agentApiSchema'

@@ -38,6 +38,7 @@ import { useFreeUsePlacement } from './experiments/freeUsePlacement'
 
 setupInlinePromptEditorDom()
 
+// fallow-ignore-next-line boundary-violation -- integration test composes the skill catalog.
 import { useSkillPacksStore } from '@/platform/skills/stores/skillPacksStore'
 import type { ComfyWorkflow } from '@/platform/workflow/management/stores/comfyWorkflow'
 import { useWorkflowService } from '@/platform/workflow/core/services/workflowService'

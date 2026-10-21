@@ -4,6 +4,7 @@ import { nextTick, ref, watch } from 'vue'
 import { useWorkflowStore } from '@/platform/workflow/management/stores/workflowStore'
 import type { LoadedComfyWorkflow } from '@/platform/workflow/management/stores/workflowStore'
 import { reportError } from '@/platform/telemetry/reportError'
+// fallow-ignore-next-line boundary-violation -- shared integration fixture builds a loaded graph.
 import { createMockLoadedWorkflow } from '@/utils/__tests__/litegraphTestUtils'
 
 import type {
