@@ -8,13 +8,17 @@ import type {
 import { useAgentChatHistoryStore } from '@/workbench/extensions/agent/stores/agent/agentChatHistoryStore'
 import { useAgentChatHistoryRefresh } from './useAgentChatHistoryRefresh'
 
-function completedListing(id: string, workflowId = ''): ThreadListing {
+function completedListing(
+  id: string,
+  workflowId = '',
+  title = id
+): ThreadListing {
   return {
     status: 'complete',
     threads: [
       {
         id,
-        title: id,
+        title,
         preview: '',
         workflow_id: workflowId,
         status: 'active',
@@ -276,6 +280,79 @@ describe('useAgentChatHistoryRefresh', () => {
     await expect(filteredRefresh).resolves.toBe('superseded')
 
     expect(history.sessions.map(({ id }) => id)).toEqual(['newest'])
+  })
+
+  it('keeps a newer thread snapshot returned by another workflow refresh', async () => {
+    const { history, listThreads, refreshHistory } = setup()
+    const workflowA = deferredListing()
+    listThreads.mockReturnValueOnce(workflowA.promise)
+    const workflowARefresh = refreshHistory('none', 'wf-a')
+    listThreads.mockResolvedValueOnce(
+      completedListing('thread', 'wf-b', 'newest')
+    )
+
+    await expect(refreshHistory('none', 'wf-b')).resolves.toBe('complete')
+    workflowA.resolve(completedListing('thread', 'wf-a', 'stale'))
+    await expect(workflowARefresh).resolves.toBe('complete')
+
+    expect(history.sessions).toEqual([
+      expect.objectContaining({
+        id: 'thread',
+        title: 'newest',
+        workflowId: 'wf-b'
+      }),
+      expect.objectContaining({ id: 'kept' })
+    ])
+  })
+
+  it('keeps a newer thread snapshot when filtered listings are ignored', async () => {
+    const { history, listThreads, refreshHistory } = setup()
+    const workflowA = deferredListing()
+    listThreads.mockReturnValueOnce(workflowA.promise)
+    const workflowARefresh = refreshHistory('none', 'wf-a')
+    listThreads.mockResolvedValueOnce(
+      completedListing('thread', 'wf-a', 'newest')
+    )
+
+    await expect(refreshHistory('none', 'wf-b')).resolves.toBe('complete')
+    workflowA.resolve(completedListing('thread', 'wf-a', 'stale'))
+    await expect(workflowARefresh).resolves.toBe('complete')
+
+    expect(history.sessions).toEqual([
+      expect.objectContaining({
+        id: 'thread',
+        title: 'newest',
+        workflowId: 'wf-a'
+      }),
+      expect.objectContaining({ id: 'kept' })
+    ])
+  })
+
+  it('keeps only the newest filtered snapshot when a full listing finishes later', async () => {
+    const { history, listThreads, refreshHistory } = setup()
+    const full = deferredListing()
+    listThreads.mockReturnValueOnce(full.promise)
+    const fullRefresh = refreshHistory()
+    listThreads.mockResolvedValueOnce(
+      completedListing('thread', 'wf-a', 'older')
+    )
+    await expect(refreshHistory('none', 'wf-a')).resolves.toBe('complete')
+    listThreads.mockResolvedValueOnce(
+      completedListing('thread', 'wf-b', 'newest')
+    )
+    await expect(refreshHistory('none', 'wf-b')).resolves.toBe('complete')
+
+    full.resolve(completedListing('full'))
+    await expect(fullRefresh).resolves.toBe('complete')
+
+    expect(history.sessions).toEqual([
+      expect.objectContaining({
+        id: 'thread',
+        title: 'newest',
+        workflowId: 'wf-b'
+      }),
+      expect.objectContaining({ id: 'full' })
+    ])
   })
 
   it.for(lateResults)(

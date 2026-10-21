@@ -40,6 +40,7 @@ export function useAgentChatHistoryRefresh({
   let latestStartedRefresh = 0
   let latestAppliedRefresh = 0
   const latestAppliedByQuery = new Map<string, number>()
+  const latestAppliedByThread = new Map<string, number>()
   let latestSurfacedRefresh = 0
   const filteredHistory = new Map<
     string,
@@ -92,13 +93,28 @@ export function useAgentChatHistoryRefresh({
     generation: number,
     sessions: ChatSession[]
   ): void {
-    filteredHistory.set(workflowId, { generation, sessions })
-    const refreshedIds = new Set(sessions.map(({ id }) => id))
+    const sessionsToApply = sessions.filter(
+      ({ id }) => generation >= (latestAppliedByThread.get(id) ?? 0)
+    )
+    const protectedIds = new Set(
+      history.sessions
+        .filter(({ id }) => (latestAppliedByThread.get(id) ?? 0) > generation)
+        .map(({ id }) => id)
+    )
+    filteredHistory.set(workflowId, {
+      generation,
+      sessions: sessionsToApply
+    })
+    for (const { id } of sessionsToApply) {
+      latestAppliedByThread.set(id, generation)
+    }
+    const refreshedIds = new Set(sessionsToApply.map(({ id }) => id))
     history.replaceAll([
-      ...sessions,
+      ...sessionsToApply,
       ...history.sessions.filter(
         ({ id, workflowId: cachedWorkflowId }) =>
-          cachedWorkflowId !== workflowId && !refreshedIds.has(id)
+          !refreshedIds.has(id) &&
+          (cachedWorkflowId !== workflowId || protectedIds.has(id))
       )
     ])
   }
@@ -110,8 +126,23 @@ export function useAgentChatHistoryRefresh({
     const newerFilteredWorkflowIds = new Set(
       newerFilteredEntries.map(([workflowId]) => workflowId)
     )
-    const newerFiltered = newerFilteredEntries.flatMap(
-      ([, entry]) => entry.sessions
+    const newestFilteredById = new Map<
+      string,
+      { generation: number; session: ChatSession }
+    >()
+    for (const [, entry] of newerFilteredEntries) {
+      for (const session of entry.sessions) {
+        const previous = newestFilteredById.get(session.id)
+        if (!previous || entry.generation > previous.generation) {
+          newestFilteredById.set(session.id, {
+            generation: entry.generation,
+            session
+          })
+        }
+      }
+    }
+    const newerFiltered = [...newestFilteredById.values()].map(
+      ({ session }) => session
     )
     const refreshedIds = new Set(newerFiltered.map(({ id }) => id))
     history.replaceAll([
