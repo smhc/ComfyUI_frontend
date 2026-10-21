@@ -442,20 +442,6 @@ beforeEach(() => {
       return true
     }
   )
-  vi.mocked(useWorkflowService()).closeWorkflows.mockImplementation(
-    async (tabs, { initiator, ...options }) => {
-      const opened: { replacement?: ComfyWorkflow } = {}
-      for (const tab of tabs)
-        await useWorkflowService().closeWorkflow(tab, {
-          ...options,
-          onReplacementOpened: (replacement) => {
-            opened.replacement = replacement
-          }
-        })
-      if (initiator === 'user' && opened.replacement)
-        workflowStore.reportUserActivation(opened.replacement)
-    }
-  )
   vi.mocked(useWorkflowService()).openWorkflow.mockImplementation(
     async (tab, options) => {
       const known = workflowStore.getWorkflowByPath(tab.path)
@@ -6167,9 +6153,9 @@ describe('AgentPanelRoot history', () => {
       expect(useAgentComposerStore().draft).toBe('make it blue')
     })
 
-    it('follows the tab that takes over when the user closes the active one', async () => {
+    it('follows a replacement tab reported as a user activation', async () => {
       const first = addTab('workflows/first.json')
-      addTab('workflows/second.json')
+      const second = addTab('workflows/second.json')
       workflowStore.activeWorkflow = first
       stubWorkflowBoundHistory([
         agentThread({
@@ -6184,10 +6170,8 @@ describe('AgentPanelRoot history', () => {
         expect(useAgentChatHistoryStore().sessions).toHaveLength(1)
       )
 
-      await useWorkflowService().closeWorkflows([first], {
-        warnIfUnsaved: true,
-        initiator: 'user'
-      })
+      workflowStore.activeWorkflow = second
+      workflowStore.reportUserActivation(second)
 
       await vi.waitFor(() =>
         expect(useAgentConversationStore().threadId).toBe('th-second')
