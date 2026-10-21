@@ -36,7 +36,10 @@ test.describe(
         await expect(tabChats.panel.composer).toBeEditable()
         await expect(
           tabChats.panel.root.getByRole('button', {
-            name: 'Retry',
+            name: enMessages.agent.retryFollowedChat.replace(
+              '{workflowName}',
+              'Landscape'
+            ),
             exact: true
           })
         ).toHaveCount(0)
