@@ -83,11 +83,14 @@ export function useTopupCheckoutBanner() {
     ])
   }
 
-  const poll = useIntervalFn(
-    () => void read.execute(),
-    CREDITS_APPLYING_POLL_MS,
-    { immediate: false }
-  )
+  function executeRead() {
+    if (read.isLoading.value) return
+    void read.execute()
+  }
+
+  const poll = useIntervalFn(executeRead, CREDITS_APPLYING_POLL_MS, {
+    immediate: false
+  })
   watch(
     () =>
       read.state.value.checkouts.some(
@@ -97,7 +100,7 @@ export function useTopupCheckoutBanner() {
   )
 
   watch(useDocumentVisibility(), (visibility) => {
-    if (visibility === 'visible') void read.execute()
+    if (visibility === 'visible') executeRead()
   })
 
   return { banner, dismiss }

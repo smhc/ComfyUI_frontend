@@ -84,7 +84,6 @@ import { useBillingContext } from '@/composables/billing/useBillingContext'
 import { useBillingDialogs } from '@/composables/billing/useBillingDialogs'
 import { useFeatureFlags } from '@/composables/useFeatureFlags'
 import { useTelemetry } from '@/platform/telemetry'
-import type { AddCreditsClickMetadata } from '@/platform/telemetry/types'
 import { paymentIntentSourceForAddCreditsClick } from '@/platform/telemetry/utils/paymentIntentSource'
 import WorkspaceHeaderMenu from '@/platform/workspace/components/dialogs/settings/WorkspaceHeaderMenu.vue'
 import BillingAutoTopUpCard from '@/platform/workspace/components/dialogs/settings/billing/BillingAutoTopUpCard.vue'
@@ -147,7 +146,7 @@ async function retryBalance() {
   await billing.fetchBalance().catch(() => undefined)
 }
 
-function addCredits(source: AddCreditsClickMetadata['source']) {
+function addCredits(source: 'credits_panel' | 'settings_billing_panel') {
   telemetry?.trackAddApiCreditButtonClicked({ source })
   void showTopUpCreditsDialog({
     source: paymentIntentSourceForAddCreditsClick(source)

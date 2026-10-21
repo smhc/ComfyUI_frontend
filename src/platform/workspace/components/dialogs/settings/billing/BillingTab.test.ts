@@ -2,7 +2,7 @@ import { render, screen, within } from '@testing-library/vue'
 import userEvent from '@testing-library/user-event'
 import { fromPartial } from '@total-typescript/shoehorn'
 import { describe, expect, it, vi } from 'vitest'
-import { computed, ref } from 'vue'
+import { computed, nextTick, ref } from 'vue'
 import { createI18n } from 'vue-i18n'
 
 import type { SubscriptionState } from '@comfyorg/ingest-types'
@@ -806,6 +806,52 @@ describe('BillingTab', () => {
       expect(
         screen.getByTestId('billing-topup-checkout-banner')
       ).toHaveTextContent('Payment processing')
+    })
+
+    it('clears the credits banner when a fulfilled read is still in flight at the next refresh', async () => {
+      vi.mocked(workspaceApi.listTopupCheckouts).mockResolvedValue({
+        checkouts: [
+          {
+            session_id: 'cs_1',
+            amount_cents: 2500,
+            created_at: '2026-10-20T00:00:00Z'
+          }
+        ],
+        next_cursor: null
+      })
+      const settleDetail: Array<(checkout: HostedTopupCheckout) => void> = []
+      vi.mocked(workspaceApi.getTopupCheckout).mockImplementation(
+        () =>
+          new Promise((resolve) => {
+            settleDetail.push(resolve)
+          })
+      )
+      arrange({ autoTopUpFlag: false })
+
+      await vi.waitFor(() => expect(settleDetail).toHaveLength(1))
+      settleDetail[0](checkout('credits_applying', { session_id: 'cs_1' }))
+      await screen.findByTestId('billing-topup-checkout-banner')
+
+      await vi.advanceTimersByTimeAsync(5_000)
+      await vi.waitFor(() => expect(settleDetail).toHaveLength(2))
+
+      const visibility = vi.spyOn(document, 'visibilityState', 'get')
+      visibility.mockReturnValue('hidden')
+      document.dispatchEvent(new Event('visibilitychange'))
+      await nextTick()
+      visibility.mockReturnValue('visible')
+      document.dispatchEvent(new Event('visibilitychange'))
+      await nextTick()
+      await vi.advanceTimersByTimeAsync(5_000)
+
+      expect(settleDetail).toHaveLength(2)
+      settleDetail[1](checkout('fulfilled', { session_id: 'cs_1' }))
+
+      await vi.waitFor(() =>
+        expect(
+          screen.queryByTestId('billing-topup-checkout-banner')
+        ).not.toBeInTheDocument()
+      )
     })
 
     it('clears the credits banner on its own once the server reports fulfilled', async () => {
