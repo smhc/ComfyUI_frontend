@@ -24,6 +24,7 @@ import {
 } from '@/platform/workflow/core/services/workflowService'
 import { useMissingNodesErrorStore } from '@/platform/nodeReplacement/missingNodesErrorStore'
 import { useExecutionErrorStore } from '@/stores/executionErrorStore'
+import { useExtensionStore } from '@/stores/extensionStore'
 import { useNodeOutputStore } from '@/stores/nodeOutputStore'
 import { useMissingModelStore } from '@/platform/missingModel/missingModelStore'
 import { useMissingMediaStore } from '@/platform/missingMedia/missingMediaStore'
@@ -511,6 +512,26 @@ describe('useWorkflowService', () => {
       expect(app.rootGraph).toBe(next.graph)
       expect(next.changeTracker.restore).toHaveBeenCalled()
       expect(useWorkflowStore().activeWorkflow?.path).toBe(next.path)
+    })
+
+    it('tells extensions the visible graph changed without reconfiguring', async () => {
+      const calls: string[] = []
+      useExtensionStore().registerExtension({
+        name: 'Test.GraphSwitch',
+        beforeLoadGraph: () => {
+          calls.push(`beforeLoadGraph:${app.rootGraph === next.graph}`)
+        },
+        afterConfigureGraph: () => {
+          calls.push('afterConfigureGraph')
+        },
+        afterLoadGraph: () => {
+          calls.push(`afterLoadGraph:${app.rootGraph === next.graph}`)
+        }
+      })
+
+      await useWorkflowService().openWorkflow(next)
+
+      expect(calls).toEqual(['beforeLoadGraph:false', 'afterLoadGraph:true'])
     })
 
     it('still reconfigures when the open is forced', async () => {

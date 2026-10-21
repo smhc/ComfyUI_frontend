@@ -27,6 +27,7 @@ import { useWorkflowThumbnail } from '@/renderer/core/thumbnail/useWorkflowThumb
 import { useApp } from '@/scripts/appInstance'
 import { blankGraph, defaultGraph } from '@/scripts/defaultGraph'
 import { useDialogService } from '@/services/dialogService'
+import { useExtensionService } from '@/services/extensionService'
 import { useAppMode } from '@/composables/useAppMode'
 import { useAppModeStore } from '@/stores/appModeStore'
 import { useExecutionErrorStore } from '@/stores/executionErrorStore'
@@ -435,6 +436,7 @@ export const useWorkflowService = () => {
     navigationIntentId: number
   ): Promise<void> => {
     beforeLoadNewGraph(true)
+    await useExtensionService().invokeExtensionsAsync('beforeLoadGraph')
     const app = useApp()
     app.activateRootGraph(graph)
     useMissingModelStore().createVerificationAbortController().abort()
@@ -448,6 +450,7 @@ export const useWorkflowService = () => {
       useAppModeStore().loadSelections(loaded.activeState.extra?.linearData)
       loaded.changeTracker.restore()
       useNodeOutputStore().restorePreviewsForWorkflow(loaded.path)
+      await useExtensionService().invokeExtensionsAsync('afterLoadGraph')
       requestAnimationFrame(() => {
         app.canvas.setDirty(true, true)
       })

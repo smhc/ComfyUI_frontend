@@ -54,8 +54,11 @@ the outgoing bookkeeping (`beforeLoadNewGraph`), calls
 `ComfyApp.activateRootGraph(workflow.graph)`, which stops the outgoing graph's
 step loop, swaps the canvas with `canvas.setGraph`, points the `rootGraph`
 facade at the new instance, starts it, and then restores the tracker,
-viewport, previews, and run errors. `openWorkflow({ force: true })` and
-undo/redo keep the configure path.
+viewport, previews, and run errors. The switch still invokes the
+`beforeLoadGraph` and `afterLoadGraph` extension hooks, because they mark a
+change of the visible graph; `beforeConfigureGraph`, `afterConfigureGraph`,
+and `loadedGraphNode` do not fire, because the nodes were not rebuilt.
+`openWorkflow({ force: true })` and undo/redo keep the configure path.
 
 A workflow releases its graph when it is unloaded (remote metadata change,
 close of a persisted workflow) or when a temporary workflow is closed. Release
