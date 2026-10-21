@@ -72,7 +72,6 @@ export const useAgentComposerStore = defineStore('agentComposer', () => {
       item.kind === 'node' ? [item.node] : []
     )
   )
-  /** Text that isn't only whitespace, an attachment, or any reference chip. */
   const hasDraft = computed(
     () =>
       draft.value.trim() !== '' ||
