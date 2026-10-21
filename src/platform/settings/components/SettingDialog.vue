@@ -64,7 +64,7 @@
         :workspace-name="workspaceName"
         :subscription-tier="activeWorkspace?.subscriptionTier"
         :collapsed="isHeaderCollapsed"
-        :large="flags.unifiedBillingSettingsEnabled"
+        :large="unifiedBillingSettingsEnabled"
       />
     </template>
 
@@ -123,7 +123,6 @@ import BaseModalLayout from '@/components/widget/layout/BaseModalLayout.vue'
 import NavItem from '@/components/widget/nav/NavItem.vue'
 import NavTitle from '@/components/widget/nav/NavTitle.vue'
 import { useBillingContext } from '@/composables/billing/useBillingContext'
-import { useFeatureFlags } from '@/composables/useFeatureFlags'
 import { useSettingsHeaderCollapse } from '@/platform/settings/composables/useSettingsHeaderCollapse'
 import { cn } from '@comfyorg/tailwind-utils'
 import { useTeamWorkspaceStore } from '@/platform/workspace/stores/teamWorkspaceStore'
@@ -150,6 +149,7 @@ const {
   defaultCategory,
   settingCategories,
   navGroups,
+  unifiedBillingSettingsEnabled,
   findCategoryByKey,
   findPanelByKey
 } = useSettingUI(defaultPanel, scrollToSettingId)
@@ -164,7 +164,6 @@ const {
 } = useSettingSearch()
 
 const { fetchBalance } = useBillingContext()
-const { flags } = useFeatureFlags()
 
 const navRef = ref<HTMLElement | null>(null)
 const activeCategoryKey = ref<string | null>(defaultCategory.value?.key ?? null)
