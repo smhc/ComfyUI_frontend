@@ -6027,7 +6027,7 @@
       "heroDescription": "Remove objects, build mattes, restyle footage, and upscale shots in workflows you can inspect and extend. Run ComfyUI locally or connect it to your production pipeline.",
       "primaryCta": "EXPLORE VFX WORKFLOWS",
       "contactHeading": "Bring Comfy into your studio pipeline.",
-      "contactButton": "TALK TO COMFY"
+      "contactButton": "TALK TO COMFY TEAM"
     },
     "shared": {
       "secondaryCta": "SEE THE APPROACH"
@@ -6111,6 +6111,10 @@
         "security": {
           "question": "Identity & security review",
           "answer": "Discuss company identity, approved build access, private assets, and your studio’s security requirements with Comfy. Scope the review around your deployment plan."
+        },
+        "billing": {
+          "question": "Enterprise plan & billing",
+          "answer": "Pricing, seats, and usage terms are set in your enterprise agreement. Talk to Comfy about volume, billing, and what your team needs."
         }
       },
       "enterprise": "VIEW ENTERPRISE DETAILS",
@@ -6174,8 +6178,8 @@
     "badge": "VFX",
     "heading": "One shot. More possibilities.",
     "description": "Change the light, replace an object, extend the frame. Build repeatable VFX workflows with Comfy, then bring them into your studio’s pipeline.",
-    "sales": "TALK TO SALES",
-    "browse": "Explore the workflows",
+    "sales": "CONTACT US",
+    "browse": "See VFX workflows",
     "workflow": "View workflow",
     "sequenceHeading": "One take. A new point of view.",
     "sequenceDescription": "Explore a multishot sequence generated with Seedance from a reference clip. Open the workflow to see how the sequence is built.",
@@ -6190,7 +6194,7 @@
       "relight": {
         "title": "Change the conditions.",
         "rowTitle": "One shot. Different light and weather.",
-        "description": "Compare golden hour, night, blue hour, rain, snow and daylight versions of the same shot. Choose a version to see it play."
+        "description": "Compare golden hour, night, red sky, rain, snow and daylight versions of the same shot. Choose a version to see it play."
       },
       "swap": {
         "title": "Change the car.",
@@ -6203,6 +6207,7 @@
         "description": "Compare ultra-wide and vertical formats with the landscape original."
       }
     },
+    "shareImageAlt": "A classic car outside the Starlite Diner beneath a red sky with meteors.",
     "sampleCaption": "Pre-rendered frames. Drag the canvas to explore and the divider to compare.",
     "variants": {
       "seedance_multishot_rain": "Multishot sequence",
@@ -6217,14 +6222,17 @@
       "reframe_wide": "Ultra-wide",
       "reframe_vertical": "Vertical",
       "relight_golden": "Golden hour",
-      "relight_blue": "Blue hour",
+      "relight_blue": "Red sky",
       "relight_snow": "Snow"
     },
     "workstationTitle": "Workstations & rendering",
     "videoCaption": "Pre-rendered examples. Drag the canvas to explore. Choose a version and drag the divider to compare.",
-    "tryWorkflow": "TRY WORKFLOW",
+    "tryWorkflow": "TRY FOR FREE",
+    "dragHint": "Drag left or right to see full workflows",
+    "keyboardHint": "Use the arrow keys, Home and End to move with the keyboard.",
+    "enterprisePlan": "SEE ENTERPRISE PLAN",
     "prototype": {
-      "back": "Back to examples",
+      "back": "Back to VFX page",
       "heading": "Relight workflow",
       "use": "Use workflow",
       "customize": "Customize in Comfy Cloud",
@@ -6249,8 +6257,9 @@
       "mode": "Studio view",
       "settings": "SETTINGS",
       "workflow": "WORKFLOW",
-      "sampleOnly": "Sample studio. Explore the supplied outputs and prepare a workflow request. Upload and generation are not connected.",
-      "upload": "UPLOAD FOOTAGE",
+      "sampleOnly": "Sample studio. Explore the supplied outputs and prepare a workflow request.",
+      "upload": "SIGN UP TO TRY FREE",
+      "uploadHint": "Sign up to try Comfy Cloud with your own footage.",
       "shot": "Describe the shot",
       "adjust": "ADJUST KEY FRAME",
       "generate": "RUN WORKFLOW",

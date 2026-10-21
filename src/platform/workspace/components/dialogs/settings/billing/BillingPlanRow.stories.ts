@@ -38,7 +38,6 @@ export const Activating: Story = {
     state: { kind: 'activating', planName: 'Pro' }
   }
 }
-
 export const ContactSales: Story = {
   args: {
     action: 'contactSales',
