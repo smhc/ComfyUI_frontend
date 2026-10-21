@@ -967,10 +967,6 @@ export class AgentConversationHarness {
     return this.lastAddGhosted
   }
 
-  // Records the live node set the moment a tab's graph finishes becoming the
-  // visible one, and every node the live graph drops afterwards, so a node
-  // present after the switch and gone later is distinguishable from one that
-  // never came back.
   installTabSwitchObserver(): Promise<void> {
     return this.page.evaluate(() => {
       const lens: TabSwitchLens = { afterLoad: [], removed: [] }
