@@ -596,7 +596,7 @@ describe('ComfyApp', () => {
       )
       const graph = new LGraph()
       workflow.adoptGraph(graph)
-      Reflect.set(app, 'rootGraphInternal', graph)
+      Reflect.set(app, 'rootGraphInternal', new LGraph())
       vi.spyOn(graph, 'configure').mockImplementation(() => {
         throw new Error('bad workflow json')
       })
