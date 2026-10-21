@@ -117,11 +117,15 @@ describe('RunNoticeBanner', () => {
       global: { plugins: [i18n] }
     })
     expect(screen.getByRole('note')).toHaveTextContent(
-      'Couldn’t open the chat for portrait.'
+      i18n.global.t('agent.followedChatOpenFailed', {
+        workflowName: 'portrait'
+      })
     )
     await userEvent.click(
       screen.getByRole('button', {
-        name: 'Retry opening the chat for portrait'
+        name: i18n.global.t('agent.retryFollowedChat', {
+          workflowName: 'portrait'
+        })
       })
     )
     expect(emitted('retry')).toHaveLength(1)

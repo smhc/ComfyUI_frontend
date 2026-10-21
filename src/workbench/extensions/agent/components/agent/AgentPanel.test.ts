@@ -317,7 +317,11 @@ describe('AgentPanel', () => {
     expect(screen.queryByRole('status')).toBeNull()
     await vi.advanceTimersByTimeAsync(1)
     expect(
-      screen.getByRole('status', { name: 'Opening chat for portrait…' })
+      screen.getByRole('status', {
+        name: i18n.global.t('agent.openingWorkflowChat', {
+          workflowName: 'portrait'
+        })
+      })
     ).toBeVisible()
 
     await rerender({ openingWorkflowName: undefined })

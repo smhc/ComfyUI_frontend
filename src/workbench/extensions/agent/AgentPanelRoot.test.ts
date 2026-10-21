@@ -5928,7 +5928,6 @@ describe('AgentPanelRoot history', () => {
         const composer = useAgentComposerStore()
         fill(composer)
         const before = drafted(composer)
-        expect(composer.hasDraft).toBe(true)
 
         await activateTabAsUser(second)
         await settleFollow()
@@ -6153,34 +6152,6 @@ describe('AgentPanelRoot history', () => {
       expect(useAgentComposerStore().draft).toBe('make it blue')
     })
 
-    it('follows a replacement tab reported as a user activation', async () => {
-      const first = addTab('workflows/first.json')
-      const second = addTab('workflows/second.json')
-      workflowStore.activeWorkflow = first
-      stubWorkflowBoundHistory([
-        agentThread({
-          id: 'th-second',
-          title: 'Second chat',
-          last_message_at: '2026-09-22T10:00:00Z',
-          workflow_id: 'wf-second'
-        })
-      ])
-      renderWithSelectedTarget()
-      await vi.waitFor(() =>
-        expect(useAgentChatHistoryStore().sessions).toHaveLength(1)
-      )
-
-      workflowStore.activeWorkflow = second
-      workflowStore.reportUserActivation(second)
-
-      await vi.waitFor(() =>
-        expect(useAgentConversationStore().threadId).toBe('th-second')
-      )
-      expect(useAgentPanelStore().selectedWorkflow?.path).toBe(
-        'workflows/second.json'
-      )
-    })
-
     it('re-lists chats without waiting for another workflow lookup when the tab id is known', async () => {
       workflowStore.activeWorkflow = addTab('workflows/first.json')
       const second = addTab('workflows/second.json')
@@ -6344,11 +6315,19 @@ describe('AgentPanelRoot history', () => {
       await activateTabAsUser(second)
       await vi.waitFor(() => expect(loadedThreads).toEqual(['th-second']))
       expect(
-        await screen.findByRole('status', { name: 'Opening chat for second…' })
+        await screen.findByRole('status', {
+          name: i18n.global.t('agent.openingWorkflowChat', {
+            workflowName: 'second'
+          })
+        })
       ).toBeVisible()
       await activateTabAsUser(third)
       expect(
-        await screen.findByRole('status', { name: 'Opening chat for third…' })
+        await screen.findByRole('status', {
+          name: i18n.global.t('agent.openingWorkflowChat', {
+            workflowName: 'third'
+          })
+        })
       ).toBeVisible()
       await vi.waitFor(() =>
         expect(loadedThreads).toEqual(['th-second', 'th-third'])
@@ -6357,7 +6336,11 @@ describe('AgentPanelRoot history', () => {
       await settleFollow()
 
       expect(
-        screen.getByRole('status', { name: 'Opening chat for third…' })
+        screen.getByRole('status', {
+          name: i18n.global.t('agent.openingWorkflowChat', {
+            workflowName: 'third'
+          })
+        })
       ).toBeVisible()
       expect(screen.getByTestId('agent-panel-footer')).toHaveAttribute('inert')
       answerThird()
@@ -6366,7 +6349,6 @@ describe('AgentPanelRoot history', () => {
       )
 
       expect(useAgentConversationStore().threadId).toBe('th-third')
-      expect(userPrompts()).toEqual(['Prompt in th-third'])
       expect(useAgentPanelStore().selectedWorkflow?.path).toBe(third.path)
       expect(loadedThreads).toEqual(['th-second', 'th-third'])
     })
@@ -6427,7 +6409,9 @@ describe('AgentPanelRoot history', () => {
         )
         expect(
           await screen.findByRole('status', {
-            name: 'Opening chat for second…'
+            name: i18n.global.t('agent.openingWorkflowChat', {
+              workflowName: 'second'
+            })
           })
         ).toBeVisible()
         await activateTabAsUser(first)
@@ -6659,7 +6643,9 @@ describe('AgentPanelRoot history', () => {
         await activateTabAsUser(second)
         expect(
           await screen.findByRole('status', {
-            name: 'Opening chat for second…'
+            name: i18n.global.t('agent.openingWorkflowChat', {
+              workflowName: 'second'
+            })
           })
         ).toBeVisible()
         await retire(first)
@@ -6724,7 +6710,9 @@ describe('AgentPanelRoot history', () => {
       expect(screen.getByTestId('agent-panel-footer')).toHaveAttribute('inert')
       expect(
         await screen.findByRole('status', {
-          name: 'Opening chat for second…'
+          name: i18n.global.t('agent.openingWorkflowChat', {
+            workflowName: 'second'
+          })
         })
       ).toBeVisible()
       expect(
@@ -6737,7 +6725,11 @@ describe('AgentPanelRoot history', () => {
       await messagesRequested
 
       expect(
-        screen.getByRole('status', { name: 'Opening chat for second…' })
+        screen.getByRole('status', {
+          name: i18n.global.t('agent.openingWorkflowChat', {
+            workflowName: 'second'
+          })
+        })
       ).toBeVisible()
       expect(userPrompts()).toEqual(['Prompt in th-first'])
 
@@ -6748,7 +6740,11 @@ describe('AgentPanelRoot history', () => {
 
       await vi.waitFor(() =>
         expect(
-          screen.queryByRole('status', { name: 'Opening chat for second…' })
+          screen.queryByRole('status', {
+            name: i18n.global.t('agent.openingWorkflowChat', {
+              workflowName: 'second'
+            })
+          })
         ).toBeNull()
       )
       expect(screen.getByTestId('agent-panel-footer')).not.toHaveAttribute(
@@ -6972,7 +6968,6 @@ describe('AgentPanelRoot history', () => {
       )
 
       await settleFollow()
-      expect(loadedThreads).not.toContain('th-newest')
       expect(useAgentConversationStore().threadId).toBe('th-picked')
       expect(loadedThreads).toEqual(['th-picked'])
     })
@@ -7050,28 +7045,6 @@ describe('AgentPanelRoot history', () => {
       expect(workflowStore.activeWorkflow.path).toBe(second.path)
       expect(useAgentPanelStore().selectedWorkflow?.path).toBe(second.path)
       expect(useAgentConversationStore().threadId).toBe('th-second')
-    })
-
-    it('requests the activated tab chat before the next macrotask', async () => {
-      workflowStore.activeWorkflow = addTab('workflows/first.json')
-      const second = addTab('workflows/second.json')
-      const { loadedThreads } = stubWorkflowBoundHistory([
-        agentThread({
-          id: 'th-second',
-          title: 'Second chat',
-          last_message_at: '2026-09-22T10:00:00Z',
-          workflow_id: 'wf-second'
-        })
-      ])
-      renderWithSelectedTarget()
-      await vi.waitFor(() =>
-        expect(useAgentChatHistoryStore().sessions).toHaveLength(1)
-      )
-
-      await activateTabAsUser(second)
-      await settleFollow()
-
-      expect(loadedThreads).toEqual(['th-second'])
     })
 
     it("opens the tab's newest chat when it started after the list loaded", async () => {

@@ -7,6 +7,7 @@ import { defineComponent, h, markRaw, nextTick } from 'vue'
 import type { ComponentProps } from 'vue-component-type-helpers'
 import { createI18n } from 'vue-i18n'
 
+import enMessages from '@/locales/en/main.json'
 import { useWorkflowService } from '@/platform/workflow/core/services/workflowService'
 import { useSettingStore } from '@/platform/settings/settingStore'
 import { useWorkflowStore } from '@/platform/workflow/management/stores/workflowStore'
@@ -62,9 +63,9 @@ const statusAriaLabels: Record<WorkflowExecutionStatus, string> = {
 }
 
 const agentAriaLabels = {
-  agentWorking: 'Agent is working on this workflow',
-  agentModified: 'Agent updated this workflow',
-  agentNeedsApproval: 'Agent needs your approval'
+  agentWorking: enMessages.g.agentWorking,
+  agentModified: enMessages.g.agentModified,
+  agentNeedsApproval: enMessages.g.agentNeedsApproval
 }
 
 const i18n = createI18n({

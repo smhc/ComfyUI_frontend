@@ -255,10 +255,6 @@ function liveOtherThread(workflowId?: string): AgentMessages {
   ])
 }
 
-function tabActivity() {
-  return useWorkflowTabActivityStore()
-}
-
 beforeEach(() => {
   vi.useRealTimers()
   vi.mocked(api.fetchApi).mockImplementation((route, options) =>
@@ -381,9 +377,15 @@ describe('AgentPanelRoot tab activity across chats', () => {
 
     expect(screen.getByTestId('agent-panel-footer')).toHaveAttribute('inert')
     expect(
-      await screen.findByRole('status', { name: 'Opening chat for other…' })
+      await screen.findByRole('status', {
+        name: i18n.global.t('agent.openingWorkflowChat', {
+          workflowName: 'other'
+        })
+      })
     ).toBeVisible()
-    expect([...tabActivity().editingPaths]).toEqual([runningTab])
+    expect([...useWorkflowTabActivityStore().editingPaths]).toEqual([
+      runningTab
+    ])
     expect(useAgentConversationStore().threadId).toBe('th-1')
 
     answerOther()
@@ -392,14 +394,21 @@ describe('AgentPanelRoot tab activity across chats', () => {
     )
 
     expect(
-      screen.queryByRole('status', { name: 'Opening chat for other…' })
+      screen.queryByRole('status', {
+        name: i18n.global.t('agent.openingWorkflowChat', {
+          workflowName: 'other'
+        })
+      })
     ).toBeNull()
     expect(screen.getByTestId('agent-panel-footer')).not.toHaveAttribute(
       'inert'
     )
     expect(useAgentPanelStore().selectedWorkflow?.path).toBe(otherTab)
-    expect([...tabActivity().editingPaths]).toEqual([otherTab, runningTab])
-    expect([...tabActivity().unseenModifiedPaths]).toEqual([])
+    expect([...useWorkflowTabActivityStore().editingPaths]).toEqual([
+      otherTab,
+      runningTab
+    ])
+    expect([...useWorkflowTabActivityStore().unseenModifiedPaths]).toEqual([])
 
     await useWorkflowService().openWorkflow(third, { initiator: 'user' })
     await vi.waitFor(() =>
@@ -408,14 +417,18 @@ describe('AgentPanelRoot tab activity across chats', () => {
 
     expect(useAgentPanelStore().selectedWorkflow?.path).toBe(thirdTab)
     expect(useAgentConversationStore().threadId).toBe('th-3')
-    expect(tabActivity().editingPaths).toEqual(new Set([runningTab, otherTab]))
-    expect([...tabActivity().unseenModifiedPaths]).toEqual([])
+    expect(useWorkflowTabActivityStore().editingPaths).toEqual(
+      new Set([runningTab, otherTab])
+    )
+    expect([...useWorkflowTabActivityStore().unseenModifiedPaths]).toEqual([])
 
     emitDone()
     await nextTick()
 
-    expect([...tabActivity().editingPaths]).toEqual([otherTab])
-    expect([...tabActivity().unseenModifiedPaths]).toEqual([runningTab])
+    expect([...useWorkflowTabActivityStore().editingPaths]).toEqual([otherTab])
+    expect([...useWorkflowTabActivityStore().unseenModifiedPaths]).toEqual([
+      runningTab
+    ])
     expect(useAgentConversationStore().threadId).toBe('th-3')
 
     agentSocket.receive('agent_message_done', {
@@ -424,8 +437,8 @@ describe('AgentPanelRoot tab activity across chats', () => {
     })
     await nextTick()
 
-    expect([...tabActivity().editingPaths]).toEqual([])
-    expect(tabActivity().unseenModifiedPaths).toEqual(
+    expect([...useWorkflowTabActivityStore().editingPaths]).toEqual([])
+    expect(useWorkflowTabActivityStore().unseenModifiedPaths).toEqual(
       new Set([runningTab, otherTab])
     )
     expect(useAgentPanelStore().selectedWorkflow?.path).toBe(thirdTab)
@@ -435,12 +448,18 @@ describe('AgentPanelRoot tab activity across chats', () => {
   it('keeps the spinner on the tab while its chat runs in the background', async () => {
     renderPanel()
     await send('add an upscaler')
-    expect([...tabActivity().editingPaths]).toEqual([runningTab])
+    expect([...useWorkflowTabActivityStore().editingPaths]).toEqual([
+      runningTab
+    ])
 
     await openChat('Other chat', 'th-2')
 
-    expect([...tabActivity().editingPaths]).toEqual([runningTab])
-    expect(tabActivity().unseenModifiedPaths.has(runningTab)).toBe(false)
+    expect([...useWorkflowTabActivityStore().editingPaths]).toEqual([
+      runningTab
+    ])
+    expect(
+      useWorkflowTabActivityStore().unseenModifiedPaths.has(runningTab)
+    ).toBe(false)
   })
 
   it.for([
@@ -478,13 +497,17 @@ describe('AgentPanelRoot tab activity across chats', () => {
       renderPanel()
       await send('add an upscaler')
       await selectChat()
-      expect([...tabActivity().editingPaths]).toEqual([runningTab])
+      expect([...useWorkflowTabActivityStore().editingPaths]).toEqual([
+        runningTab
+      ])
 
       agentSocket.receive('agent_message_done', message)
       await nextTick()
 
-      expect(tabActivity().editingPaths.size).toBe(0)
-      expect(tabActivity().unseenModifiedPaths.has(runningTab)).toBe(modified)
+      expect(useWorkflowTabActivityStore().editingPaths.size).toBe(0)
+      expect(
+        useWorkflowTabActivityStore().unseenModifiedPaths.has(runningTab)
+      ).toBe(modified)
     }
   )
 
@@ -494,14 +517,20 @@ describe('AgentPanelRoot tab activity across chats', () => {
     await openChat('Other chat', 'th-2')
     await openChat('Running chat', 'th-1')
     expect(screen.getByRole('button', { name: 'Stop' })).toBeEnabled()
-    expect([...tabActivity().editingPaths]).toEqual([runningTab])
-    expect(tabActivity().unseenModifiedPaths.has(runningTab)).toBe(false)
+    expect([...useWorkflowTabActivityStore().editingPaths]).toEqual([
+      runningTab
+    ])
+    expect(
+      useWorkflowTabActivityStore().unseenModifiedPaths.has(runningTab)
+    ).toBe(false)
 
     emitDone()
     await nextTick()
 
-    expect(tabActivity().editingPaths.size).toBe(0)
-    expect(tabActivity().unseenModifiedPaths.has(runningTab)).toBe(true)
+    expect(useWorkflowTabActivityStore().editingPaths.size).toBe(0)
+    expect(
+      useWorkflowTabActivityStore().unseenModifiedPaths.has(runningTab)
+    ).toBe(true)
   })
 
   it('keeps a background chat spinning across a panel remount and marks it when it completes', async () => {
@@ -515,13 +544,17 @@ describe('AgentPanelRoot tab activity across chats', () => {
       expect(useAgentChatHistoryStore().activeId).toBe('th-2')
     )
 
-    expect([...tabActivity().editingPaths]).toEqual([runningTab])
+    expect([...useWorkflowTabActivityStore().editingPaths]).toEqual([
+      runningTab
+    ])
 
     emitDone()
     await nextTick()
 
-    expect(tabActivity().editingPaths.size).toBe(0)
-    expect(tabActivity().unseenModifiedPaths.has(runningTab)).toBe(true)
+    expect(useWorkflowTabActivityStore().editingPaths.size).toBe(0)
+    expect(
+      useWorkflowTabActivityStore().unseenModifiedPaths.has(runningTab)
+    ).toBe(true)
   })
 
   it('moves the tab of the chat that asked for it when the user switches chats mid-open', async () => {
@@ -555,14 +588,18 @@ describe('AgentPanelRoot tab activity across chats', () => {
       )
     )
     await nextTick()
-    expect(tabActivity().editingPaths.has(otherTab)).toBe(true)
+    expect(useWorkflowTabActivityStore().editingPaths.has(otherTab)).toBe(true)
 
     emitDone()
     await nextTick()
 
-    expect(tabActivity().editingPaths.has(otherTab)).toBe(false)
-    expect(tabActivity().unseenModifiedPaths.has(otherTab)).toBe(true)
-    expect(tabActivity().unseenModifiedPaths.has(runningTab)).toBe(false)
+    expect(useWorkflowTabActivityStore().editingPaths.has(otherTab)).toBe(false)
+    expect(
+      useWorkflowTabActivityStore().unseenModifiedPaths.has(otherTab)
+    ).toBe(true)
+    expect(
+      useWorkflowTabActivityStore().unseenModifiedPaths.has(runningTab)
+    ).toBe(false)
   })
 
   it.for([
@@ -587,12 +624,14 @@ describe('AgentPanelRoot tab activity across chats', () => {
       renderPanel()
       await send('add an upscaler')
       await beforeAsk()
-      expect(tabActivity().awaitingApprovalPaths.size).toBe(0)
+      expect(useWorkflowTabActivityStore().awaitingApprovalPaths.size).toBe(0)
 
       emitRunApproval()
       await nextTick()
       await afterAsk()
-      expect([...tabActivity().awaitingApprovalPaths]).toEqual([runningTab])
+      expect([...useWorkflowTabActivityStore().awaitingApprovalPaths]).toEqual([
+        runningTab
+      ])
 
       agentSocket.receive('agent_ask_resolved', {
         thread_id: 'th-1',
@@ -603,8 +642,10 @@ describe('AgentPanelRoot tab activity across chats', () => {
       })
       await nextTick()
 
-      expect(tabActivity().awaitingApprovalPaths.size).toBe(0)
-      expect([...tabActivity().editingPaths]).toEqual([runningTab])
+      expect(useWorkflowTabActivityStore().awaitingApprovalPaths.size).toBe(0)
+      expect([...useWorkflowTabActivityStore().editingPaths]).toEqual([
+        runningTab
+      ])
     }
   )
 
@@ -613,7 +654,9 @@ describe('AgentPanelRoot tab activity across chats', () => {
     await send('add an upscaler')
     emitRunApproval()
     await nextTick()
-    expect([...tabActivity().awaitingApprovalPaths]).toEqual([runningTab])
+    expect([...useWorkflowTabActivityStore().awaitingApprovalPaths]).toEqual([
+      runningTab
+    ])
 
     await userEvent.click(await screen.findByRole('button', { name: 'Run' }))
     await vi.waitFor(() =>
@@ -621,13 +664,17 @@ describe('AgentPanelRoot tab activity across chats', () => {
     )
     await nextTick()
 
-    expect(tabActivity().awaitingApprovalPaths.size).toBe(0)
-    expect([...tabActivity().editingPaths]).toEqual([runningTab])
+    expect(useWorkflowTabActivityStore().awaitingApprovalPaths.size).toBe(0)
+    expect([...useWorkflowTabActivityStore().editingPaths]).toEqual([
+      runningTab
+    ])
 
     await openChat('Other chat', 'th-2')
 
-    expect(tabActivity().awaitingApprovalPaths.size).toBe(0)
-    expect([...tabActivity().editingPaths]).toEqual([runningTab])
+    expect(useWorkflowTabActivityStore().awaitingApprovalPaths.size).toBe(0)
+    expect([...useWorkflowTabActivityStore().editingPaths]).toEqual([
+      runningTab
+    ])
   })
 
   it('follows the tab when it is renamed mid-turn', async () => {
@@ -638,14 +685,18 @@ describe('AgentPanelRoot tab activity across chats', () => {
     await workflowStore.renameWorkflow(tab, 'workflows/renamed.json')
     await nextTick()
 
-    expect([...tabActivity().editingPaths]).toEqual(['workflows/renamed.json'])
+    expect([...useWorkflowTabActivityStore().editingPaths]).toEqual([
+      'workflows/renamed.json'
+    ])
 
     emitDone()
     await nextTick()
 
-    expect(tabActivity().editingPaths.size).toBe(0)
+    expect(useWorkflowTabActivityStore().editingPaths.size).toBe(0)
     expect(
-      tabActivity().unseenModifiedPaths.has('workflows/renamed.json')
+      useWorkflowTabActivityStore().unseenModifiedPaths.has(
+        'workflows/renamed.json'
+      )
     ).toBe(true)
   })
 
@@ -657,11 +708,11 @@ describe('AgentPanelRoot tab activity across chats', () => {
 
     await workflowStore.closeWorkflow(tab)
     await nextTick()
-    expect(tabActivity().editingPaths.size).toBe(0)
+    expect(useWorkflowTabActivityStore().editingPaths.size).toBe(0)
 
     addTab(runningTab, { instanceId: 'same-name-replacement' })
     await nextTick()
-    expect(tabActivity().editingPaths.size).toBe(0)
+    expect(useWorkflowTabActivityStore().editingPaths.size).toBe(0)
   })
 
   it.for([
@@ -681,7 +732,9 @@ describe('AgentPanelRoot tab activity across chats', () => {
       await nextTick()
 
       await vi.waitFor(() =>
-        expect([...tabActivity().editingPaths]).toEqual(spinning)
+        expect([...useWorkflowTabActivityStore().editingPaths]).toEqual(
+          spinning
+        )
       )
     }
   )
@@ -692,7 +745,9 @@ describe('AgentPanelRoot tab activity across chats', () => {
     acks = [{ message_id: 'm-1' }]
     const { unmount } = renderPanel()
     await send('add an upscaler')
-    expect([...tabActivity().editingPaths]).toEqual([runningTab])
+    expect([...useWorkflowTabActivityStore().editingPaths]).toEqual([
+      runningTab
+    ])
 
     unmount()
     renderPanel()
@@ -701,7 +756,9 @@ describe('AgentPanelRoot tab activity across chats', () => {
     )
     await nextTick()
 
-    expect([...tabActivity().editingPaths]).toEqual([runningTab])
+    expect([...useWorkflowTabActivityStore().editingPaths]).toEqual([
+      runningTab
+    ])
   })
 
   it('moves the tab of the turn named by agent_active_tab, not the latest one', async () => {
@@ -726,7 +783,9 @@ describe('AgentPanelRoot tab activity across chats', () => {
     )
     await nextTick()
 
-    expect([...tabActivity().editingPaths]).toEqual([runningTab])
+    expect([...useWorkflowTabActivityStore().editingPaths]).toEqual([
+      runningTab
+    ])
   })
 
   it('marks a completed tab once after a remount and stops listening when unmounted', async () => {
@@ -737,7 +796,7 @@ describe('AgentPanelRoot tab activity across chats', () => {
     await vi.waitFor(() =>
       expect(useAgentConversationStore().activeTurnId).toBe('m-1')
     )
-    const markModified = vi.spyOn(tabActivity(), 'markModified')
+    const markModified = vi.spyOn(useWorkflowTabActivityStore(), 'markModified')
 
     emitDone()
 
@@ -760,6 +819,6 @@ describe('AgentPanelRoot tab activity across chats', () => {
     await nextTick()
 
     expect(screen.getByRole('button', { name: 'Stop' })).toBeEnabled()
-    expect([...tabActivity().editingPaths]).toEqual([])
+    expect([...useWorkflowTabActivityStore().editingPaths]).toEqual([])
   })
 })

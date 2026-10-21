@@ -38,7 +38,7 @@ test.describe(
           tabChats.panel.root.getByRole('button', {
             name: enMessages.agent.retryFollowedChat.replace(
               '{workflowName}',
-              'Landscape'
+              tabChats.workflows[1].name
             ),
             exact: true
           })
@@ -68,9 +68,6 @@ test.describe(
           workflow_id: tabChats.workflows[0].id
         }
       })
-      expect(tabChats.posted[0].body.workflow_id).not.toBe(
-        tabChats.workflows[1].id
-      )
       await expect(
         tabChats.tab(1).and(tabChats.topbar.getActiveTab())
       ).toBeVisible()
@@ -109,8 +106,7 @@ test.describe(
     test('independent background completions clear only their own visible tab indicators', async ({
       tabChats
     }) => {
-      await tabChats.panel.composer.fill('A turn')
-      await tabChats.panel.sendButton.click()
+      await tabChats.panel.sendMessage('A turn')
       await expect(tabChats.working(0)).toBeVisible()
       const pending = tabChats.holdMessages(1)
 
@@ -123,8 +119,7 @@ test.describe(
         'Landscape existing request'
       ])
       await expect(tabChats.working(0)).toBeVisible()
-      await tabChats.panel.composer.fill('B turn')
-      await tabChats.panel.sendButton.click()
+      await tabChats.panel.sendMessage('B turn')
       await expect(tabChats.working(1)).toBeVisible()
       await tabChats.tab(2).click()
       await expect(tabChats.panel.userMessageBubbles).toHaveText([

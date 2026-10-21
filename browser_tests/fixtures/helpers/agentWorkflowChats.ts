@@ -20,10 +20,7 @@ interface SavedCloudWorkflow {
   content: ComfyWorkflowJSON
 }
 
-/** Serves saved cloud workflows, the chat list and each chat's transcript. */
 export class AgentWorkflowChatsMock {
-  private listReads = 0
-
   constructor(
     private readonly chats: {
       workflows: SavedCloudWorkflow[]
@@ -31,10 +28,6 @@ export class AgentWorkflowChatsMock {
       transcripts: Record<string, AgentMessage[]>
     }
   ) {}
-
-  get threadListReads(): number {
-    return this.listReads
-  }
 
   async route(page: Page): Promise<void> {
     const { workflows, threads, transcripts } = this.chats
@@ -63,7 +56,6 @@ export class AgentWorkflowChatsMock {
     }
 
     await page.route('**/api/agent/threads?*', (route) => {
-      this.listReads += 1
       const workflowId = new URL(route.request().url()).searchParams.get(
         'workflow_id'
       )

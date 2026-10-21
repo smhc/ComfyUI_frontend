@@ -225,7 +225,10 @@ class TabChatTransitions {
 
   opening(index: number) {
     return this.panel.root.getByRole('status', {
-      name: `Opening chat for ${WORKFLOWS[index].name}…`,
+      name: enMessages.agent.openingWorkflowChat.replace(
+        '{workflowName}',
+        WORKFLOWS[index].name
+      ),
       exact: true
     })
   }
