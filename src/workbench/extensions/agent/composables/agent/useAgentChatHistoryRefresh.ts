@@ -78,6 +78,77 @@ export function useAgentChatHistoryRefresh({
     return generation === failureOwner && generation > latestAppliedRefresh
   }
 
+  function isSuperseded(generation: number, workflowId?: string): boolean {
+    const queryKey = workflowId ?? ''
+    if (generation < (latestAppliedByQuery.get(queryKey) ?? 0)) return true
+    return (
+      workflowId !== undefined &&
+      generation < (latestAppliedByQuery.get('') ?? 0)
+    )
+  }
+
+  function applyFilteredHistory(
+    workflowId: string,
+    generation: number,
+    sessions: ChatSession[]
+  ): void {
+    filteredHistory.set(workflowId, { generation, sessions })
+    const refreshedIds = new Set(sessions.map(({ id }) => id))
+    history.replaceAll([
+      ...sessions,
+      ...history.sessions.filter(
+        ({ id, workflowId: cachedWorkflowId }) =>
+          cachedWorkflowId !== workflowId && !refreshedIds.has(id)
+      )
+    ])
+  }
+
+  function applyFullHistory(generation: number, sessions: ChatSession[]): void {
+    const newerFilteredEntries = [...filteredHistory.entries()].filter(
+      ([, entry]) => entry.generation > generation
+    )
+    const newerFilteredWorkflowIds = new Set(
+      newerFilteredEntries.map(([workflowId]) => workflowId)
+    )
+    const newerFiltered = newerFilteredEntries.flatMap(
+      ([, entry]) => entry.sessions
+    )
+    const refreshedIds = new Set(newerFiltered.map(({ id }) => id))
+    history.replaceAll([
+      ...newerFiltered,
+      ...sessions.filter(
+        ({ id, workflowId }) =>
+          !refreshedIds.has(id) &&
+          !(workflowId && newerFilteredWorkflowIds.has(workflowId))
+      )
+    ])
+    for (const [workflowId, entry] of filteredHistory) {
+      if (entry.generation <= generation) filteredHistory.delete(workflowId)
+    }
+  }
+
+  function applyRefreshResult(
+    result: ThreadListing,
+    generation: number,
+    uiTreatment: HistoryFailureTreatment,
+    workflowId?: string
+  ): HistoryRefreshOutcome {
+    if (controller.signal.aborted || result.status === 'aborted')
+      return 'aborted'
+    if (result.status !== 'complete') {
+      if (!ownsFailure(generation, uiTreatment)) return 'superseded'
+      onFailure(result, uiTreatment)
+      return result.status
+    }
+    if (isSuperseded(generation, workflowId)) return 'superseded'
+    const sessions = result.threads.map(toChatSession)
+    if (workflowId === undefined) applyFullHistory(generation, sessions)
+    else applyFilteredHistory(workflowId, generation, sessions)
+    latestAppliedByQuery.set(workflowId ?? '', generation)
+    latestAppliedRefresh = Math.max(latestAppliedRefresh, generation)
+    return 'complete'
+  }
+
   async function refreshHistory(
     uiTreatment: HistoryFailureTreatment = 'error_overlay',
     workflowId?: string
@@ -87,61 +158,7 @@ export function useAgentChatHistoryRefresh({
     const generation = ++latestStartedRefresh
     if (uiTreatment === 'error_overlay') latestSurfacedRefresh = generation
     const result = await listThreads({ signal, workflowId })
-    if (signal.aborted || result.status === 'aborted') return 'aborted'
-    if (result.status !== 'complete') {
-      if (!ownsFailure(generation, uiTreatment)) return 'superseded'
-      onFailure(result, uiTreatment)
-      return result.status
-    }
-    const queryKey = workflowId ?? ''
-    if (generation < (latestAppliedByQuery.get(queryKey) ?? 0))
-      return 'superseded'
-    if (
-      workflowId !== undefined &&
-      generation < (latestAppliedByQuery.get('') ?? 0)
-    )
-      return 'superseded'
-    const sessions = result.threads.map(toChatSession)
-    if (workflowId !== undefined) {
-      filteredHistory.set(workflowId, { generation, sessions })
-      const refreshedIds = new Set(sessions.map(({ id }) => id))
-      history.replaceAll([
-        ...sessions,
-        ...history.sessions.filter(
-          ({ id, workflowId: cachedWorkflowId }) =>
-            cachedWorkflowId !== workflowId && !refreshedIds.has(id)
-        )
-      ])
-    } else {
-      const newerFilteredEntries = [...filteredHistory.entries()].filter(
-        ([, entry]) => entry.generation > generation
-      )
-      const newerFilteredWorkflowIds = new Set(
-        newerFilteredEntries.map(([filteredWorkflowId]) => filteredWorkflowId)
-      )
-      const newerFiltered = newerFilteredEntries.flatMap(
-        ([, entry]) => entry.sessions
-      )
-      const refreshedIds = new Set(newerFiltered.map(({ id }) => id))
-      history.replaceAll([
-        ...newerFiltered,
-        ...sessions.filter(
-          ({ id, workflowId: sessionWorkflowId }) =>
-            !refreshedIds.has(id) &&
-            !(
-              sessionWorkflowId &&
-              newerFilteredWorkflowIds.has(sessionWorkflowId)
-            )
-        )
-      ])
-      for (const [filteredWorkflowId, entry] of filteredHistory) {
-        if (entry.generation <= generation)
-          filteredHistory.delete(filteredWorkflowId)
-      }
-    }
-    latestAppliedByQuery.set(queryKey, generation)
-    latestAppliedRefresh = Math.max(latestAppliedRefresh, generation)
-    return 'complete'
+    return applyRefreshResult(result, generation, uiTreatment, workflowId)
   }
 
   return { refreshHistory }
