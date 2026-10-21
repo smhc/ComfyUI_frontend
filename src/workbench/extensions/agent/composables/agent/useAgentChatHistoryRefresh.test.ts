@@ -282,6 +282,20 @@ describe('useAgentChatHistoryRefresh', () => {
     expect(history.sessions.map(({ id }) => id)).toEqual(['newest'])
   })
 
+  it('ignores an older filtered result after a newer one for the same workflow', async () => {
+    const { history, listThreads, refreshHistory } = setup()
+    const older = deferredListing()
+    listThreads.mockReturnValueOnce(older.promise)
+    const olderRefresh = refreshHistory('none', 'wf-a')
+    listThreads.mockResolvedValueOnce(completedListing('newest', 'wf-a'))
+
+    await expect(refreshHistory('none', 'wf-a')).resolves.toBe('complete')
+    older.resolve(completedListing('stale', 'wf-a'))
+    await expect(olderRefresh).resolves.toBe('superseded')
+
+    expect(history.sessions.map(({ id }) => id)).toEqual(['newest', 'kept'])
+  })
+
   it('keeps a newer thread snapshot returned by another workflow refresh', async () => {
     const { history, listThreads, refreshHistory } = setup()
     const workflowA = deferredListing()
