@@ -3,7 +3,6 @@ import './agentPanel.css'
 
 import type { AgentAnswerRequest } from '@comfyorg/ingest-types'
 import { useClipboard } from '@vueuse/core'
-import { maxBy } from 'es-toolkit'
 import { storeToRefs } from 'pinia'
 import {
   computed,
@@ -13,7 +12,6 @@ import {
   onMounted,
   provide,
   ref,
-  shallowRef,
   watch
 } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -131,6 +129,7 @@ import { useAgentDraftSubmission } from './composables/agent/useAgentDraftSubmis
 import { useAgentWorkflowTabBindingStore } from './stores/agent/agentWorkflowTabBindingStore'
 import { createAgentRestClient } from './services/agent/agentRestClient'
 import { useAgentChatHistoryRefresh } from './composables/agent/useAgentChatHistoryRefresh'
+import { useAgentWorkflowChatFollow } from './composables/agent/useAgentWorkflowChatFollow'
 import {
   agentSocketAuthParams,
   ensureSignedIn,
@@ -1531,19 +1530,34 @@ const historyGroups = computed(() => {
   )
 })
 
-type FollowOperation = {
-  status: 'loading'
-  generation: number
-  workflow: ComfyWorkflow
-  chat: { threadId: string; workflowId: string } | null
-}
+const workflowChatFollow = useAgentWorkflowChatFollow({
+  activeWorkflow: () => workflowStore.activeWorkflow,
+  selectedTarget: () => selectedTarget.value,
+  currentThreadId: () => threadId.value,
+  sessions: () => history.sessions,
+  followsVisibleWorkflow: () => agentPanelStore.followsVisibleWorkflow,
+  hasDraft: () => composerStore.hasDraft,
+  isSending: () => isSending.value,
+  workflowSelecting: () => workflowSelecting.value,
+  cloudIdFor,
+  refreshCloudWorkflowIds,
+  refreshHistory,
+  loadThread,
+  clearDraft: () => composerStore.setText(''),
+  trackThreadStarted: () =>
+    useTelemetry()?.trackAgentThreadStarted({ source: 'history_select' }),
+  restoreThreadWorkflow,
+  adoptWorkflowTarget,
+  adoptRestoredWorkflowTab
+})
 
-let followGeneration = 0
-const followState = shallowRef<
-  | { status: 'idle' }
-  | FollowOperation
-  | { status: 'failed'; workflow: ComfyWorkflow }
->({ status: 'idle' })
+const {
+  failure: followFailure,
+  openingWorkflowName,
+  followTab,
+  retireFollow,
+  retryFollow: onRetryFollow
+} = workflowChatFollow
 
 watch(
   threadId,
@@ -1554,28 +1568,12 @@ watch(
       provisionalTitle.value === undefined
     )
       return
-    const follow = followState.value
-    if (follow.status !== 'loading' || follow.chat?.threadId !== id)
+    if (!workflowChatFollow.isOpeningThread(id))
       history.rename(id, provisionalTitle.value)
     provisionalTitle.value = undefined
   },
   { immediate: true, flush: 'sync' }
 )
-
-const followFailure = computed(() =>
-  followState.value.status === 'failed' ? followState.value.workflow : null
-)
-const openingWorkflowName = computed(() =>
-  followState.value.status === 'loading' &&
-  followState.value.workflow.path === workflowStore.activeWorkflow?.path
-    ? followState.value.workflow.filename
-    : undefined
-)
-
-function retireFollow(): void {
-  ++followGeneration
-  followState.value = { status: 'idle' }
-}
 
 function onOpenHistory(): void {
   retireFollow()
@@ -1601,151 +1599,27 @@ async function onSelectHistory(
   return opened
 }
 
-function latestChatFor(workflowId: string): string | undefined {
-  return maxBy(
-    history.sessions.filter((session) => session.workflowId === workflowId),
-    ({ lastActivityAt }) => lastActivityAt ?? Number.NEGATIVE_INFINITY
-  )?.id
-}
-
-function chatTargets(workflow: ComfyWorkflow): boolean {
-  return (
-    !agentPanelStore.followsVisibleWorkflow &&
-    selectedTarget.value?.path === workflow.path
-  )
-}
-
 function userEngaged(): boolean {
   return composerStore.hasDraft || isSending.value || workflowSelecting.value
-}
-
-function followHeldBack(workflow: ComfyWorkflow): boolean {
-  return workflow.isTemporary || userEngaged() || chatTargets(workflow)
-}
-
-async function refreshedCloudIdFor(
-  workflow: ComfyWorkflow
-): Promise<string | undefined> {
-  await refreshCloudWorkflowIds()
-  return cloudIdFor(workflow)
-}
-
-async function openFollowedChat(
-  id: string,
-  operation: FollowOperation,
-  workflowId: string,
-  isCurrent: () => boolean
-): Promise<void> {
-  followState.value = {
-    ...operation,
-    chat: { threadId: id, workflowId }
-  }
-  const opened = await loadThread(id, isCurrent, {
-    keepOpenChatUntilLoaded: true
-  })
-  if (!isCurrent()) return
-  followState.value = opened
-    ? { status: 'idle' }
-    : { status: 'failed', workflow: operation.workflow }
-  if (!opened) return
-  if (!composerStore.hasDraft) composerStore.setText('')
-  useTelemetry()?.trackAgentThreadStarted({ source: 'history_select' })
-}
-
-async function refreshHistoryForFollow(
-  workflow: ComfyWorkflow,
-  workflowId: string,
-  isCurrent: () => boolean
-): Promise<boolean> {
-  const historyOutcome = await refreshHistory('none', workflowId)
-  if (!isCurrent()) return false
-  if (historyOutcome === 'failed' || historyOutcome === 'incomplete')
-    followState.value = { status: 'failed', workflow }
-  return historyOutcome === 'complete'
-}
-
-async function followTab(workflow: ComfyWorkflow): Promise<void> {
-  const generation = ++followGeneration
-  followState.value = { status: 'idle' }
-  if (followHeldBack(workflow)) return
-  const operation: FollowOperation = {
-    status: 'loading',
-    generation,
-    workflow,
-    chat: null
-  }
-  followState.value = operation
-  const isCurrent = () =>
-    generation === followGeneration &&
-    workflowStore.activeWorkflow?.path === workflow.path &&
-    !userEngaged()
-  try {
-    const workflowId =
-      cloudIdFor(workflow) ?? (await refreshedCloudIdFor(workflow))
-    if (workflowId === undefined || !isCurrent()) return
-    const historyReady = await refreshHistoryForFollow(
-      workflow,
-      workflowId,
-      isCurrent
-    )
-    if (!historyReady || !isCurrent()) return
-    const latest = latestChatFor(workflowId)
-    if (latest !== undefined && latest !== threadId.value)
-      await openFollowedChat(latest, operation, workflowId, isCurrent)
-  } finally {
-    finishFollow(generation)
-  }
-}
-
-function finishFollow(generation: number): void {
-  if (
-    followState.value.status === 'loading' &&
-    followState.value.generation === generation
-  )
-    followState.value = { status: 'idle' }
 }
 
 function restoreChatWorkflow(
   workflowId: string | undefined,
   isCurrent: () => boolean
 ): Promise<boolean> | boolean {
-  const followed = followState.value
-  if (
-    followed.status !== 'loading' ||
-    followed.chat?.threadId !== conversationStore.threadId
-  )
-    return restoreThreadWorkflow(workflowId, isCurrent)
-  adoptWorkflowTarget(followed.workflow, followed.chat.workflowId)
-  adoptRestoredWorkflowTab(followed.chat.workflowId)
-  return true
+  return workflowChatFollow.restoreChatWorkflow(workflowId, isCurrent)
 }
 
-function onRetryFollow(): void {
-  const failed = followFailure.value
-  if (failed !== null) void followTab(failed)
-}
-
-onBeforeUnmount(() => {
-  ++followGeneration
-})
+onBeforeUnmount(retireFollow)
 
 watch(
   () => workflowStore.activeWorkflow,
-  (workflow) => {
-    const follow = followState.value
-    if (
-      follow.status !== 'idle' &&
-      (follow.status === 'failed' || follow.workflow.path !== workflow?.path)
-    )
-      retireFollow()
-  }
+  workflowChatFollow.activeWorkflowChanged
 )
 
 workflowStore.onUserActivation((workflow) => void followTab(workflow))
 
-watch(userEngaged, (engaged) => {
-  if (engaged) retireFollow()
-})
+watch(userEngaged, workflowChatFollow.userEngagementChanged)
 
 const mountedOn = workflowStore.activeWorkflow
 if (
