@@ -36,8 +36,7 @@ type FollowDeps = {
   sessions: () => ChatSession[]
   followsVisibleWorkflow: () => boolean
   hasDraft: () => boolean
-  isSending: () => boolean
-  workflowSelecting: () => boolean
+  userEngaged: () => boolean
   cloudIdFor: (workflow: ComfyWorkflow) => string | undefined
   refreshCloudWorkflowIds: () => Promise<boolean>
   refreshHistory: (
@@ -130,15 +129,11 @@ export function useAgentWorkflowChatFollow(deps: FollowDeps) {
     state.value = reduceFollow(state.value, event)
   }
 
-  function userEngaged(): boolean {
-    return deps.hasDraft() || deps.isSending() || deps.workflowSelecting()
-  }
-
   function heldBack(workflow: ComfyWorkflow): boolean {
     const target = deps.selectedTarget()
     const chatTargetsWorkflow =
       !deps.followsVisibleWorkflow() && target?.path === workflow.path
-    return workflow.isTemporary || userEngaged() || chatTargetsWorkflow
+    return workflow.isTemporary || deps.userEngaged() || chatTargetsWorkflow
   }
 
   function latestChatFor(workflowId: string): string | undefined {
@@ -152,7 +147,7 @@ export function useAgentWorkflowChatFollow(deps: FollowDeps) {
     return (
       state.value.generation === operation.generation &&
       deps.activeWorkflow()?.path === operation.workflow.path &&
-      !userEngaged()
+      !deps.userEngaged()
     )
   }
 

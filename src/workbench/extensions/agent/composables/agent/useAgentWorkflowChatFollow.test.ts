@@ -28,8 +28,7 @@ describe('useAgentWorkflowChatFollow', () => {
       ],
       followsVisibleWorkflow: () => true,
       hasDraft: () => false,
-      isSending: () => false,
-      workflowSelecting: () => false,
+      userEngaged: () => false,
       cloudIdFor: () => 'wf-portrait',
       refreshCloudWorkflowIds: async () => true,
       refreshHistory: () =>
