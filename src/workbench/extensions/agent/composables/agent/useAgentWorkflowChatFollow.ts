@@ -226,7 +226,11 @@ export function useAgentWorkflowChatFollow(deps: FollowDeps) {
     try {
       const workflowId = await resolveWorkflowId(workflow)
       if (workflowId === undefined || !isCurrent(operation)) return
-      if (!(await refreshForFollow(workflowId, operation))) return
+      if (
+        !(await refreshForFollow(workflowId, operation)) ||
+        !isCurrent(operation)
+      )
+        return
       await openLatestChat(workflowId, operation)
     } finally {
       dispatch({ type: 'finished', generation: operation.generation })
