@@ -369,23 +369,29 @@ describe('useAgentChatHistoryRefresh', () => {
     ])
   })
 
-  it('does not restore a thread that moved away when a full listing finishes later', async () => {
-    const { history, listThreads, refreshHistory } = setup()
-    const full = deferredListing()
-    listThreads.mockReturnValueOnce(full.promise)
-    const fullRefresh = refreshHistory()
-    listThreads.mockResolvedValueOnce(completedListing('moved', 'wf-a'))
-    await expect(refreshHistory('none', 'wf-a')).resolves.toBe('complete')
-    listThreads.mockResolvedValueOnce(completedListing('moved', 'wf-b'))
-    await expect(refreshHistory('none', 'wf-b')).resolves.toBe('complete')
-    listThreads.mockResolvedValueOnce({ status: 'complete', threads: [] })
-    await expect(refreshHistory('none', 'wf-b')).resolves.toBe('complete')
+  it.for([
+    { name: 'without it', full: { status: 'complete', threads: [] } },
+    { name: 'under a third workflow', full: completedListing('moved', 'wf-c') }
+  ] satisfies { name: string; full: ThreadListing }[])(
+    'does not restore a thread that moved away when a full listing $name finishes later',
+    async ({ full: fullResult }) => {
+      const { history, listThreads, refreshHistory } = setup()
+      const full = deferredListing()
+      listThreads.mockReturnValueOnce(full.promise)
+      const fullRefresh = refreshHistory()
+      listThreads.mockResolvedValueOnce(completedListing('moved', 'wf-a'))
+      await expect(refreshHistory('none', 'wf-a')).resolves.toBe('complete')
+      listThreads.mockResolvedValueOnce(completedListing('moved', 'wf-b'))
+      await expect(refreshHistory('none', 'wf-b')).resolves.toBe('complete')
+      listThreads.mockResolvedValueOnce({ status: 'complete', threads: [] })
+      await expect(refreshHistory('none', 'wf-b')).resolves.toBe('complete')
 
-    full.resolve({ status: 'complete', threads: [] })
-    await expect(fullRefresh).resolves.toBe('complete')
+      full.resolve(fullResult)
+      await expect(fullRefresh).resolves.toBe('complete')
 
-    expect(history.sessions).toEqual([])
-  })
+      expect(history.sessions).toEqual([])
+    }
+  )
 
   it.for(lateResults)(
     'ignores a late $name and further refreshes after disposal',

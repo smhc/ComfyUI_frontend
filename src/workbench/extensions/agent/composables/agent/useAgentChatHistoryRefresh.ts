@@ -39,13 +39,15 @@ export function useAgentChatHistoryRefresh({
 }: HistoryRefreshDeps) {
   let latestStartedRefresh = 0
   let latestAppliedRefresh = 0
-  const latestAppliedByQuery = new Map<string, number>()
-  const latestAppliedByThread = new Map<string, number>()
   let latestSurfacedRefresh = 0
-  const filteredHistory = new Map<
+  // Each thread shows its newest sighting unless a newer complete listing
+  // covering that sighting's workflow left it out. Resolution order then
+  // cannot matter: the view equals applying every listing in start order.
+  const newestSighting = new Map<
     string,
-    { generation: number; sessions: ChatSession[] }
+    { generation: number; session: ChatSession }
   >()
+  const coveredAt = new Map<string | undefined, number>()
   const controller = new AbortController()
 
   onScopeDispose(() => controller.abort())
@@ -79,73 +81,64 @@ export function useAgentChatHistoryRefresh({
     return generation === failureOwner && generation > latestAppliedRefresh
   }
 
-  function isSuperseded(generation: number, workflowId?: string): boolean {
-    const queryKey = workflowId ?? ''
-    if (generation < (latestAppliedByQuery.get(queryKey) ?? 0)) return true
-    return (
-      workflowId !== undefined &&
-      generation < (latestAppliedByQuery.get('') ?? 0)
-    )
+  function coverage(workflowId?: string): number {
+    const full = coveredAt.get(undefined) ?? 0
+    return workflowId ? Math.max(full, coveredAt.get(workflowId) ?? 0) : full
   }
 
-  function applyFilteredHistory(
-    workflowId: string,
+  function record(
     generation: number,
-    sessions: ChatSession[]
+    sessions: ChatSession[],
+    workflowId?: string
   ): void {
-    const sessionsToApply = sessions.filter(
-      ({ id }) => generation >= (latestAppliedByThread.get(id) ?? 0)
-    )
-    const protectedIds = new Set(
-      history.sessions
-        .filter(({ id }) => (latestAppliedByThread.get(id) ?? 0) > generation)
-        .map(({ id }) => id)
-    )
-    filteredHistory.set(workflowId, {
-      generation,
-      sessions: sessionsToApply
-    })
-    for (const { id } of sessionsToApply) {
-      latestAppliedByThread.set(id, generation)
+    for (const session of sessions) {
+      if (generation > (newestSighting.get(session.id)?.generation ?? 0))
+        newestSighting.set(session.id, { generation, session })
     }
-    const refreshedIds = new Set(sessionsToApply.map(({ id }) => id))
-    history.replaceAll([
-      ...sessionsToApply,
-      ...history.sessions.filter(
-        ({ id, workflowId: cachedWorkflowId }) =>
-          !refreshedIds.has(id) &&
-          (cachedWorkflowId !== workflowId || protectedIds.has(id))
-      )
-    ])
+    coveredAt.set(
+      workflowId,
+      Math.max(coveredAt.get(workflowId) ?? 0, generation)
+    )
   }
 
-  function applyFullHistory(generation: number, sessions: ChatSession[]): void {
-    const newerFilteredEntries = [...filteredHistory.entries()].filter(
-      ([, entry]) => entry.generation > generation
-    )
-    const newerFilteredWorkflowIds = new Set(
-      newerFilteredEntries.map(([workflowId]) => workflowId)
-    )
-    const newerFiltered = newerFilteredEntries.flatMap(([, entry]) =>
-      entry.sessions.filter(
-        ({ id }) => latestAppliedByThread.get(id) === entry.generation
-      )
-    )
-    const refreshedIds = new Set(newerFiltered.map(({ id }) => id))
-    history.replaceAll([
-      ...newerFiltered,
-      ...sessions.filter(
-        ({ id, workflowId }) =>
-          !refreshedIds.has(id) &&
-          !(workflowId && newerFilteredWorkflowIds.has(workflowId))
-      )
-    ])
-    for (const [workflowId, entry] of filteredHistory) {
-      if (entry.generation <= generation) filteredHistory.delete(workflowId)
+  function visibleSessions(candidates: ChatSession[]): ChatSession[] {
+    const visible = new Map<
+      string,
+      { generation: number; session: ChatSession }
+    >()
+    for (const cached of candidates) {
+      const sighting = newestSighting.get(cached.id) ?? {
+        generation: 0,
+        session: cached
+      }
+      const shown =
+        !visible.has(cached.id) &&
+        sighting.generation >= coverage(sighting.session.workflowId)
+      if (shown) visible.set(cached.id, sighting)
     }
-    for (const [id, threadGeneration] of latestAppliedByThread) {
-      if (threadGeneration <= generation) latestAppliedByThread.delete(id)
+    return [...visible.values()]
+      .sort((a, b) => b.generation - a.generation)
+      .map(({ session }) => session)
+  }
+
+  function pruneCovered(): void {
+    const full = coveredAt.get(undefined) ?? 0
+    for (const [id, { generation }] of newestSighting) {
+      if (generation < full) newestSighting.delete(id)
     }
+    for (const [key, covered] of coveredAt) {
+      if (key !== undefined && covered <= full) coveredAt.delete(key)
+    }
+  }
+
+  function applyListing(
+    generation: number,
+    sessions: ChatSession[],
+    workflowId?: string
+  ): void {
+    record(generation, sessions, workflowId)
+    history.replaceAll(visibleSessions([...sessions, ...history.sessions]))
+    pruneCovered()
   }
 
   function applyRefreshResult(
@@ -161,13 +154,11 @@ export function useAgentChatHistoryRefresh({
       onFailure(result, uiTreatment)
       return result.status
     }
-    if (isSuperseded(generation, workflowId)) return 'superseded'
-    const sessions = result.threads.map(toChatSession)
-    if (workflowId === undefined) applyFullHistory(generation, sessions)
-    else applyFilteredHistory(workflowId, generation, sessions)
-    latestAppliedByQuery.set(workflowId ?? '', generation)
+    if (generation < (coveredAt.get(undefined) ?? 0)) return 'superseded'
+    const superseded = generation < coverage(workflowId)
+    applyListing(generation, result.threads.map(toChatSession), workflowId)
     latestAppliedRefresh = Math.max(latestAppliedRefresh, generation)
-    return 'complete'
+    return superseded ? 'superseded' : 'complete'
   }
 
   async function refreshHistory(
