@@ -7125,32 +7125,35 @@ describe('AgentPanelRoot history', () => {
 
     it.for([
       {
-        stamps: 'no message time',
+        stamps: 'no message time but a newer update time',
         last_message_at: '',
-        updated_at: '2026-09-01T10:00:00Z',
-        created_at: '2026-09-01T09:00:00Z'
+        updated_at: '2026-09-22T11:00:00Z',
+        created_at: '2026-09-01T09:00:00Z',
+        expectedThreadId: 'th-fallback'
       },
       {
-        stamps: 'an unparsable message time',
+        stamps: 'no valid message or update time but a newer creation time',
         last_message_at: 'yesterday',
-        updated_at: '2026-09-01T10:00:00Z',
-        created_at: '2026-09-01T09:00:00Z'
+        updated_at: 'unknown',
+        created_at: '2026-09-22T11:00:00Z',
+        expectedThreadId: 'th-fallback'
       },
       {
         stamps: 'no valid time at all',
         last_message_at: '',
         updated_at: 'unknown',
-        created_at: ''
+        created_at: '',
+        expectedThreadId: 'th-recent'
       }
     ])(
       'ranks a chat with $stamps by its next valid time',
-      async ({ last_message_at, updated_at, created_at }) => {
+      async ({ last_message_at, updated_at, created_at, expectedThreadId }) => {
         workflowStore.activeWorkflow = addTab('workflows/first.json')
         const second = addTab('workflows/second.json')
         const { loadedThreads } = stubWorkflowBoundHistory([
           agentThread({
-            id: 'th-stale',
-            title: 'Stale chat',
+            id: 'th-fallback',
+            title: 'Fallback chat',
             last_message_at,
             updated_at,
             created_at,
@@ -7168,9 +7171,9 @@ describe('AgentPanelRoot history', () => {
         await activateTabAsUser(second)
 
         await vi.waitFor(() =>
-          expect(useAgentConversationStore().threadId).toBe('th-recent')
+          expect(useAgentConversationStore().threadId).toBe(expectedThreadId)
         )
-        expect(loadedThreads).toEqual(['th-recent'])
+        expect(loadedThreads).toEqual([expectedThreadId])
       }
     )
 
