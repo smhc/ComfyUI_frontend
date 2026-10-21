@@ -144,9 +144,24 @@ describe('BillingAutoTopUpCard', () => {
           .getAllByTestId('billing-auto-top-up-line')
           .map((line) => line.textContent.trim())
       ).toEqual(lines)
-      expect(screen.getByRole('link', { name: action })).toHaveAttribute(
+      const link = screen.getByRole('link', { name: action })
+      expect(link).toHaveAttribute(
         'href',
         'https://platform.test/profile/billing'
+      )
+      expect(link).toContainHTML(
+        action === 'Manage'
+          ? 'icon-[lucide--arrow-up-right]'
+          : 'icon-[lucide--external-link]'
+      )
+      expect(screen.getByTestId('billing-auto-top-up-card')).toContainHTML(
+        'rounded-xl'
+      )
+      expect(screen.getByRole('heading', { name: /Auto top-up/ })).toHaveClass(
+        'font-medium'
+      )
+      expect(screen.getByTestId('billing-auto-top-up-status')).toContainHTML(
+        'size-1.75'
       )
     }
   )

@@ -199,6 +199,13 @@ describe('BillingTab', () => {
             .queryAllByRole('button')
             .map((button) => button.textContent.trim())
         ).toEqual(buttons)
+        expect(banner).toHaveClass('rounded-xl', 'p-3')
+        const [label] = buttons
+        if (label) {
+          expect(
+            within(banner).getByRole('button', { name: label })
+          ).toHaveClass('h-8')
+        }
       }
     )
 
@@ -227,16 +234,22 @@ describe('BillingTab', () => {
   it('shows a skeleton and no plan row while billing loads', () => {
     arrange({ isInitialized: false })
 
-    expect(screen.getByTestId('billing-plan-skeleton')).toBeInTheDocument()
+    const skeleton = screen.getByTestId('billing-plan-skeleton')
+    expect(skeleton).toHaveClass('rounded-xl', 'border-card', 'px-5', 'py-4')
+    expect(
+      within(screen.getByTestId('billing-plan-section')).getByRole('heading', {
+        name: 'Plan'
+      })
+    ).toBeInTheDocument()
     expect(screen.queryByTestId('billing-plan-row')).not.toBeInTheDocument()
   })
 
   it('replaces the plan with one error that retries both reads', async () => {
     const { initialize, refresh } = arrange({ error: 'boom' })
 
-    expect(screen.getByRole('alert')).toHaveTextContent(
-      "We couldn't load your plan."
-    )
+    const alert = screen.getByRole('alert')
+    expect(alert).toHaveTextContent("We couldn't load your plan.")
+    expect(alert).toHaveClass('rounded-xl', 'border-card', 'px-5', 'py-4')
     expect(screen.queryByTestId('billing-plan-row')).not.toBeInTheDocument()
 
     await userEvent.click(screen.getByRole('button', { name: 'Try again' }))
@@ -254,18 +267,47 @@ describe('BillingTab', () => {
   it('renders an active plan with Manage and the owner handoff linked to the billing site', () => {
     arrange()
 
-    expect(screen.getByRole('heading', { name: 'Pro' })).toBeInTheDocument()
+    expect(screen.getByTestId('billing-tab')).toHaveClass('gap-12')
+    const plan = screen.getByTestId('billing-plan-section')
+    expect(plan).toHaveClass('gap-3')
+    expect(within(plan).getByRole('heading', { name: 'Plan' })).toHaveClass(
+      'text-base',
+      'font-medium'
+    )
+    const planName = within(plan).getByRole('heading', { name: 'Pro' })
+    expect(planName).toHaveClass('text-sm', 'font-semibold')
+    expect(within(plan).getByTestId('billing-plan-row')).toHaveClass(
+      'rounded-xl',
+      'border-card',
+      'px-5',
+      'py-4'
+    )
     expect(screen.getByTestId('billing-plan-line')).toHaveTextContent(
       'Billed monthly. Next invoice November 15.'
     )
-    expect(screen.getByRole('link', { name: 'Manage' })).toHaveAttribute(
+    const manage = screen.getByRole('link', { name: 'Manage' })
+    expect(manage).toHaveAttribute(
       'href',
       'https://platform.test/profile/billing/plans?workspace=ws_1'
     )
-    expect(screen.getByRole('link', { name: 'Open billing' })).toHaveAttribute(
+    expect(manage).toContainHTML('icon-[lucide--arrow-up-right]')
+    const handoff = screen.getByTestId('billing-handoff')
+    expect(handoff).toHaveClass('gap-3')
+    expect(
+      within(handoff).getByRole('heading', {
+        name: 'Payment methods, invoices, and usage'
+      })
+    ).toHaveClass('text-base', 'font-medium')
+    const handoffCard = within(handoff).getByTestId('billing-handoff-card')
+    expect(handoffCard).toHaveClass('rounded-xl', 'border-card', 'px-5', 'py-4')
+    const openBilling = within(handoffCard).getByRole('link', {
+      name: 'Open billing'
+    })
+    expect(openBilling).toHaveAttribute(
       'href',
       'https://platform.test/profile/billing?workspace=ws_1'
     )
+    expect(openBilling).toContainHTML('icon-[lucide--arrow-up-right]')
   })
 
   it('hides the plan action when the server does not grant it', () => {
@@ -286,10 +328,12 @@ describe('BillingTab', () => {
     expect(screen.getByTestId('billing-plan-line')).toHaveTextContent(
       'Managed by the workspace owner.'
     )
-    expect(screen.getByRole('link', { name: 'View usage' })).toHaveAttribute(
+    const usage = screen.getByRole('link', { name: 'View usage' })
+    expect(usage).toHaveAttribute(
       'href',
       'https://platform.test/profile/usage?workspace=ws_1'
     )
+    expect(usage).toContainHTML('icon-[lucide--external-link]')
     expect(
       screen.queryByRole('link', { name: 'Open billing' })
     ).not.toBeInTheDocument()
@@ -619,8 +663,10 @@ describe('BillingTab', () => {
     it('shows the card when the flag is on and the server grants both facts', async () => {
       arrange()
 
+      const credits = screen.getByTestId('billing-credits-section')
+      expect(credits).toHaveClass('gap-3')
       expect(
-        await screen.findByTestId('billing-auto-top-up-status')
+        await within(credits).findByTestId('billing-auto-top-up-status')
       ).toHaveTextContent('Off')
     })
 

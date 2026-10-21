@@ -5,6 +5,8 @@
     size="md"
     :content-padding="isWorkspaceCategoryActive ? 'none' : 'default'"
     header-padding="symmetric"
+    close-button-variant="textonly"
+    close-icon="icon-[lucide--x] size-4"
   >
     <template #leftPanelHeaderTitle>
       <i class="icon-[lucide--settings]" />
@@ -62,6 +64,7 @@
         :workspace-name="workspaceName"
         :subscription-tier="activeWorkspace?.subscriptionTier"
         :collapsed="isHeaderCollapsed"
+        :large="flags.unifiedBillingSettingsEnabled"
       />
     </template>
 
@@ -120,6 +123,7 @@ import BaseModalLayout from '@/components/widget/layout/BaseModalLayout.vue'
 import NavItem from '@/components/widget/nav/NavItem.vue'
 import NavTitle from '@/components/widget/nav/NavTitle.vue'
 import { useBillingContext } from '@/composables/billing/useBillingContext'
+import { useFeatureFlags } from '@/composables/useFeatureFlags'
 import { useSettingsHeaderCollapse } from '@/platform/settings/composables/useSettingsHeaderCollapse'
 import { cn } from '@comfyorg/tailwind-utils'
 import { useTeamWorkspaceStore } from '@/platform/workspace/stores/teamWorkspaceStore'
@@ -160,6 +164,7 @@ const {
 } = useSettingSearch()
 
 const { fetchBalance } = useBillingContext()
+const { flags } = useFeatureFlags()
 
 const navRef = ref<HTMLElement | null>(null)
 const activeCategoryKey = ref<string | null>(defaultCategory.value?.key ?? null)

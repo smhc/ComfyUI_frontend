@@ -1,10 +1,10 @@
 <template>
   <section
-    class="flex items-start justify-between gap-4"
+    class="flex items-start justify-between gap-4 rounded-xl border border-card px-5 py-4"
     data-testid="billing-plan-row"
   >
     <div class="flex min-w-0 flex-col gap-1">
-      <h3 class="m-0 text-base font-semibold wrap-break-word text-foreground">
+      <h3 class="m-0 text-sm font-semibold wrap-break-word text-foreground">
         {{ title }}
       </h3>
       <p
@@ -24,16 +24,18 @@
         target="_blank"
         rel="noopener"
         :variant="action === 'manage' ? 'secondary' : 'inverted'"
+        size="md"
         class="shrink-0"
       >
         {{ $t(`workspacePanel.billingTab.plan.actions.${action}`) }}
-        <i class="icon-[lucide--external-link] size-4" aria-hidden="true" />
+        <i :class="cn(actionIcon, 'size-4')" aria-hidden="true" />
       </Button>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
+import { cn } from '@comfyorg/tailwind-utils'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -55,6 +57,12 @@ const { state, action, canManageSubscription } = defineProps<{
 const { t, locale } = useI18n()
 
 const plansUrl = computed(() => platformLink('/profile/billing/plans'))
+
+const actionIcon = computed(() =>
+  action === 'manage'
+    ? 'icon-[lucide--arrow-up-right]'
+    : 'icon-[lucide--external-link]'
+)
 
 const title = computed(() => {
   if (state.kind === 'noPlan') {

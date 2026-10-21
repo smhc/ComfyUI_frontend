@@ -195,9 +195,10 @@ it('falls back when the active navigation item becomes unavailable', async () =>
 it('shows the workspace identity in the dialog header on workspace sections', async () => {
   renderDialog()
 
-  expect(
-    await screen.findByRole('heading', { name: 'Acme Team' })
-  ).toBeInTheDocument()
+  expect(await screen.findByRole('heading', { name: 'Acme Team' })).toHaveClass(
+    'text-base',
+    'font-bold'
+  )
   expect(screen.getByTestId('ws-pic')).toBeInTheDocument()
 })
 
