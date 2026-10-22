@@ -199,6 +199,9 @@ test.describe('Error dialog', () => {
 
     await expect(errorDialog.getByText('Custom Error Title')).toBeVisible()
     await expect(errorDialog.getByText('Something went wrong')).toBeVisible()
+    await expect(
+      comfyPage.page.getByRole('dialog', { name: 'Custom Error Title' })
+    ).toBeVisible()
   })
 
   test('Should display default title when no title provided', async ({
@@ -215,6 +218,50 @@ test.describe('Error dialog', () => {
 
     await expect(errorDialog.getByText('Unknown Error')).toBeVisible()
     await expect(errorDialog.getByText('A simple string error')).toBeVisible()
+    await expect(
+      comfyPage.page.getByRole('dialog', { name: 'Unknown Error' })
+    ).toBeVisible()
+  })
+
+  for (const title of ['', '   ']) {
+    test(`Should fall back to the default title for the blank title ${JSON.stringify(title)}`, async ({
+      comfyPage
+    }) => {
+      await comfyPage.page.evaluate((title) => {
+        window.app!.extensionManager.dialog.showErrorDialog('Details', {
+          title
+        })
+      }, title)
+
+      await expect(
+        comfyPage.page.getByRole('dialog', { name: 'An error occurred' })
+      ).toBeVisible()
+    })
+  }
+
+  test('Should name a reopened dialog after its new title', async ({
+    comfyPage
+  }) => {
+    await comfyPage.page.evaluate(() => {
+      window.app!.extensionManager.dialog.showErrorDialog('Details', {
+        title: 'First Error'
+      })
+    })
+    const firstDialog = comfyPage.page.getByRole('dialog', {
+      name: 'First Error'
+    })
+    await expect(firstDialog).toBeVisible()
+    await firstDialog.getByRole('button', { name: 'Close' }).click()
+    await expect(firstDialog).toBeHidden()
+
+    await comfyPage.page.evaluate(() => {
+      window.app!.extensionManager.dialog.showErrorDialog('Details', {
+        title: 'Second Error'
+      })
+    })
+    await expect(
+      comfyPage.page.getByRole('dialog', { name: 'Second Error' })
+    ).toBeVisible()
   })
 
   test.describe('Catalog messages', { tag: ['@ui', '@workflow'] }, () => {
@@ -328,6 +375,11 @@ test.describe('Error dialog', () => {
           )
           await expect(
             errorDialog.getByRole('heading', {
+              name: 'Prompt validation failed'
+            })
+          ).toBeVisible()
+          await expect(
+            comfyPage.page.getByRole('dialog', {
               name: 'Prompt validation failed'
             })
           ).toBeVisible()
@@ -452,6 +504,12 @@ test.describe('Error dialog', () => {
           )
           await expect(
             errorDialog.getByRole('heading', {
+              name: 'KSampler (#3)',
+              exact: true
+            })
+          ).toBeVisible()
+          await expect(
+            comfyPage.page.getByRole('dialog', {
               name: 'KSampler (#3)',
               exact: true
             })
