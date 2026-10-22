@@ -4432,6 +4432,7 @@
       {
         "from": "bounding-boxes/domain",
         "allow": [
+          "graph-model/domain/public",
           "bounding-boxes/domain",
           "color-conversion/domain",
           "design-system/domain",
@@ -4446,6 +4447,7 @@
       {
         "from": "bounding-boxes/application",
         "allow": [
+          "graph-model/domain/public",
           "bounding-boxes/domain",
           "bounding-boxes/application",
           "color-conversion/domain",
@@ -4468,6 +4470,7 @@
       {
         "from": "bounding-boxes/presentation",
         "allow": [
+          "graph-model/domain/public",
           "bounding-boxes/domain",
           "bounding-boxes/application",
           "bounding-boxes/presentation",
@@ -4494,6 +4497,7 @@
       {
         "from": "bounding-boxes/integration",
         "allow": [
+          "graph-model/domain/public",
           "bounding-boxes/domain",
           "bounding-boxes/application",
           "bounding-boxes/presentation",
@@ -6943,6 +6947,7 @@
       {
         "from": "bounding-boxes/application/outer-1",
         "allow": [
+          "graph-model/domain/public",
           "bounding-boxes/domain",
           "bounding-boxes/application",
           "color-conversion/domain",
