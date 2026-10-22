@@ -1277,6 +1277,11 @@ export class ComfyApp implements IComfyApp {
     ChangeTracker.isLoadingGraph = true
     let reset_invalid_values = false
     const missingNodeTypes: MissingNodeType[] = []
+    const graph = clean
+      ? this.rootGraphForLoad(
+          workflow instanceof ComfyWorkflow ? workflow : null
+        )
+      : this.rootGraph
     try {
       useExecutionErrorStore().setActiveGraph(null)
 
@@ -1295,11 +1300,7 @@ export class ComfyApp implements IComfyApp {
       }
 
       if (clean) {
-        this.activateRootGraph(
-          this.rootGraphForLoad(
-            workflow instanceof ComfyWorkflow ? workflow : null
-          )
-        )
+        this.activateRootGraph(graph)
         withGraphIntentSource('load', () => this.clean())
       }
 
@@ -1478,10 +1479,7 @@ export class ComfyApp implements IComfyApp {
           if (
             this.canvas.visible_area.width &&
             this.canvas.visible_area.height &&
-            !anyItemOverlapsRect(
-              this.rootGraph._nodes,
-              this.canvas.visible_area
-            )
+            !anyItemOverlapsRect(graph._nodes, this.canvas.visible_area)
           ) {
             useLitegraphService().fitView()
           }
@@ -1496,18 +1494,17 @@ export class ComfyApp implements IComfyApp {
     let resourceScanLoadCompleted = false
     try {
       try {
-        this.rootGraph.configure(graphData as ISerialisedGraph)
+        graph.configure(graphData as ISerialisedGraph)
 
         // Save original renderer version before scaling (it gets modified during scaling)
-        const originalMainGraphRenderer =
-          this.rootGraph.extra.workflowRendererVersion
+        const originalMainGraphRenderer = graph.extra.workflowRendererVersion
 
         // Scale main graph
-        ensureCorrectLayoutScale(originalMainGraphRenderer, this.rootGraph)
+        ensureCorrectLayoutScale(originalMainGraphRenderer, graph)
 
         // Scale all subgraphs that were loaded with the workflow
         // Use original main graph renderer as fallback (not the modified one)
-        for (const subgraph of this.rootGraph.subgraphs.values()) {
+        for (const subgraph of graph.subgraphs.values()) {
           ensureCorrectLayoutScale(
             subgraph.extra.workflowRendererVersion || originalMainGraphRenderer,
             subgraph
@@ -1550,19 +1547,9 @@ export class ComfyApp implements IComfyApp {
         await this.reportGraphLoadFailure(error)
         return false
       }
-      const configuredGraphState = this.rootGraph.state
-      const isCurrentGraphLoad = () =>
-        configuredGraphState === this.rootGraph.state
-      const cancelReplacedLoad = () =>
-        useExtensionService().invokeExtensionsAsync(
-          'onGraphLoadError',
-          new DOMException('Workflow load was replaced', 'AbortError')
-        )
-      const snapTo = LiteGraph.alwaysSnapToGrid
-        ? this.rootGraph.getSnapToGridSize()
-        : 0
+      const snapTo = LiteGraph.alwaysSnapToGrid ? graph.getSnapToGridSize() : 0
       withGraphIntentSource('load', () =>
-        forEachNode(this.rootGraph, (node) => {
+        forEachNode(graph, (node) => {
           const size = node.computeSize()
           size[0] = Math.max(node.size[0], size[0])
           size[1] = Math.max(node.size[1], size[1])
@@ -1622,10 +1609,6 @@ export class ComfyApp implements IComfyApp {
         'afterConfigureGraph',
         missingNodeTypes
       )
-      if (!isCurrentGraphLoad()) {
-        await cancelReplacedLoad()
-        return undefined
-      }
 
       const effectiveShareId =
         shareId ??
@@ -1644,21 +1627,19 @@ export class ComfyApp implements IComfyApp {
       try {
         await useWorkflowService().afterLoadNewGraph(
           workflow,
-          this.rootGraph.serialize() as unknown as ComfyWorkflowJSON,
+          graph.serialize() as unknown as ComfyWorkflowJSON,
+          graph,
           effectiveShareId
         )
       } catch (error) {
-        if (isCurrentGraphLoad()) throw error
-      }
-      if (!isCurrentGraphLoad()) {
-        await cancelReplacedLoad()
+        if (this.rootGraph === graph) throw error
+        await useExtensionService().invokeExtensionsAsync(
+          'onGraphLoadError',
+          error
+        )
         return undefined
       }
       await useExtensionService().invokeExtensionsAsync('afterLoadGraph')
-      if (!isCurrentGraphLoad()) {
-        await cancelReplacedLoad()
-        return undefined
-      }
       ChangeTracker.isLoadingGraph = false
       // Capture the workflow this load activated before the asset-scan awaits
       // below can hand control back and let the user switch to another one.
@@ -1672,7 +1653,7 @@ export class ComfyApp implements IComfyApp {
         (n) =>
           typeof n === 'string' ||
           n.nodeId == null ||
-          isAncestorPathActive(this.rootGraph, String(n.nodeId))
+          isAncestorPathActive(graph, String(n.nodeId))
       )
 
       if (!skipAssetScans) {
@@ -1689,7 +1670,7 @@ export class ComfyApp implements IComfyApp {
         }
         reconcileResourceErrors = reconcile
         await runMissingModelPipeline({
-          graph: this.rootGraph,
+          graph,
           graphData,
           missingModelStore: useMissingModelStore(),
           missingNodeTypes: activeMissingNodeTypes,
@@ -1701,7 +1682,7 @@ export class ComfyApp implements IComfyApp {
         })
 
         await runMissingMediaPipeline({
-          rootGraph: this.rootGraph,
+          rootGraph: graph,
           silent: silentAssetErrors,
           onVerified: (candidates) => {
             media = candidates
@@ -2307,7 +2288,8 @@ export class ComfyApp implements IComfyApp {
         )
         await useWorkflowService().afterLoadNewGraph(
           fileName,
-          this.rootGraph.serialize() as unknown as ComfyWorkflowJSON
+          this.rootGraph.serialize() as unknown as ComfyWorkflowJSON,
+          this.rootGraph
         )
         await useExtensionService().invokeExtensionsAsync('afterLoadGraph')
         return
@@ -2662,7 +2644,8 @@ export class ComfyApp implements IComfyApp {
     )
     await useWorkflowService().afterLoadNewGraph(
       fileName,
-      this.rootGraph.serialize() as unknown as ComfyWorkflowJSON
+      this.rootGraph.serialize() as unknown as ComfyWorkflowJSON,
+      this.rootGraph
     )
     await useExtensionService().invokeExtensionsAsync('afterLoadGraph')
     if (missingNodeTypes.length) {
