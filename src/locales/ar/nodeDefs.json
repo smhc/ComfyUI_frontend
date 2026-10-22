@@ -850,7 +850,7 @@
       },
       "1": {
         "name": "مطالبة منظّمة",
-        "tooltip": "وصف منظّم للصورة المعدّلة، لإجراء تعديل لاحق باستخدام Bria FIBO Image Edit."
+        "tooltip": "وصف منظّم للصورة المُعدَّلة، لإجراء تعديل لاحق باستخدام Bria FIBO 2.0 Image Edit."
       }
     }
   },
@@ -876,7 +876,7 @@
       },
       "1": {
         "name": "مطالبة منظّمة",
-        "tooltip": "وصف منظّم للصورة المعدّلة، لإجراء تعديل لاحق باستخدام Bria FIBO Image Edit."
+        "tooltip": "وصف منظّم للصورة المُعدَّلة، لإجراء تعديل لاحق باستخدام Bria FIBO 2.0 Image Edit."
       }
     }
   },
@@ -1003,8 +1003,8 @@
     }
   },
   "BriaImageEditNode": {
-    "description": "حرر الصور باستخدام أحدث نموذج من Bria",
-    "display_name": "تحرير صورة Bria",
+    "description": "حرّر الصور باستخدام Bria FIBO 2.0.",
+    "display_name": "Bria FIBO 2.0 لتحرير الصور",
     "inputs": {
       "control_after_generate": {
         "name": "التحكم بعد التوليد"
@@ -1052,6 +1052,49 @@
       "1": {
         "name": "توجيه منظم",
         "tooltip": null
+      }
+    }
+  },
+  "BriaImageGenerate": {
+    "description": "أنشئ صورة من موجّه نصي أو صورة مرجعية أو موجّه منظّم باستخدام Bria FIBO 2.0.",
+    "display_name": "Bria FIBO 2.0 لإنشاء الصور",
+    "inputs": {
+      "aspect_ratio": {
+        "name": "aspect_ratio",
+        "tooltip": "تتطلب 16:10 والنِّسب التي تليها 1MP وواحداً فقط من prompt أو structured_prompt."
+      },
+      "control_after_generate": {
+        "name": "التحكم بعد الإنشاء"
+      },
+      "image": {
+        "name": "الصورة",
+        "tooltip": "صورة مرجعية للاستناد إليها. النتيجة صورة جديدة بنسبة العرض إلى الارتفاع المحددة، وليست تعديلاً لهذه الصورة."
+      },
+      "moderation": {
+        "name": "الإشراف",
+        "tooltip": "إعدادات الإشراف"
+      },
+      "prompt": {
+        "name": "الموجّه"
+      },
+      "resolution": {
+        "name": "الدقة"
+      },
+      "seed": {
+        "name": "البذرة"
+      },
+      "structured_prompt": {
+        "name": "structured_prompt",
+        "tooltip": "موجّه منظّم بصيغة JSON من نتيجة Bria FIBO سابقة. باستخدام البذرة نفسها، يعيد إنشاء تلك الصورة؛ غيّر JSON أو أضف موجّهاً لتحسينها."
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      },
+      "1": {
+        "name": "structured_prompt",
+        "tooltip": "وصف منظّم للصورة المُنشأة، لإعادة إنشائها أو تحسينها باستخدام هذه العقدة."
       }
     }
   },
@@ -1107,7 +1150,7 @@
       },
       "1": {
         "name": "مطالبة منظّمة",
-        "tooltip": "وصف منظّم للصورة المعدّلة، لإجراء تعديل لاحق باستخدام Bria FIBO Image Edit."
+        "tooltip": "وصف منظّم للصورة المُعدَّلة، لإجراء تعديل لاحق باستخدام Bria FIBO 2.0 Image Edit."
       }
     }
   },
@@ -1236,7 +1279,7 @@
       },
       "1": {
         "name": "المطالبة_المنظَّمة",
-        "tooltip": "وصف منظَّم للصورة المعدَّلة، لإجراء تعديل لاحق باستخدام Bria FIBO Image Edit."
+        "tooltip": "وصف منظّم للصورة المُعدَّلة، لإجراء تعديل لاحق باستخدام Bria FIBO 2.0 Image Edit."
       }
     }
   },
@@ -1262,7 +1305,7 @@
       },
       "1": {
         "name": "المطالبة_المنظَّمة",
-        "tooltip": "وصف منظَّم للصورة المعدَّلة، لإجراء تعديل لاحق باستخدام Bria FIBO Image Edit."
+        "tooltip": "وصف منظّم للصورة المُعدَّلة، لإجراء تعديل لاحق باستخدام Bria FIBO 2.0 Image Edit."
       }
     }
   },
@@ -1284,7 +1327,7 @@
       },
       "1": {
         "name": "structured_prompt",
-        "tooltip": "وصف منظّم للصورة المعدّلة، لإجراء تعديل لاحق باستخدام Bria FIBO Image Edit."
+        "tooltip": "وصف منظّم للصورة المُعدَّلة، لإجراء تعديل لاحق باستخدام Bria FIBO 2.0 Image Edit."
       }
     }
   },
@@ -2413,7 +2456,7 @@
     }
   },
   "CLIPLoader": {
-    "description": "الوصفات:\nsd: clip-l\nstable cascade: clip-g\nsd3: t5 xxl / clip-g / clip-l\nstable audio: t5 base\nmochi: t5 xxl\ncogvideox: t5 xxl (حشو 226 رمزًا)\ncosmos: t5 xxl القديم\nlumina2: gemma 2 2B\nwan: umt5 xxl\nhidream: llama-3.1 (موصى به) أو t5\nomnigen2: qwen vl 2.5 3B\njoyimage: qwen3-vl 8B\nlens: gpt-oss-20b\npixeldit: gemma 2 2B elm\nminimax: MiniMax H3 Qwen3-VL أو Music3 Qwen/RVQ",
+    "description": "الوصفات:\nsd: clip-l\nstable cascade: clip-g\nsd3: t5 xxl / clip-g / clip-l\nstable audio: t5 base\nmochi: t5 xxl\ncogvideox: t5 xxl (حشو 226 رمزاً)\ncosmos: t5 xxl القديم\nlumina2: gemma 2 2B\nwan: umt5 xxl\nhidream: llama-3.1 (موصى به) أو t5\nomnigen2: qwen vl 2.5 3B\njoyimage: qwen3-vl 8B\nlens: gpt-oss-20b\npixeldit: gemma 2 2B elm\nminimax: MiniMax H3 Qwen3-VL أو Music3 Qwen/RVQ\nflux3: qwen3-vl 4B\nfibo2: qwen3-vl 4B",
     "display_name": "تحميل CLIP",
     "inputs": {
       "clip_name": {
@@ -2953,6 +2996,24 @@
       },
       "model_creativity": {
         "name": "creativity"
+      },
+      "model_scale_factor": {
+        "name": "scale_factor"
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "ClarityCrystalVideoUpscaleNode": {
+    "description": "رقِّ دقة فيديو باستخدام Crystal Video Upscaler من Clarity AI، وهو مُرقٍّ عالي الدقة يحافظ على أمانة المصدر. يقتصر الإخراج على 9 ميغابكسل لكل إطار (مثل 4000x2250)، وتُعاد المقاطع الطويلة بدقة أقل. تبلغ تكلفة المقاطع التي تزيد عن 30 إطاراً في الثانية 2x، والتي تزيد عن 60 إطاراً في الثانية 3x، وهكذا.",
+    "display_name": "ترقية دقة الفيديو Crystal من Clarity AI",
+    "inputs": {
+      "model": {
+        "name": "النموذج",
+        "tooltip": "النموذج المراد استخدامه."
       },
       "model_scale_factor": {
         "name": "scale_factor"
@@ -5893,8 +5954,8 @@
     }
   },
   "Flux3ImageNode": {
-    "description": "يُنشئ صورة باستخدام FLUX 3 من موجّه، أو يحرر ويجمع ما يصل إلى 10 صور مرجعية. أشِر إلى المراجع في الموجّه بوصفها الصورة 1 والصورة 2 وهكذا.",
-    "display_name": "صورة Flux 3",
+    "description": "ينشئ صورة باستخدام FLUX 3 Image من موجّه، أو يحرّر ويجمع ما يصل إلى 10 صور مرجعية. أشر إلى المراجع في الموجّه باعتبارها الصورة 1 والصورة 2 وهكذا.",
+    "display_name": "صورة FLUX 3",
     "inputs": {
       "aspect_ratio": {
         "name": "aspect_ratio",
@@ -5988,6 +6049,118 @@
       }
     }
   },
+  "Flux3LayoutPrompt": {
+    "description": "يُلحق المربعات من Create Bounding Boxes بموجّه FLUX 3 Image كجدول تخطيط له.",
+    "display_name": "موجّه تخطيط FLUX 3 Image",
+    "inputs": {
+      "element": {
+        "name": "العنصر",
+        "tooltip": "عناصر الموجّه من عقدة Create Bounding Boxes. لا تُستخدم لوحات الألوان؛ صِف الألوان في الوصف."
+      },
+      "prompt": {
+        "name": "الموجّه",
+        "tooltip": "نص الموجّه. أشر إلى المربع N باعتباره <obj_N> لربط الكلمات به."
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "الموجّه",
+        "tooltip": null
+      }
+    }
+  },
+  "Flux3MaxImageToVideoNode": {
+    "description": "يُحرّك من 1 إلى 10 صور باستخدام FLUX 3 Max. تصبح كل صورة إطارًا من المقطع: تفتحه صورة واحدة، وتصبح صورتان إطاره الأول والأخير، وتُوزَّع الصور الإضافية عبره أو تُثبَّت في الأوقات التي تختارها.",
+    "display_name": "FLUX 3 Max من صورة إلى فيديو",
+    "inputs": {
+      "aspect_ratio": {
+        "name": "aspect_ratio",
+        "tooltip": "نسبة أبعاد الإخراج. يكون «auto» بنسبة 16:9 للموجّهات النصية، ويتبع الصورة الأولى في غير ذلك."
+      },
+      "control_after_generate": {
+        "name": "التحكم بعد التوليد"
+      },
+      "duration": {
+        "name": "المدة",
+        "tooltip": "طول المقطع بالثواني."
+      },
+      "generate_audio": {
+        "name": "generate_audio",
+        "tooltip": "إنشاء صوت متزامن. يؤدي إيقافه إلى إنتاج فيديو بلا مسار صوتي."
+      },
+      "keyframes": {
+        "name": "الإطارات الرئيسية",
+        "tooltip": "من 1 إلى 10 صور، بترتيب التشغيل."
+      },
+      "placement": {
+        "name": "الموضع",
+        "tooltip": "يضع خيار «موزعة عبر المقطع» الصورة الأولى في البداية والأخيرة في النهاية، ويوزع البقية بالتساوي بينهما؛ أما «في أوقات محددة» فيثبّت كل صورة عند ثانية تختارها."
+      },
+      "prompt": {
+        "name": "الموجّه",
+        "tooltip": "كيفية حركة المشهد وصوته."
+      },
+      "reasoning_level": {
+        "name": "reasoning_level",
+        "tooltip": "مقدار ما يستدلّ النموذج على الموجّه ويوسّعه قبل التوليد. يستغرق «high» وقتًا أطول؛ والسعر هو نفسه."
+      },
+      "resolution": {
+        "name": "الدقة",
+        "tooltip": "دقة الإخراج."
+      },
+      "seed": {
+        "name": "البذرة",
+        "tooltip": "تتحكم البذرة في ما إذا كانت العقدة ستُعاد تشغيلها؛ والنتائج غير حتمية بغض النظر عن البذرة."
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "Flux3MaxTextToVideoNode": {
+    "description": "يُولّد فيديو بصوت متزامن من موجّه نصي عبر FLUX 3 Max.",
+    "display_name": "FLUX 3 Max من نص إلى فيديو",
+    "inputs": {
+      "aspect_ratio": {
+        "name": "aspect_ratio",
+        "tooltip": "نسبة أبعاد الإخراج. يكون «auto» بنسبة 16:9 للموجّهات النصية، ويتبع الصورة الأولى في غير ذلك."
+      },
+      "control_after_generate": {
+        "name": "التحكم بعد التوليد"
+      },
+      "duration": {
+        "name": "المدة",
+        "tooltip": "طول المقطع بالثواني."
+      },
+      "generate_audio": {
+        "name": "generate_audio",
+        "tooltip": "إنشاء صوت متزامن. يؤدي إيقافه إلى إنتاج فيديو بلا مسار صوتي."
+      },
+      "prompt": {
+        "name": "الموجّه",
+        "tooltip": "ما تريده، بلغة بسيطة. صف الصوت المحيط والموسيقى والكلام كلًّا على حدة للحصول على صوت متعدد الطبقات."
+      },
+      "reasoning_level": {
+        "name": "reasoning_level",
+        "tooltip": "مقدار ما يستدلّ النموذج على الموجّه ويوسّعه قبل التوليد. يستغرق «high» وقتًا أطول؛ والسعر هو نفسه."
+      },
+      "resolution": {
+        "name": "الدقة",
+        "tooltip": "دقة الإخراج."
+      },
+      "seed": {
+        "name": "البذرة",
+        "tooltip": "تتحكم البذرة في ما إذا كانت العقدة ستُعاد تشغيلها؛ والنتائج غير حتمية بغض النظر عن البذرة."
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
   "Flux3TextToVideoNode": {
     "description": "ينتج فيديو مع صوت متزامن من prompt نصي عبر FLUX 3.",
     "display_name": "Flux 3 تحويل نص إلى فيديو",
@@ -6067,7 +6240,7 @@
       },
       "video": {
         "name": "الفيديو",
-        "tooltip": "المقطع المراد استكماله."
+        "tooltip": "المقطع المطلوب متابعته. تُصغَّر المقاطع التي تتجاوز مساحتها 3840x2160 بكسلًا لتلائم الحد."
       }
     },
     "outputs": {
@@ -7223,6 +7396,30 @@
       }
     }
   },
+  "GetAudioLatentSize": {
+    "description": "يعيد طول الكامن الصوتي وعدد القنوات الصوتية وحجم الدفعة الخاصة به.",
+    "display_name": "الحصول على حجم الكامن الصوتي",
+    "inputs": {
+      "latent": {
+        "name": "كامن",
+        "tooltip": "الكامن الصوتي أو الكامن الصوتي/الفيديو المراد فحصه."
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "الطول",
+        "tooltip": "طول الكامن الصوتي."
+      },
+      "1": {
+        "name": "audio_channels",
+        "tooltip": "عدد القنوات الصوتية. تحتوي الكوامن التي لا تتضمن بُعد قناة صوتية على قناة واحدة."
+      },
+      "2": {
+        "name": "batch_size",
+        "tooltip": "عدد الكوامن في الدفعة."
+      }
+    }
+  },
   "GetICLoRAParameters": {
     "description": "يستخرج معلمات IC-LoRA من بيانات safetensors الوصفية لنموذج LoRA المحمّل ويخرجها لـ LTXVAddGuide (مثل reference_downscale_factor).",
     "display_name": "الحصول على معلمات IC-LoRA",
@@ -7275,6 +7472,34 @@
     "outputs": {
       "0": {
         "tooltip": null
+      }
+    }
+  },
+  "GetLatentSize": {
+    "description": "يعيد العرض والارتفاع وعدد الإطارات وحجم الدفعة لكامن صورة أو فيديو.",
+    "display_name": "الحصول على حجم كامن الصورة/الفيديو",
+    "inputs": {
+      "latent": {
+        "name": "كامن",
+        "tooltip": "كامن الصورة أو الفيديو المراد فحصه."
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "العرض",
+        "tooltip": "عرض الكامن."
+      },
+      "1": {
+        "name": "الارتفاع",
+        "tooltip": "ارتفاع الكامن."
+      },
+      "2": {
+        "name": "الإطارات",
+        "tooltip": "عدد إطارات الكامن. تحتوي كوامن الصور على إطار واحد."
+      },
+      "3": {
+        "name": "batch_size",
+        "tooltip": "عدد الكوامن في الدفعة."
       }
     }
   },
@@ -8038,6 +8263,66 @@
       "video": {
         "name": "فيديو",
         "tooltip": "فيديو يحتوي على كلام لترجمته."
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "HeyGenVoiceCloneNode": {
+    "description": "استنسخ صوتًا من تسجيل لمتحدث واحد باستخدام HeyGen Voice 1.0. وصّل voice_id بـ HeyGen Voice 1.0 تحويل النص إلى كلام، أو بـ custom_voice_id في HeyGen Avatar Video وHeyGen Talking Photo.",
+    "display_name": "HeyGen Voice 1.0 الاستنساخ الفوري",
+    "inputs": {
+      "audio": {
+        "name": "الصوت",
+        "tooltip": "تسجيل لمتحدث واحد. استخدم ما لا يقل عن 10 ثوانٍ من الكلام الواضح؛ لا تُستخدم إلا أول 3 دقائق."
+      },
+      "control_after_generate": {
+        "name": "التحكم بعد التوليد"
+      },
+      "language": {
+        "name": "اللغة",
+        "tooltip": "اللغة المنطوقة في التسجيل."
+      },
+      "remove_background_noise": {
+        "name": "remove_background_noise"
+      },
+      "seed": {
+        "name": "البذرة",
+        "tooltip": "غيّر البذرة لاستنساخ التسجيل مرة أخرى؛ كل نسخة مستنسخة هي صوت مختلف قليلًا."
+      },
+      "similarity": {
+        "name": "التشابه",
+        "tooltip": "مدى مطابقة الصوت للتسجيل."
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "voice_id",
+        "tooltip": null
+      }
+    }
+  },
+  "HeyGenVoiceTextToSpeechNode": {
+    "description": "انطق النص بصوت مستنسخ باستخدام HeyGen Voice 1.0 الاستنساخ الفوري.",
+    "display_name": "HeyGen Voice 1.0 تحويل النص إلى كلام",
+    "inputs": {
+      "model": {
+        "name": "النموذج"
+      },
+      "model_expressiveness_boost": {
+        "name": "expressiveness_boost"
+      },
+      "model_language": {
+        "name": "اللغة"
+      },
+      "model_text": {
+        "name": "النص"
+      },
+      "model_voice_id": {
+        "name": "voice_id"
       }
     },
     "outputs": {
@@ -10612,6 +10897,41 @@
     "outputs": {
       "0": {
         "name": "مرجع النمط",
+        "tooltip": null
+      }
+    }
+  },
+  "Krea3ImageNode": {
+    "description": "حرّر الصور باستخدام Krea 3، أو أنشئ صورة جديدة من نص عند عدم توصيل أي صورة.",
+    "display_name": "صورة Krea 3",
+    "inputs": {
+      "control_after_generate": {
+        "name": "التحكم بعد التوليد"
+      },
+      "model": {
+        "name": "النموذج"
+      },
+      "model_aspect_ratio": {
+        "name": "نسبة العرض إلى الارتفاع"
+      },
+      "model_precise_edit": {
+        "name": "تحرير دقيق"
+      },
+      "model_prompt": {
+        "name": "التوجيه"
+      },
+      "model_resolution": {
+        "name": "الدقة"
+      },
+      "model_seed": {
+        "name": "البذرة"
+      },
+      "model_thinking_mode": {
+        "name": "وضع التفكير"
+      }
+    },
+    "outputs": {
+      "0": {
         "tooltip": null
       }
     }
@@ -13215,6 +13535,83 @@
       }
     }
   },
+  "MOSSImageControl": {
+    "description": "يضيف منطقة اللون وخرائط العمق لمحوّل تحكم اللون/العمق MOSS-Image المُحمَّل باستخدام مُحمّل LoRA.",
+    "display_name": "MOSS-Image للتحكم باللون/العمق",
+    "inputs": {
+      "color_map": {
+        "name": "خريطة الألوان",
+        "tooltip": "لون مسطح واحد لكل منطقة، بحجم الإخراج. الألوان مجرد معرّفات للمناطق."
+      },
+      "depth_map": {
+        "name": "خريطة العمق",
+        "tooltip": "خريطة عمق بحجم الإخراج؛ القريب أبيض."
+      },
+      "end_percent": {
+        "name": "النسبة المئوية للنهاية",
+        "tooltip": "النسبة المئوية لأخذ العينات التي ينتهي عندها التحكم. يَحفظ الإنهاء المبكر التخطيط والعمق، بينما تُرخي بقية الخطوات الأشكال."
+      },
+      "negative": {
+        "name": "سلبي"
+      },
+      "positive": {
+        "name": "إيجابي"
+      },
+      "start_percent": {
+        "name": "نسبة البدء المئوية",
+        "tooltip": "النسبة المئوية لأخذ العينات التي يبدأ عندها التحكم."
+      },
+      "strength": {
+        "name": "القوة",
+        "tooltip": "يُقاس إسهام الخرائط في رموز الصورة. القيمة 0.0 تماثل عدم وجود خرائط، والقيمة 1.0 هي القوة التي دُرّب عليها النموذج."
+      },
+      "vae": {
+        "name": "vae"
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "إيجابي",
+        "tooltip": null
+      },
+      "1": {
+        "name": "سلبي",
+        "tooltip": null
+      }
+    }
+  },
+  "MOSSImageLayoutPrompt": {
+    "description": "ينشئ موجّه تخطيط MOSS-Image من الموجّه والمربعات الواردة من Create Bounding Boxes.",
+    "display_name": "موجّه تخطيط MOSS-Image",
+    "inputs": {
+      "character_boxes": {
+        "name": "مربعات الشخصيات",
+        "tooltip": "أرقام مربعات الكائنات التي تُصنَّف كشخصيات بدلًا من كائنات، كما هي محددة في معاينة Create Bounding Boxes، مثل: \"1, 3\"."
+      },
+      "element": {
+        "name": "العنصر",
+        "tooltip": "عناصر الموجّه من عقدة Create Bounding Boxes. الوصف هو تسمية المربع، وتعرض مربعات النصوص نصها أيضًا."
+      },
+      "height": {
+        "name": "الارتفاع",
+        "tooltip": "ارتفاع الصورة المُولّدة؛ تُوضَع المربعات ضمن بكسلاتها."
+      },
+      "prompt": {
+        "name": "الموجّه",
+        "tooltip": "وصف الصورة بأكملها."
+      },
+      "width": {
+        "name": "العرض",
+        "tooltip": "عرض الصورة المُولّدة؛ تُوضَع المربعات ضمن بكسلاتها."
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "الموجّه",
+        "tooltip": null
+      }
+    }
+  },
   "MagnificImageRelightNode": {
     "description": "إعادة إضاءة صورة مع تعديلات الإضاءة وخيار نقل الإضاءة من مرجع.",
     "display_name": "إعادة إضاءة الصورة Magnific",
@@ -14761,6 +15158,71 @@
     "outputs": {
       "0": {
         "tooltip": null
+      }
+    }
+  },
+  "MireloTextToSFX": {
+    "description": "أنشئ مؤثرات صوتية من وصف نصي باستخدام Mirelo SFX.",
+    "display_name": "Mirelo من النص إلى SFX",
+    "inputs": {
+      "control_after_generate": {
+        "name": "التحكم بعد التوليد"
+      },
+      "model": {
+        "name": "النموذج",
+        "tooltip": "النموذج المراد استخدامه."
+      },
+      "model_duration": {
+        "name": "المدة"
+      },
+      "model_negative_prompt": {
+        "name": "التوجيه السلبي"
+      },
+      "model_prompt": {
+        "name": "التوجيه"
+      },
+      "model_seed": {
+        "name": "البذرة"
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "MireloVideoToSFX": {
+    "description": "أنشئ مؤثرات صوتية متزامنة مع فيديو باستخدام Mirelo SFX.",
+    "display_name": "Mirelo من الفيديو إلى SFX",
+    "inputs": {
+      "control_after_generate": {
+        "name": "التحكم بعد التوليد"
+      },
+      "model": {
+        "name": "النموذج",
+        "tooltip": "النموذج المراد استخدامه."
+      },
+      "model_negative_prompt": {
+        "name": "التوجيه السلبي"
+      },
+      "model_preserve_speech": {
+        "name": "الحفاظ على الكلام"
+      },
+      "model_prompt": {
+        "name": "التوجيه"
+      },
+      "model_seed": {
+        "name": "البذرة"
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "الصوت",
+        "tooltip": null
+      },
+      "1": {
+        "name": "الكلام",
+        "tooltip": "الحوار المفصول عن المسار الصوتي؛ يكون صامتًا عند عدم العثور على كلام."
       }
     }
   },
@@ -17355,6 +17817,20 @@
       }
     }
   },
+  "NativeLoraTestOutput": {
+    "display_name": "NativeLoraTestOutput",
+    "inputs": {
+      "clip": {
+        "name": "clip"
+      },
+      "model": {
+        "name": "النموذج"
+      }
+    }
+  },
+  "NativeLoraTestSource": {
+    "display_name": "NativeLoraTestSource"
+  },
   "NormalizeImages": {
     "description": "تطبيع الصور باستخدام المتوسط والانحراف المعياري.",
     "display_name": "تطبيع الصور",
@@ -17676,6 +18152,47 @@
     },
     "outputs": {
       "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "PadImageNode": {
+    "description": "يحشو صورة بلون موحد أو بنسخة معكوسة من حوافها.",
+    "display_name": "حشو الصورة",
+    "inputs": {
+      "image": {
+        "name": "الصورة"
+      },
+      "padding_style": {
+        "name": "نمط الحشو",
+        "tooltip": "ما يُملأ به الجزء المحشو."
+      },
+      "padding_style_color": {
+        "name": "اللون"
+      },
+      "padding_style_feathering": {
+        "name": "تنعيم الحواف"
+      },
+      "padding_type": {
+        "name": "نوع الحشو",
+        "tooltip": "حدد مقدار الحشو المراد إضافته: كميات دقيقة لكل جانب، أو مضاعف للحجم، أو حتى المضاعف التالي."
+      },
+      "padding_type_bottom": {
+        "name": "الأسفل"
+      },
+      "padding_type_left": {
+        "name": "اليسار"
+      },
+      "padding_type_right": {
+        "name": "اليمين"
+      },
+      "padding_type_top": {
+        "name": "الأعلى"
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "الصورة",
         "tooltip": null
       }
     }
@@ -18938,7 +19455,7 @@
       },
       "reasoning_effort": {
         "name": "reasoning_effort",
-        "tooltip": "مقدار الاستدلال الذي ينفقه النموذج قبل الرسم. تحسّن المستويات الأعلى التفاصيل وتستهلك رموزًا أكثر. يُستخدم فقط بواسطة نماذج Arrow 2."
+        "tooltip": "مقدار الاستدلال الذي يجريه النموذج قبل الرسم. تحسّن المستويات الأعلى التفاصيل وتستهلك رموزًا أكثر."
       },
       "seed": {
         "name": "seed",
@@ -19026,7 +19543,7 @@
       },
       "reasoning_effort": {
         "name": "reasoning_effort",
-        "tooltip": "مقدار الاستدلال الذي ينفقه النموذج قبل الرسم. تحسّن المستويات الأعلى التفاصيل وتستهلك رموزًا أكثر. يُستخدم فقط بواسطة نماذج Arrow 2."
+        "tooltip": "مقدار الاستدلال الذي يجريه النموذج قبل الرسم. تحسّن المستويات الأعلى التفاصيل وتستهلك رموزًا أكثر."
       },
       "reference_images": {
         "name": "reference_images",
@@ -19885,6 +20402,42 @@
       }
     }
   },
+  "ReferenceMultiLatent": {
+    "description": "يُرمّز الصور المرجعية ويُلحق كامناتها بالتكييف الإيجابي والتكييف السلبي الاختياري لنماذج التحرير.",
+    "display_name": "تعيين متعدد الكامنات المرجعية",
+    "inputs": {
+      "images": {
+        "name": "الصور"
+      },
+      "negative": {
+        "name": "سلبي"
+      },
+      "positive": {
+        "name": "إيجابي"
+      },
+      "resolution": {
+        "name": "الدقة"
+      },
+      "vae": {
+        "name": "vae",
+        "tooltip": "يتم تجاهل الصور المرجعية عند عدم توصيل VAE."
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "إيجابي",
+        "tooltip": null
+      },
+      "1": {
+        "name": "سلبي",
+        "tooltip": "يعيد المخرج الإيجابي عند عدم توصيل التكييف السلبي."
+      },
+      "2": {
+        "name": "empty_latent",
+        "tooltip": "أول كامن مرجعي مضروبًا في 0.0، أو كامن فارغ مربع بالدقة المحددة."
+      }
+    }
+  },
   "ReferenceTimbreAudio": {
     "description": "تحدد هذه العقدة الصوت المرجعي للـ timbre (لـ ace step 1.5)",
     "display_name": "ReferenceTimbreAudio",
@@ -19999,7 +20552,7 @@
     "inputs": {
       "band": {
         "name": "النطاق",
-        "tooltip": "عرض النطاق الضيق بوحدات voxel. في وضع UDF، يُزيح السطح أيضًا."
+        "tooltip": "عرض النطاق الضيق بوحدات الفوكسل. في وضع udf يزيح السطح أيضًا؛ وفي وضع solid يكون نصف قطر الإغلاق: تُدوَّر الحواف الحادة وتُجسَر الفجوات بهذا الحجم، ويقع السطح إلى الخارج بمقدار نصف فوكسل."
       },
       "drop_small_components": {
         "name": "drop_small_components",
@@ -20026,7 +20579,7 @@
       },
       "sign_mode": {
         "name": "sign_mode",
-        "tooltip": "udf: متين مع المدخلات الفوضوية/غير متعددة الشعب. sdf: سطح واحد نظيف مع استعادة المزايا الحادة باستخدام QEF ‏(Quadratic Error Function)، لكنه يتطلب التفافًا متسقًا."
+        "tooltip": "udf: متين تجاه المدخلات الفوضوية/غير المتشعبة. sdf: سطح واحد نظيف مع استعادة الميزات الحادة عبر QEF ‏(دالة الخطأ التربيعي)، لكنه يحتاج إلى اتجاه لفّ متسق. solid: جسم واحد محكم الإغلاق من مدخلات فوضوية: قطع بياني شامل للداخل/الخارج (CelloCut) يزيل القشور المزدوجة ويسد الثقوب الصغيرة. أبطأ."
       },
       "sign_mode_drop_enclosed_components": {
         "name": "drop_enclosed_components"
@@ -24381,6 +24934,54 @@
       }
     }
   },
+  "TextEncodeFibo2": {
+    "description": "يرمّز موجه Fibo 2.0، أو وصفًا منظمًا بتنسيق JSON، أو نصًا عاديًا. مع الصور، يكون الموجه هو تعليمات التحرير، أو وصف JSON للنتيجة يتضمن مفتاح edit_instruction، وتصبح الصور كامنات مرجعية لكلا المخرجين عند توصيل vae. خذ عينة من مخرج الكامن؛ فهو بحجم النتيجة التي تُقتص الصور لتلائمها.",
+    "display_name": "TextEncodeFibo2",
+    "inputs": {
+      "batch_size": {
+        "name": "batch_size"
+      },
+      "clip": {
+        "name": "clip"
+      },
+      "height": {
+        "name": "الارتفاع",
+        "tooltip": "ارتفاع النتيجة. 0 = الحجم الذي دُرّب عليه Fibo 2.0 لنسبة أبعاد الصورة الأولى، نحو 1 ميغابكسل، أو 1024 من دون صور."
+      },
+      "images": {
+        "name": "الصور",
+        "tooltip": "الصور المراد تحريرها، ويُشار إليها باسم <image_1> و<image_2> وهكذا في التعليمات. تُغيَّر أبعاد الصورة الواحدة وتُقتص من الوسط لتلائم حجم النتيجة، لأن التحرير يتطابق معها بكسلًا ببكسل؛ أما الصور المتعددة فتُضبط كل منها على حجمها المدرب عليه."
+      },
+      "negative_prompt": {
+        "name": "negative_prompt",
+        "tooltip": "الفارغ هو الوصف الصفري الذي دُرّب عليه Fibo 2.0 للتوجيه الخالي من المصنّف."
+      },
+      "prompt": {
+        "name": "الموجه"
+      },
+      "vae": {
+        "name": "vae"
+      },
+      "width": {
+        "name": "العرض",
+        "tooltip": "عرض النتيجة. 0 = الحجم الذي دُرّب عليه Fibo 2.0 لنسبة أبعاد الصورة الأولى، نحو 1 ميغابكسل، أو 1024 من دون صور."
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "إيجابي",
+        "tooltip": null
+      },
+      "1": {
+        "name": "سلبي",
+        "tooltip": null
+      },
+      "2": {
+        "name": "كامن",
+        "tooltip": null
+      }
+    }
+  },
   "TextEncodeHunyuanVideo_ImageToVideo": {
     "display_name": "ترميز النص لفيديو Hunyuan - من صورة إلى فيديو",
     "inputs": {
@@ -27332,6 +27933,119 @@
       "0": {
         "name": "voxel_colors",
         "tooltip": null
+      }
+    }
+  },
+  "VeedCleanAudioNode": {
+    "description": "أزل ضوضاء الخلفية من الكلام باستخدام VEED. مصمم للكلام بأي لغة: تُزال الموسيقى والمؤثرات الصوتية أيضًا. يعيد صوتًا أحادي القناة بتردد 48 kHz.",
+    "display_name": "تنقية الصوت من VEED",
+    "inputs": {
+      "audio": {
+        "name": "الصوت",
+        "tooltip": "تسجيل كلام، مدته أقل من 30 دقيقة."
+      },
+      "loudness": {
+        "name": "علو الصوت"
+      },
+      "loudness_target_lufs": {
+        "name": "target_lufs"
+      },
+      "strength": {
+        "name": "القوة",
+        "tooltip": "مقدار الضوضاء المُزالة أسفل الكلام. تحافظ القيم الأقل على قدر أكبر من صوت الغرفة خلف الصوت؛ وتُنقّى الفواصل بين الكلمات بالكامل دائمًا، والقيم الأعلى من الافتراضي لا تغيّر كثيرًا."
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "VeedCleanVideoAudioNode": {
+    "description": "أزل الضوضاء الخلفية من الكلام في فيديو باستخدام VEED. لا يتغير سوى المسار الصوتي: يُستبدل بكلام أحادي القناة بتردد 48 kHz بعد تنظيفه.",
+    "display_name": "VEED تنظيف الصوت (في الفيديو)",
+    "inputs": {
+      "loudness": {
+        "name": "علو الصوت"
+      },
+      "loudness_target_lufs": {
+        "name": "target_lufs"
+      },
+      "strength": {
+        "name": "القوة",
+        "tooltip": "مقدار الضوضاء التي تُزال أثناء الكلام. تحافظ القيم المنخفضة على قدر أكبر من صوت الغرفة خلف الصوت؛ أما الفواصل بين الكلمات فتُنظَّف بالكامل دائمًا، والقيم الأعلى من الافتراضية لا تغيّر كثيرًا."
+      },
+      "video": {
+        "name": "فيديو",
+        "tooltip": "فيديو يحتوي على مسار صوتي للكلام، ومدته أقل من 30 دقيقة."
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "VeedFabricNode": {
+    "description": "حوّل صورة ثابتة ومسار كلام إلى فيديو ناطق ومتزامن حركة الشفاه باستخدام VEED Fabric. يعمل مع الصور الفوتوغرافية والرسوم التوضيحية والتمائم؛ وتكون مدة الفيديو مساوية لمدة الصوت.",
+    "display_name": "VEED Fabric 1.0",
+    "inputs": {
+      "model": {
+        "name": "النموذج"
+      },
+      "model_resolution": {
+        "name": "الدقة"
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "VeedLipsyncNode": {
+    "description": "أعد مزامنة فم متحدث في فيديو مع مسار كلام جديد باستخدام VEED Lipsync. متحدث واحد لكل فيديو؛ يحافظ الناتج على دقة الفيديو بمعدل 25 إطارًا في الثانية، وتكون مدته مساوية لمدة الصوت.",
+    "display_name": "VEED مزامنة الشفاه 2.0",
+    "inputs": {
+      "control_after_generate": {
+        "name": "التحكم بعد التوليد"
+      },
+      "model": {
+        "name": "النموذج"
+      },
+      "model_seed": {
+        "name": "البذرة"
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "VeedRemoveVideoBackgroundNode": {
+    "description": "اعزل العنصر من فيديو باستخدام VEED وأعد الإطارات مع قناع ألفا. استخدمها في التركيب، أو ادمجها مع Join Image with Alpha وSave WEBM لإنشاء فيديو شفاف.",
+    "display_name": "VEED إزالة خلفية الفيديو",
+    "inputs": {
+      "model": {
+        "name": "النموذج",
+        "tooltip": "standard: أي خلفية، أفضل الحواف، وإخراج يصل إلى 3840x2160. fast: أسرع، وإخراج يصل إلى 1920x1080. green screen: يعزل خلفية خضراء، وإخراج يصل إلى 3840x2160. تُصغَّر مقاطع الفيديو الأكبر حجمًا."
+      },
+      "model_refine_foreground_edges": {
+        "name": "refine_foreground_edges"
+      },
+      "model_subject_is_person": {
+        "name": "subject_is_person"
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "صور",
+        "tooltip": null
+      },
+      "1": {
+        "name": "قناع",
+        "tooltip": "1 حيث أُزيلت الخلفية. استخدم Join Image with Alpha وSave WEBM لإنشاء فيديو شفاف؛ أضف Invert Mask قبل Image Composite Masked."
       }
     }
   },

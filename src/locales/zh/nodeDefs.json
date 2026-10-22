@@ -850,7 +850,7 @@
       },
       "1": {
         "name": "structured_prompt",
-        "tooltip": "编辑后图像的结构化描述，用于后续通过 Bria FIBO Image Edit 进行编辑。"
+        "tooltip": "已编辑图像的结构化描述，用于通过 Bria FIBO 2.0 Image Edit 进行后续编辑。"
       }
     }
   },
@@ -876,7 +876,7 @@
       },
       "1": {
         "name": "structured_prompt",
-        "tooltip": "编辑后图像的结构化描述，用于后续通过 Bria FIBO Image Edit 进行编辑。"
+        "tooltip": "已编辑图像的结构化描述，用于通过 Bria FIBO 2.0 Image Edit 进行后续编辑。"
       }
     }
   },
@@ -1003,8 +1003,8 @@
     }
   },
   "BriaImageEditNode": {
-    "description": "使用 Bria 最新模型编辑图像",
-    "display_name": "Bria FIBO 图像编辑",
+    "description": "使用 Bria FIBO 2.0 编辑图像。",
+    "display_name": "Bria FIBO 2.0 图像编辑",
     "inputs": {
       "control_after_generate": {
         "name": "control after generate"
@@ -1052,6 +1052,49 @@
       "1": {
         "name": "structured_prompt",
         "tooltip": null
+      }
+    }
+  },
+  "BriaImageGenerate": {
+    "description": "使用 Bria FIBO 2.0 根据文本提示词、参考图像或结构化提示词生成图像。",
+    "display_name": "Bria FIBO 2.0 图像生成",
+    "inputs": {
+      "aspect_ratio": {
+        "name": "宽高比",
+        "tooltip": "16:10 及其后的宽高比需要 1MP，并且必须且只能提供 prompt 或 structured_prompt 其中之一。"
+      },
+      "control_after_generate": {
+        "name": "生成后控制"
+      },
+      "image": {
+        "name": "图像",
+        "tooltip": "用于参考的图像。结果是在所选宽高比下生成的新图像，而非对此图像的编辑。"
+      },
+      "moderation": {
+        "name": "审核",
+        "tooltip": "审核设置"
+      },
+      "prompt": {
+        "name": "提示词"
+      },
+      "resolution": {
+        "name": "分辨率"
+      },
+      "seed": {
+        "name": "种子"
+      },
+      "structured_prompt": {
+        "name": "结构化提示词",
+        "tooltip": "来自先前 Bria FIBO 结果的 JSON 结构化提示词。使用相同的种子可重现该图像；更改 JSON 或添加提示词可进一步优化它。"
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      },
+      "1": {
+        "name": "结构化提示词",
+        "tooltip": "生成图像的结构化描述，可使用此节点重现或优化该图像。"
       }
     }
   },
@@ -1107,7 +1150,7 @@
       },
       "1": {
         "name": "structured_prompt",
-        "tooltip": "编辑后图像的结构化描述，用于后续通过 Bria FIBO Image Edit 进行编辑。"
+        "tooltip": "已编辑图像的结构化描述，用于通过 Bria FIBO 2.0 Image Edit 进行后续编辑。"
       }
     }
   },
@@ -1236,7 +1279,7 @@
       },
       "1": {
         "name": "结构化提示词",
-        "tooltip": "已编辑图像的结构化描述，用于通过 Bria FIBO Image Edit 进行后续编辑。"
+        "tooltip": "已编辑图像的结构化描述，用于通过 Bria FIBO 2.0 Image Edit 进行后续编辑。"
       }
     }
   },
@@ -1262,7 +1305,7 @@
       },
       "1": {
         "name": "结构化提示词",
-        "tooltip": "已编辑图像的结构化描述，用于通过 Bria FIBO Image Edit 进行后续编辑。"
+        "tooltip": "已编辑图像的结构化描述，用于通过 Bria FIBO 2.0 Image Edit 进行后续编辑。"
       }
     }
   },
@@ -1284,7 +1327,7 @@
       },
       "1": {
         "name": "structured_prompt",
-        "tooltip": "编辑后图像的结构化描述，用于通过 Bria FIBO Image Edit 进行后续编辑。"
+        "tooltip": "已编辑图像的结构化描述，用于通过 Bria FIBO 2.0 Image Edit 进行后续编辑。"
       }
     }
   },
@@ -2413,7 +2456,7 @@
     }
   },
   "CLIPLoader": {
-    "description": "推荐配置：\nsd: clip-l\nstable cascade: clip-g\nsd3: t5 xxl / clip-g / clip-l\nstable audio: t5 base\nmochi: t5 xxl\ncogvideox: t5 xxl（填充至 226 个词元）\ncosmos: 旧版 t5 xxl\nlumina2: gemma 2 2B\nwan: umt5 xxl\nhidream: llama-3.1（推荐）或 t5\nomnigen2: qwen vl 2.5 3B\njoyimage: qwen3-vl 8B\nlens: gpt-oss-20b\npixeldit: gemma 2 2B elm\nminimax: MiniMax H3 Qwen3-VL 或 Music3 Qwen/RVQ",
+    "description": "推荐配置：\nsd: clip-l\nstable cascade: clip-g\nsd3: t5 xxl / clip-g / clip-l\nstable audio: t5 base\nmochi: t5 xxl\ncogvideox: t5 xxl（226 个词元填充）\ncosmos: old t5 xxl\nlumina2: gemma 2 2B\nwan: umt5 xxl\nhidream: llama-3.1（推荐）或 t5\nomnigen2: qwen vl 2.5 3B\njoyimage: qwen3-vl 8B\nlens: gpt-oss-20b\npixeldit: gemma 2 2B elm\nminimax: MiniMax H3 Qwen3-VL 或 Music3 Qwen/RVQ\nflux3: qwen3-vl 4B\nfibo2: qwen3-vl 4B",
     "display_name": "加载CLIP",
     "inputs": {
       "clip_name": {
@@ -2956,6 +2999,24 @@
       },
       "model_scale_factor": {
         "name": "缩放系数"
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "ClarityCrystalVideoUpscaleNode": {
+    "description": "使用 Clarity AI 的 Crystal Video Upscaler 放大视频。这是一款高保真放大器，能够忠实于源素材。输出限制为每帧 900 万像素（例如 4000x2250），较长的视频片段将以较低分辨率返回。超过 30 fps 的片段消耗为 2 倍，超过 60 fps 为 3 倍，依此类推。",
+    "display_name": "Clarity AI Crystal 视频放大",
+    "inputs": {
+      "model": {
+        "name": "模型",
+        "tooltip": "要使用的模型。"
+      },
+      "model_scale_factor": {
+        "name": "缩放倍率"
       }
     },
     "outputs": {
@@ -5893,8 +5954,8 @@
     }
   },
   "Flux3ImageNode": {
-    "description": "根据提示词使用 FLUX 3 生成图像，或编辑和组合最多 10 张参考图像。在提示词中将参考图像称为图像 1、图像 2，依此类推。",
-    "display_name": "Flux 3 图像",
+    "description": "使用 FLUX 3 Image 根据提示词生成图像，或编辑和组合最多 10 张参考图像。在提示词中将参考图像称为图像 1、图像 2，以此类推。",
+    "display_name": "FLUX 3 图像",
     "inputs": {
       "aspect_ratio": {
         "name": "aspect_ratio",
@@ -5988,6 +6049,118 @@
       }
     }
   },
+  "Flux3LayoutPrompt": {
+    "description": "将“创建边界框”中的框附加到 FLUX 3 Image 提示词中，作为其布局表。",
+    "display_name": "FLUX 3 图像布局提示词",
+    "inputs": {
+      "element": {
+        "name": "元素",
+        "tooltip": "来自“创建边界框”节点的提示词元素。不使用颜色调色板，请在描述中说明颜色。"
+      },
+      "prompt": {
+        "name": "提示词",
+        "tooltip": "提示词文本。将框 N 写为 <obj_N>，以将文字与其关联。"
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "提示词",
+        "tooltip": null
+      }
+    }
+  },
+  "Flux3MaxImageToVideoNode": {
+    "description": "使用 FLUX 3 Max 为 1 至 10 张图像制作动画。每张图像都会成为视频片段的一帧：一张图像作为开场帧，两张图像分别作为首帧和末帧，更多图像则会分布在片段中，或固定在你选择的时间点。",
+    "display_name": "FLUX 3 Max 图像转视频",
+    "inputs": {
+      "aspect_ratio": {
+        "name": "aspect_ratio",
+        "tooltip": "输出宽高比。对于文本提示词，“auto”为 16:9；否则将遵循第一张图像。"
+      },
+      "control_after_generate": {
+        "name": "生成后控制"
+      },
+      "duration": {
+        "name": "时长",
+        "tooltip": "视频片段长度，单位为秒。"
+      },
+      "generate_audio": {
+        "name": "generate_audio",
+        "tooltip": "生成同步音频。关闭时生成的视频不含音轨。"
+      },
+      "keyframes": {
+        "name": "关键帧",
+        "tooltip": "按播放顺序排列的 1 至 10 张图像。"
+      },
+      "placement": {
+        "name": "放置方式",
+        "tooltip": "“spread across the clip”会将第一张图像置于开头、最后一张置于结尾，其余图像均匀分布在两者之间；“at times”会将每张图像固定到你选择的秒数。"
+      },
+      "prompt": {
+        "name": "提示词",
+        "tooltip": "场景应如何运动和发出声音。"
+      },
+      "reasoning_level": {
+        "name": "reasoning_level",
+        "tooltip": "模型在生成前对提示词进行推理和扩展的程度。“high”耗时更长；价格相同。"
+      },
+      "resolution": {
+        "name": "分辨率",
+        "tooltip": "输出分辨率。"
+      },
+      "seed": {
+        "name": "种子",
+        "tooltip": "种子控制节点是否应重新运行；无论种子为何，结果均不具确定性。"
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "Flux3MaxTextToVideoNode": {
+    "description": "通过 FLUX 3 Max 根据文本提示词生成带有同步音频的视频。",
+    "display_name": "FLUX 3 Max 文本转视频",
+    "inputs": {
+      "aspect_ratio": {
+        "name": "aspect_ratio",
+        "tooltip": "输出宽高比。对于文本提示词，“auto”为 16:9；否则将遵循第一张图像。"
+      },
+      "control_after_generate": {
+        "name": "生成后控制"
+      },
+      "duration": {
+        "name": "时长",
+        "tooltip": "视频片段长度，单位为秒。"
+      },
+      "generate_audio": {
+        "name": "generate_audio",
+        "tooltip": "生成同步音频。关闭时生成的视频不含音轨。"
+      },
+      "prompt": {
+        "name": "提示词",
+        "tooltip": "用自然语言描述你想要的内容。请分别描述环境音、音乐和语音，以获得分层音频。"
+      },
+      "reasoning_level": {
+        "name": "reasoning_level",
+        "tooltip": "模型在生成前对提示词进行推理和扩展的程度。“high”耗时更长；价格相同。"
+      },
+      "resolution": {
+        "name": "分辨率",
+        "tooltip": "输出分辨率。"
+      },
+      "seed": {
+        "name": "种子",
+        "tooltip": "种子控制节点是否应重新运行；无论种子为何，结果均不具确定性。"
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
   "Flux3TextToVideoNode": {
     "description": "通过 FLUX 3 根据文本 prompt 生成带同步音频的视频。",
     "display_name": "Flux 3 文本转视频",
@@ -6067,7 +6240,7 @@
       },
       "video": {
         "name": "video",
-        "tooltip": "要续接的片段。"
+        "tooltip": "要继续生成的视频片段。面积超过 3840x2160 像素的视频片段将被缩小以适配。"
       }
     },
     "outputs": {
@@ -7223,6 +7396,30 @@
       }
     }
   },
+  "GetAudioLatentSize": {
+    "description": "返回音频潜空间的长度、音频通道数和批次大小。",
+    "display_name": "获取音频潜空间大小",
+    "inputs": {
+      "latent": {
+        "name": "latent",
+        "tooltip": "要检查的音频或音频/视频 latent。"
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "长度",
+        "tooltip": "音频 latent 的长度。"
+      },
+      "1": {
+        "name": "音频通道数",
+        "tooltip": "音频通道数。没有音频通道维度的 latent 具有一个通道。"
+      },
+      "2": {
+        "name": "批次大小",
+        "tooltip": "批次中的 latent 数量。"
+      }
+    }
+  },
   "GetICLoRAParameters": {
     "description": "从已加载 LoRA 模型的 safetensors 元数据中提取 IC-LoRA 参数，并将其输出用于 LTXVAddGuide（例如 reference_downscale_factor）。",
     "display_name": "获取 IC-LoRA 参数",
@@ -7275,6 +7472,34 @@
     "outputs": {
       "0": {
         "tooltip": null
+      }
+    }
+  },
+  "GetLatentSize": {
+    "description": "返回图像或视频 latent 的宽度、高度、帧数和批次大小。",
+    "display_name": "获取图像/视频 Latent 尺寸",
+    "inputs": {
+      "latent": {
+        "name": "latent",
+        "tooltip": "要检查的图像或视频 latent。"
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "宽度",
+        "tooltip": "latent 的宽度。"
+      },
+      "1": {
+        "name": "高度",
+        "tooltip": "latent 的高度。"
+      },
+      "2": {
+        "name": "帧数",
+        "tooltip": "latent 的帧数。图像 latent 具有一帧。"
+      },
+      "3": {
+        "name": "批次大小",
+        "tooltip": "批次中的 latent 数量。"
       }
     }
   },
@@ -8038,6 +8263,66 @@
       "video": {
         "name": "视频",
         "tooltip": "需要翻译语音的视频。"
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "HeyGenVoiceCloneNode": {
+    "description": "使用 HeyGen Voice 1.0 根据一位说话者的录音克隆声音。将 voice_id 连接到 HeyGen Voice 1.0 文本转语音，或连接到 HeyGen Avatar Video 和 HeyGen Talking Photo 中的 custom_voice_id。",
+    "display_name": "HeyGen Voice 1.0 即时克隆",
+    "inputs": {
+      "audio": {
+        "name": "音频",
+        "tooltip": "一位说话者的录音。请使用至少 10 秒的清晰语音；仅使用前 3 分钟。"
+      },
+      "control_after_generate": {
+        "name": "生成后控制"
+      },
+      "language": {
+        "name": "语言",
+        "tooltip": "录音中使用的语言。"
+      },
+      "remove_background_noise": {
+        "name": "去除背景噪声"
+      },
+      "seed": {
+        "name": "种子",
+        "tooltip": "更改种子以再次克隆录音；每次克隆得到的声音都会略有不同。"
+      },
+      "similarity": {
+        "name": "相似度",
+        "tooltip": "声音与录音保持一致的程度。"
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "voice_id",
+        "tooltip": null
+      }
+    }
+  },
+  "HeyGenVoiceTextToSpeechNode": {
+    "description": "使用通过 HeyGen Voice 1.0 即时克隆的声音朗读文本。",
+    "display_name": "HeyGen Voice 1.0 文本转语音",
+    "inputs": {
+      "model": {
+        "name": "模型"
+      },
+      "model_expressiveness_boost": {
+        "name": "表现力增强"
+      },
+      "model_language": {
+        "name": "语言"
+      },
+      "model_text": {
+        "name": "文本"
+      },
+      "model_voice_id": {
+        "name": "voice_id"
       }
     },
     "outputs": {
@@ -10612,6 +10897,41 @@
     "outputs": {
       "0": {
         "name": "风格参考",
+        "tooltip": null
+      }
+    }
+  },
+  "Krea3ImageNode": {
+    "description": "使用 Krea 3 编辑图像；未连接图像时，可根据文本生成新图像。",
+    "display_name": "Krea 3 图像",
+    "inputs": {
+      "control_after_generate": {
+        "name": "生成后控制"
+      },
+      "model": {
+        "name": "模型"
+      },
+      "model_aspect_ratio": {
+        "name": "宽高比"
+      },
+      "model_precise_edit": {
+        "name": "精确编辑"
+      },
+      "model_prompt": {
+        "name": "提示词"
+      },
+      "model_resolution": {
+        "name": "分辨率"
+      },
+      "model_seed": {
+        "name": "种子"
+      },
+      "model_thinking_mode": {
+        "name": "思考模式"
+      }
+    },
+    "outputs": {
+      "0": {
         "tooltip": null
       }
     }
@@ -13215,6 +13535,83 @@
       }
     }
   },
+  "MOSSImageControl": {
+    "description": "为通过 LoRA 加载器加载的 MOSS-Image 颜色/深度控制适配器添加颜色区域图和深度图。",
+    "display_name": "MOSS-Image 颜色/深度控制",
+    "inputs": {
+      "color_map": {
+        "name": "颜色图",
+        "tooltip": "输出尺寸下每个区域使用一种纯色。这些颜色仅用作区域 ID。"
+      },
+      "depth_map": {
+        "name": "深度图",
+        "tooltip": "输出尺寸下的深度图，近处为白色。"
+      },
+      "end_percent": {
+        "name": "结束百分比",
+        "tooltip": "控制结束时的采样百分比。提前结束可保留布局和深度，同时让其余步骤放松形状约束。"
+      },
+      "negative": {
+        "name": "负面"
+      },
+      "positive": {
+        "name": "正面"
+      },
+      "start_percent": {
+        "name": "起始百分比",
+        "tooltip": "控制开始生效时的采样百分比。"
+      },
+      "strength": {
+        "name": "强度",
+        "tooltip": "缩放映射对图像令牌的贡献。0.0 等同于不使用映射，1.0 为训练时的强度。"
+      },
+      "vae": {
+        "name": "vae"
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "正向",
+        "tooltip": null
+      },
+      "1": {
+        "name": "负向",
+        "tooltip": null
+      }
+    }
+  },
+  "MOSSImageLayoutPrompt": {
+    "description": "根据提示词和“创建边界框”中的框构建 MOSS-Image 布局提示词。",
+    "display_name": "MOSS-Image 布局提示词",
+    "inputs": {
+      "character_boxes": {
+        "name": "角色框",
+        "tooltip": "要标记为角色而非对象的对象框编号，如“创建边界框”预览中所标记，例如 \"1, 3\"。"
+      },
+      "element": {
+        "name": "元素",
+        "tooltip": "来自“创建边界框”节点的提示词元素。描述是框的说明文字，文本框还会渲染其中的文本。"
+      },
+      "height": {
+        "name": "高度",
+        "tooltip": "生成图像的高度；框将按其像素位置放置。"
+      },
+      "prompt": {
+        "name": "提示词",
+        "tooltip": "整张图像的描述。"
+      },
+      "width": {
+        "name": "宽度",
+        "tooltip": "生成图像的宽度；框将按其像素位置放置。"
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "提示词",
+        "tooltip": null
+      }
+    }
+  },
   "MagnificImageRelightNode": {
     "description": "通过光照调整和可选的参考光照迁移对图像进行重光照。",
     "display_name": "Magnific图像重光照",
@@ -14761,6 +15158,71 @@
     "outputs": {
       "0": {
         "tooltip": null
+      }
+    }
+  },
+  "MireloTextToSFX": {
+    "description": "使用 Mirelo SFX 根据文本描述生成音效。",
+    "display_name": "Mirelo 文本转 SFX",
+    "inputs": {
+      "control_after_generate": {
+        "name": "生成后控制"
+      },
+      "model": {
+        "name": "模型",
+        "tooltip": "要使用的模型。"
+      },
+      "model_duration": {
+        "name": "时长"
+      },
+      "model_negative_prompt": {
+        "name": "负面提示词"
+      },
+      "model_prompt": {
+        "name": "提示词"
+      },
+      "model_seed": {
+        "name": "种子"
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "MireloVideoToSFX": {
+    "description": "使用 Mirelo SFX 生成与视频同步的音效。",
+    "display_name": "Mirelo 视频转 SFX",
+    "inputs": {
+      "control_after_generate": {
+        "name": "生成后控制"
+      },
+      "model": {
+        "name": "模型",
+        "tooltip": "要使用的模型。"
+      },
+      "model_negative_prompt": {
+        "name": "负面提示词"
+      },
+      "model_preserve_speech": {
+        "name": "保留语音"
+      },
+      "model_prompt": {
+        "name": "提示词"
+      },
+      "model_seed": {
+        "name": "种子"
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "音频",
+        "tooltip": null
+      },
+      "1": {
+        "name": "语音",
+        "tooltip": "从原声音轨中分离出的对白；未检测到语音时为静音。"
       }
     }
   },
@@ -17355,6 +17817,20 @@
       }
     }
   },
+  "NativeLoraTestOutput": {
+    "display_name": "NativeLoraTestOutput",
+    "inputs": {
+      "clip": {
+        "name": "clip"
+      },
+      "model": {
+        "name": "模型"
+      }
+    }
+  },
+  "NativeLoraTestSource": {
+    "display_name": "NativeLoraTestSource"
+  },
   "NormalizeImages": {
     "description": "使用均值和标准差对图像进行归一化处理。",
     "display_name": "规格化图像",
@@ -17676,6 +18152,47 @@
     },
     "outputs": {
       "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "PadImageNode": {
+    "description": "使用纯色或其边缘的镜像副本填充图像。",
+    "display_name": "填充图像",
+    "inputs": {
+      "image": {
+        "name": "图像"
+      },
+      "padding_style": {
+        "name": "填充样式",
+        "tooltip": "用于填充区域的内容。"
+      },
+      "padding_style_color": {
+        "name": "颜色"
+      },
+      "padding_style_feathering": {
+        "name": "羽化"
+      },
+      "padding_type": {
+        "name": "填充类型",
+        "tooltip": "选择要添加的填充量：每边精确数值、尺寸倍数，或补齐至下一个倍数。"
+      },
+      "padding_type_bottom": {
+        "name": "底部"
+      },
+      "padding_type_left": {
+        "name": "左侧"
+      },
+      "padding_type_right": {
+        "name": "右侧"
+      },
+      "padding_type_top": {
+        "name": "顶部"
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "图像",
         "tooltip": null
       }
     }
@@ -18938,7 +19455,7 @@
       },
       "reasoning_effort": {
         "name": "推理强度",
-        "tooltip": "模型在绘制前投入的推理量。较高等级可提升细节，但会消耗更多词元。仅 Arrow 2 模型使用此项。"
+        "tooltip": "模型在绘制前投入的推理量。较高等级可改善细节，但会消耗更多词元。"
       },
       "seed": {
         "name": "seed",
@@ -19026,7 +19543,7 @@
       },
       "reasoning_effort": {
         "name": "推理强度",
-        "tooltip": "模型在绘制前投入的推理量。较高等级可提升细节，但会消耗更多词元。仅 Arrow 2 模型使用此项。"
+        "tooltip": "模型在绘制前进行推理的程度。级别越高，细节越丰富，但消耗的 token 也越多。"
       },
       "reference_images": {
         "name": "reference_images",
@@ -19885,6 +20402,42 @@
       }
     }
   },
+  "ReferenceMultiLatent": {
+    "description": "对参考图像进行编码，并将其 latent 追加到用于编辑模型的正向条件和可选的负向条件中。",
+    "display_name": "设置多参考 latent",
+    "inputs": {
+      "images": {
+        "name": "图像"
+      },
+      "negative": {
+        "name": "负向"
+      },
+      "positive": {
+        "name": "正向"
+      },
+      "resolution": {
+        "name": "分辨率"
+      },
+      "vae": {
+        "name": "vae",
+        "tooltip": "未连接 VAE 时将忽略参考图像。"
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "正向",
+        "tooltip": null
+      },
+      "1": {
+        "name": "负向",
+        "tooltip": "未连接负向条件时返回正向输出。"
+      },
+      "2": {
+        "name": "empty_latent",
+        "tooltip": "第一个参考 latent 乘以 0.0，或者为所选分辨率下的方形空 latent。"
+      }
+    }
+  },
   "ReferenceTimbreAudio": {
     "description": "此节点设置音色参考音频（用于 ace step 1.5）",
     "display_name": "ReferenceTimbreAudio",
@@ -19999,7 +20552,7 @@
     "inputs": {
       "band": {
         "name": "带宽",
-        "tooltip": "以体素为单位的窄带宽度。在 UDF 模式下也会偏移表面。"
+        "tooltip": "以体素为单位的窄带宽度。在 udf 模式下还会偏移表面；在 solid 模式下，它是闭合半径：会以此尺寸对折痕进行圆角处理并桥接间隙，表面向外偏移半个体素。"
       },
       "drop_small_components": {
         "name": "drop_small_components",
@@ -20026,7 +20579,7 @@
       },
       "sign_mode": {
         "name": "符号模式",
-        "tooltip": "udf：可稳健处理杂乱或非流形输入。sdf：使用 QEF（二次误差函数）恢复锐利特征的干净单一表面，但需要一致的绕向。"
+        "tooltip": "udf：对杂乱或非流形输入具有鲁棒性。sdf：通过 QEF（二次误差函数）恢复锐利特征，生成干净的单一表面，但需要一致的绕向。solid：从杂乱输入生成一个水密实体：全局内外图割（CelloCut）会移除双层外壳并闭合小孔。速度较慢。"
       },
       "sign_mode_drop_enclosed_components": {
         "name": "drop_enclosed_components"
@@ -24381,6 +24934,54 @@
       }
     }
   },
+  "TextEncodeFibo2": {
+    "description": "编码 Fibo 2.0 提示词、结构化 JSON 描述或纯文本。使用图像时，提示词是编辑指令，或者是包含 edit_instruction 键的结果图像 JSON 描述；连接 vae 后，图像会成为两个输出的参考 latent。对 latent 输出进行采样时，图像会裁剪至结果尺寸。",
+    "display_name": "TextEncodeFibo2",
+    "inputs": {
+      "batch_size": {
+        "name": "batch_size"
+      },
+      "clip": {
+        "name": "clip"
+      },
+      "height": {
+        "name": "高度",
+        "tooltip": "结果的高度。0 = Fibo 2.0 针对第一张图像宽高比训练时所用的尺寸，约 100 万像素；没有图像时为 1024。"
+      },
+      "images": {
+        "name": "图像",
+        "tooltip": "要编辑的图像，在指令中以 <image_1>、<image_2> 等名称引用。单张图像会缩放并居中裁剪至结果尺寸，因为编辑会与其逐像素对齐；多张图像则分别调整为各自训练时的尺寸。"
+      },
+      "negative_prompt": {
+        "name": "negative_prompt",
+        "tooltip": "留空时使用 Fibo 2.0 在训练无分类器引导时所用的空描述。"
+      },
+      "prompt": {
+        "name": "提示词"
+      },
+      "vae": {
+        "name": "vae"
+      },
+      "width": {
+        "name": "宽度",
+        "tooltip": "结果的宽度。0 = Fibo 2.0 针对第一张图像宽高比训练时所用的尺寸，约 100 万像素；没有图像时为 1024。"
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "正向",
+        "tooltip": null
+      },
+      "1": {
+        "name": "负向",
+        "tooltip": null
+      },
+      "2": {
+        "name": "latent",
+        "tooltip": null
+      }
+    }
+  },
   "TextEncodeHunyuanVideo_ImageToVideo": {
     "display_name": "文本编码（Hunyuan视频_图像到视频）",
     "inputs": {
@@ -27332,6 +27933,119 @@
       "0": {
         "name": "体素颜色",
         "tooltip": null
+      }
+    }
+  },
+  "VeedCleanAudioNode": {
+    "description": "使用 VEED 移除语音中的背景噪声。适用于任何语言的语音：音乐和音效也会一并移除。返回 48 kHz 单声道音频。",
+    "display_name": "VEED 音频降噪",
+    "inputs": {
+      "audio": {
+        "name": "音频",
+        "tooltip": "语音录音，时长短于 30 分钟。"
+      },
+      "loudness": {
+        "name": "响度"
+      },
+      "loudness_target_lufs": {
+        "name": "目标 LUFS"
+      },
+      "strength": {
+        "name": "强度",
+        "tooltip": "移除语音下方噪声的程度。较低的值会保留更多人声后的环境底噪；词语之间的停顿始终会被完全清理，高于默认值的数值变化不大。"
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "VeedCleanVideoAudioNode": {
+    "description": "使用 VEED 移除视频中语音的背景噪声。仅音轨会发生变化：将替换为清理后的 48 kHz 单声道语音。",
+    "display_name": "VEED 清理音频（视频中）",
+    "inputs": {
+      "loudness": {
+        "name": "响度"
+      },
+      "loudness_target_lufs": {
+        "name": "目标 LUFS"
+      },
+      "strength": {
+        "name": "强度",
+        "tooltip": "移除语音下方噪声的程度。较低值会在声音后保留更多环境底噪；单词之间的停顿始终会被完全清理，高于默认值的数值变化不大。"
+      },
+      "video": {
+        "name": "视频",
+        "tooltip": "带有语音音轨且时长短于 30 分钟的视频。"
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "VeedFabricNode": {
+    "description": "使用 VEED Fabric 将静态图像和语音音轨转换为会说话且口型同步的视频。适用于照片、插画和吉祥物；视频时长与音频相同。",
+    "display_name": "VEED Fabric 1.0",
+    "inputs": {
+      "model": {
+        "name": "模型"
+      },
+      "model_resolution": {
+        "name": "分辨率"
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "VeedLipsyncNode": {
+    "description": "使用 VEED Lipsync 将视频中说话者的嘴型重新同步至新的语音音轨。每个视频仅限一位说话者；输出保留视频的分辨率，帧率为 25 fps，时长与音频相同。",
+    "display_name": "VEED 口型同步 2.0",
+    "inputs": {
+      "control_after_generate": {
+        "name": "生成后控制"
+      },
+      "model": {
+        "name": "模型"
+      },
+      "model_seed": {
+        "name": "种子"
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "VeedRemoveVideoBackgroundNode": {
+    "description": "使用 VEED 从视频中抠出主体，并返回帧图像和 alpha 蒙版。可用于合成，或与 Join Image with Alpha 和 Save WEBM 结合以写出透明视频。",
+    "display_name": "VEED 移除视频背景",
+    "inputs": {
+      "model": {
+        "name": "模型",
+        "tooltip": "标准：适用于任何背景，边缘效果最佳，输出最高可达 3840x2160。快速：速度更快，输出最高可达 1920x1080。绿幕：抠除绿色背景，输出最高可达 3840x2160。较大的视频会被缩小。"
+      },
+      "model_refine_foreground_edges": {
+        "name": "细化前景边缘"
+      },
+      "model_subject_is_person": {
+        "name": "主体是人物"
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "图像",
+        "tooltip": null
+      },
+      "1": {
+        "name": "蒙版",
+        "tooltip": "背景被移除的位置为 1。使用 Join Image with Alpha 和 Save WEBM 创建透明视频；在 Image Composite Masked 之前添加 Invert Mask。"
       }
     }
   },

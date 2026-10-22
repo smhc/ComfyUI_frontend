@@ -850,7 +850,7 @@
       },
       "1": {
         "name": "structured_prompt",
-        "tooltip": "Bria FIBO Image Edit를 사용한 후속 편집용으로, 편집된 이미지의 구조화된 설명입니다."
+        "tooltip": "편집된 이미지에 대한 구조화된 설명으로, Bria FIBO 2.0 Image Edit를 사용한 후속 편집에 사용됩니다."
       }
     }
   },
@@ -876,7 +876,7 @@
       },
       "1": {
         "name": "structured_prompt",
-        "tooltip": "Bria FIBO Image Edit를 사용한 후속 편집용으로, 편집된 이미지의 구조화된 설명입니다."
+        "tooltip": "편집된 이미지에 대한 구조화된 설명으로, Bria FIBO 2.0 Image Edit를 사용한 후속 편집에 사용됩니다."
       }
     }
   },
@@ -1003,8 +1003,8 @@
     }
   },
   "BriaImageEditNode": {
-    "description": "Bria 최신 모델을 사용하여 이미지를 편집합니다",
-    "display_name": "Bria 이미지 편집",
+    "description": "Bria FIBO 2.0을 사용하여 이미지를 편집합니다.",
+    "display_name": "Bria FIBO 2.0 Image Edit",
     "inputs": {
       "control_after_generate": {
         "name": "생성 후 제어"
@@ -1052,6 +1052,49 @@
       "1": {
         "name": "구조화된 프롬프트",
         "tooltip": null
+      }
+    }
+  },
+  "BriaImageGenerate": {
+    "description": "Bria FIBO 2.0을 사용하여 텍스트 프롬프트, 참조 이미지 또는 구조화된 프롬프트에서 이미지를 생성합니다.",
+    "display_name": "Bria FIBO 2.0 Image Generate",
+    "inputs": {
+      "aspect_ratio": {
+        "name": "aspect_ratio",
+        "tooltip": "16:10 및 그 이후의 비율에는 1MP와 prompt 또는 structured_prompt 중 정확히 하나가 필요합니다."
+      },
+      "control_after_generate": {
+        "name": "생성 후 제어"
+      },
+      "image": {
+        "name": "이미지",
+        "tooltip": "참조할 이미지입니다. 결과는 선택한 종횡비의 새 이미지이며, 이 이미지를 편집한 것이 아닙니다."
+      },
+      "moderation": {
+        "name": "모더레이션",
+        "tooltip": "모더레이션 설정"
+      },
+      "prompt": {
+        "name": "프롬프트"
+      },
+      "resolution": {
+        "name": "해상도"
+      },
+      "seed": {
+        "name": "시드"
+      },
+      "structured_prompt": {
+        "name": "structured_prompt",
+        "tooltip": "이전 Bria FIBO 결과의 JSON 구조화된 프롬프트입니다. 동일한 시드를 사용하면 해당 이미지를 재현하며, JSON을 변경하거나 프롬프트를 추가하여 다듬을 수 있습니다."
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      },
+      "1": {
+        "name": "structured_prompt",
+        "tooltip": "생성된 이미지의 구조화된 설명으로, 이 노드에서 재현하거나 다듬는 데 사용됩니다."
       }
     }
   },
@@ -1107,7 +1150,7 @@
       },
       "1": {
         "name": "structured_prompt",
-        "tooltip": "Bria FIBO Image Edit를 사용한 후속 편집용으로, 편집된 이미지의 구조화된 설명입니다."
+        "tooltip": "편집된 이미지에 대한 구조화된 설명으로, Bria FIBO 2.0 Image Edit를 사용한 후속 편집에 사용됩니다."
       }
     }
   },
@@ -1236,7 +1279,7 @@
       },
       "1": {
         "name": "structured_prompt",
-        "tooltip": "Bria FIBO Image Edit를 사용한 후속 편집을 위한 편집된 이미지의 구조화된 설명입니다."
+        "tooltip": "편집된 이미지에 대한 구조화된 설명으로, Bria FIBO 2.0 Image Edit를 사용한 후속 편집에 사용됩니다."
       }
     }
   },
@@ -1262,7 +1305,7 @@
       },
       "1": {
         "name": "structured_prompt",
-        "tooltip": "Bria FIBO Image Edit를 사용한 후속 편집을 위한 편집된 이미지의 구조화된 설명입니다."
+        "tooltip": "편집된 이미지에 대한 구조화된 설명으로, Bria FIBO 2.0 Image Edit를 사용한 후속 편집에 사용됩니다."
       }
     }
   },
@@ -1284,7 +1327,7 @@
       },
       "1": {
         "name": "structured_prompt",
-        "tooltip": "Bria FIBO Image Edit로 후속 편집할 수 있도록 편집된 이미지의 구조화된 설명입니다."
+        "tooltip": "편집된 이미지에 대한 구조화된 설명으로, Bria FIBO 2.0 Image Edit를 사용한 후속 편집에 사용됩니다."
       }
     }
   },
@@ -2413,7 +2456,7 @@
     }
   },
   "CLIPLoader": {
-    "description": "권장 설정:\nsd: clip-l\nstable cascade: clip-g\nsd3: t5 xxl / clip-g / clip-l\nstable audio: t5 base\nmochi: t5 xxl\ncogvideox: t5 xxl (226토큰 패딩)\ncosmos: 이전 t5 xxl\nlumina2: gemma 2 2B\nwan: umt5 xxl\nhidream: llama-3.1 (권장) 또는 t5\nomnigen2: qwen vl 2.5 3B\njoyimage: qwen3-vl 8B\nlens: gpt-oss-20b\npixeldit: gemma 2 2B elm\nminimax: MiniMax H3 Qwen3-VL 또는 Music3 Qwen/RVQ",
+    "description": "레시피:\nsd: clip-l\nstable cascade: clip-g\nsd3: t5 xxl / clip-g / clip-l\nstable audio: t5 base\nmochi: t5 xxl\ncogvideox: t5 xxl (226토큰 패딩)\ncosmos: old t5 xxl\nlumina2: gemma 2 2B\nwan: umt5 xxl\nhidream: llama-3.1 (권장) 또는 t5\nomnigen2: qwen vl 2.5 3B\njoyimage: qwen3-vl 8B\nlens: gpt-oss-20b\npixeldit: gemma 2 2B elm\nminimax: MiniMax H3 Qwen3-VL 또는 Music3 Qwen/RVQ\nflux3: qwen3-vl 4B\nfibo2: qwen3-vl 4B",
     "display_name": "CLIP 로드",
     "inputs": {
       "clip_name": {
@@ -2953,6 +2996,24 @@
       },
       "model_creativity": {
         "name": "creativity"
+      },
+      "model_scale_factor": {
+        "name": "scale_factor"
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "ClarityCrystalVideoUpscaleNode": {
+    "description": "소스에 충실한 고충실도 업스케일러인 Clarity AI의 Crystal Video Upscaler로 비디오를 업스케일합니다. 출력은 프레임당 9메가픽셀(예: 4000x2250)로 제한되며, 긴 클립은 더 낮은 해상도로 반환됩니다. 30fps를 초과하는 클립은 비용이 2배, 60fps를 초과하면 3배이며, 이후에도 같은 방식으로 증가합니다.",
+    "display_name": "Clarity AI Crystal Video 업스케일",
+    "inputs": {
+      "model": {
+        "name": "모델",
+        "tooltip": "사용할 모델입니다."
       },
       "model_scale_factor": {
         "name": "scale_factor"
@@ -5893,8 +5954,8 @@
     }
   },
   "Flux3ImageNode": {
-    "description": "프롬프트를 사용해 FLUX 3로 이미지를 생성하거나, 최대 10개의 참조 이미지를 편집하고 결합합니다. 프롬프트에서 참조 이미지는 이미지 1, 이미지 2 등의 방식으로 지칭하세요.",
-    "display_name": "Flux 3 이미지",
+    "description": "프롬프트로 FLUX 3 Image를 사용해 이미지를 생성하거나, 최대 10개의 참조 이미지를 편집하고 결합합니다. 프롬프트에서 참조 이미지는 이미지 1, 이미지 2 등으로 지정하세요.",
+    "display_name": "FLUX 3 Image",
     "inputs": {
       "aspect_ratio": {
         "name": "aspect_ratio",
@@ -5988,6 +6049,118 @@
       }
     }
   },
+  "Flux3LayoutPrompt": {
+    "description": "Create Bounding Boxes의 상자를 레이아웃 테이블로 FLUX 3 Image 프롬프트에 추가합니다.",
+    "display_name": "FLUX 3 Image 레이아웃 프롬프트",
+    "inputs": {
+      "element": {
+        "name": "요소",
+        "tooltip": "Create Bounding Boxes 노드의 프롬프트 요소입니다. 색상 팔레트는 사용되지 않으므로 설명에 색상을 적으세요."
+      },
+      "prompt": {
+        "name": "프롬프트",
+        "tooltip": "프롬프트 텍스트입니다. 단어를 상자와 연결하려면 상자 N을 <obj_N>으로 참조하세요."
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "프롬프트",
+        "tooltip": null
+      }
+    }
+  },
+  "Flux3MaxImageToVideoNode": {
+    "description": "FLUX 3 Max로 1~10개의 이미지에 애니메이션을 적용합니다. 각 이미지는 클립의 프레임이 됩니다. 이미지 하나는 클립을 시작하고, 두 개는 첫 번째 및 마지막 프레임이 되며, 더 많은 이미지는 클립 전체에 고르게 배치되거나 선택한 시간에 고정됩니다.",
+    "display_name": "FLUX 3 Max Image to Video",
+    "inputs": {
+      "aspect_ratio": {
+        "name": "aspect_ratio",
+        "tooltip": "출력 종횡비입니다. 'auto'는 텍스트 프롬프트의 경우 16:9이며, 그 외에는 첫 번째 이미지를 따릅니다."
+      },
+      "control_after_generate": {
+        "name": "생성 후 제어"
+      },
+      "duration": {
+        "name": "길이",
+        "tooltip": "클립 길이(초)입니다."
+      },
+      "generate_audio": {
+        "name": "generate_audio",
+        "tooltip": "동기화된 오디오를 생성합니다. 비활성화하면 오디오 트랙이 없는 비디오가 생성됩니다."
+      },
+      "keyframes": {
+        "name": "키프레임",
+        "tooltip": "재생 순서대로 된 이미지 1~10개입니다."
+      },
+      "placement": {
+        "name": "배치",
+        "tooltip": "'spread across the clip'은 첫 번째 이미지를 시작 부분에, 마지막 이미지를 끝부분에 배치하고 나머지는 그 사이에 고르게 배치합니다. 'at times'는 모든 이미지를 선택한 초에 고정합니다."
+      },
+      "prompt": {
+        "name": "프롬프트",
+        "tooltip": "장면이 어떻게 움직이고 소리 날지 지정합니다."
+      },
+      "reasoning_level": {
+        "name": "reasoning_level",
+        "tooltip": "생성 전에 모델이 프롬프트를 추론하고 확장하는 정도입니다. 'high'는 시간이 더 걸리지만 가격은 같습니다."
+      },
+      "resolution": {
+        "name": "해상도",
+        "tooltip": "출력 해상도입니다."
+      },
+      "seed": {
+        "name": "시드",
+        "tooltip": "시드는 노드를 다시 실행할지 여부를 제어합니다. 시드와 관계없이 결과는 비결정적입니다."
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "Flux3MaxTextToVideoNode": {
+    "description": "FLUX 3 Max를 통해 텍스트 프롬프트에서 동기화된 오디오가 포함된 비디오를 생성합니다.",
+    "display_name": "FLUX 3 Max 텍스트-비디오",
+    "inputs": {
+      "aspect_ratio": {
+        "name": "aspect_ratio",
+        "tooltip": "출력 종횡비입니다. 'auto'는 텍스트 프롬프트의 경우 16:9이며, 그 외에는 첫 번째 이미지를 따릅니다."
+      },
+      "control_after_generate": {
+        "name": "생성 후 제어"
+      },
+      "duration": {
+        "name": "길이",
+        "tooltip": "클립 길이(초)입니다."
+      },
+      "generate_audio": {
+        "name": "generate_audio",
+        "tooltip": "동기화된 오디오를 생성합니다. 비활성화하면 오디오 트랙이 없는 비디오가 생성됩니다."
+      },
+      "prompt": {
+        "name": "프롬프트",
+        "tooltip": "원하는 내용을 자연어로 작성합니다. 다층 오디오를 위해 주변 소리, 음악, 음성을 각각 따로 설명하세요."
+      },
+      "reasoning_level": {
+        "name": "reasoning_level",
+        "tooltip": "생성 전에 모델이 프롬프트를 추론하고 확장하는 정도입니다. 'high'는 시간이 더 걸리지만 가격은 같습니다."
+      },
+      "resolution": {
+        "name": "해상도",
+        "tooltip": "출력 해상도입니다."
+      },
+      "seed": {
+        "name": "시드",
+        "tooltip": "시드는 노드를 다시 실행할지 여부를 제어합니다. 시드와 관계없이 결과는 비결정적입니다."
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
   "Flux3TextToVideoNode": {
     "description": "FLUX 3를 통해 텍스트 프롬프트로부터 동기화된 오디오가 포함된 비디오를 생성합니다.",
     "display_name": "Flux 3 텍스트에서 비디오로",
@@ -6067,7 +6240,7 @@
       },
       "video": {
         "name": "video",
-        "tooltip": "이어갈 clip입니다."
+        "tooltip": "계속 이어갈 클립입니다. 면적이 3840x2160픽셀을 초과하는 클립은 맞도록 축소됩니다."
       }
     },
     "outputs": {
@@ -7223,6 +7396,30 @@
       }
     }
   },
+  "GetAudioLatentSize": {
+    "description": "오디오 latent의 길이, 오디오 채널 수 및 배치 크기를 반환합니다.",
+    "display_name": "오디오 Latent 크기 가져오기",
+    "inputs": {
+      "latent": {
+        "name": "latent",
+        "tooltip": "검사할 오디오 또는 오디오/비디오 latent입니다."
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "길이",
+        "tooltip": "오디오 latent 길이입니다."
+      },
+      "1": {
+        "name": "오디오_채널",
+        "tooltip": "오디오 채널 수입니다. 오디오 채널 차원이 없는 latent에는 채널이 하나 있습니다."
+      },
+      "2": {
+        "name": "배치_크기",
+        "tooltip": "배치의 latent 수입니다."
+      }
+    }
+  },
   "GetICLoRAParameters": {
     "description": "LoRA가 로드된 모델의 safetensors 메타데이터에서 IC-LoRA 파라미터를 추출하여 LTXVAddGuide(예: reference_downscale_factor)에 출력합니다.",
     "display_name": "IC-LoRA 파라미터 가져오기",
@@ -7275,6 +7472,34 @@
     "outputs": {
       "0": {
         "tooltip": null
+      }
+    }
+  },
+  "GetLatentSize": {
+    "description": "이미지 또는 비디오 latent의 너비, 높이, 프레임 수 및 배치 크기를 반환합니다.",
+    "display_name": "이미지/비디오 Latent 크기 가져오기",
+    "inputs": {
+      "latent": {
+        "name": "latent",
+        "tooltip": "검사할 이미지 또는 비디오 latent입니다."
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "너비",
+        "tooltip": "latent 너비입니다."
+      },
+      "1": {
+        "name": "높이",
+        "tooltip": "latent 높이입니다."
+      },
+      "2": {
+        "name": "프레임",
+        "tooltip": "latent 프레임 수입니다. 이미지 latent에는 프레임이 하나 있습니다."
+      },
+      "3": {
+        "name": "배치_크기",
+        "tooltip": "배치의 latent 수입니다."
       }
     }
   },
@@ -8038,6 +8263,66 @@
       "video": {
         "name": "비디오",
         "tooltip": "번역할 음성이 포함된 비디오입니다."
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "HeyGenVoiceCloneNode": {
+    "description": "HeyGen Voice 1.0을 사용하여 한 화자의 녹음에서 음성을 복제합니다. voice_id를 HeyGen Voice 1.0 Text to Speech 또는 HeyGen Avatar Video 및 HeyGen Talking Photo의 custom_voice_id에 연결하세요.",
+    "display_name": "HeyGen Voice 1.0 즉시 클론",
+    "inputs": {
+      "audio": {
+        "name": "오디오",
+        "tooltip": "한 화자의 녹음입니다. 선명한 음성을 최소 10초 이상 사용하세요. 처음 3분만 사용됩니다."
+      },
+      "control_after_generate": {
+        "name": "생성 후 제어"
+      },
+      "language": {
+        "name": "언어",
+        "tooltip": "녹음에서 사용된 언어입니다."
+      },
+      "remove_background_noise": {
+        "name": "배경_노이즈_제거"
+      },
+      "seed": {
+        "name": "시드",
+        "tooltip": "녹음을 다시 복제하려면 시드를 변경하세요. 각 복제본은 약간씩 다른 음성입니다."
+      },
+      "similarity": {
+        "name": "유사도",
+        "tooltip": "음성이 녹음을 얼마나 밀접하게 따를지 설정합니다."
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "voice_id",
+        "tooltip": null
+      }
+    }
+  },
+  "HeyGenVoiceTextToSpeechNode": {
+    "description": "HeyGen Voice 1.0 Instant Clone으로 복제한 음성으로 텍스트를 말합니다.",
+    "display_name": "HeyGen Voice 1.0 텍스트 음성 변환",
+    "inputs": {
+      "model": {
+        "name": "모델"
+      },
+      "model_expressiveness_boost": {
+        "name": "표현력_향상"
+      },
+      "model_language": {
+        "name": "언어"
+      },
+      "model_text": {
+        "name": "텍스트"
+      },
+      "model_voice_id": {
+        "name": "voice_id"
       }
     },
     "outputs": {
@@ -10612,6 +10897,41 @@
     "outputs": {
       "0": {
         "name": "스타일 참조",
+        "tooltip": null
+      }
+    }
+  },
+  "Krea3ImageNode": {
+    "description": "Krea 3로 이미지를 편집하거나, 이미지가 연결되지 않은 경우 텍스트로 새 이미지를 생성합니다.",
+    "display_name": "Krea 3 이미지",
+    "inputs": {
+      "control_after_generate": {
+        "name": "생성 후 제어"
+      },
+      "model": {
+        "name": "모델"
+      },
+      "model_aspect_ratio": {
+        "name": "종횡비"
+      },
+      "model_precise_edit": {
+        "name": "정밀 편집"
+      },
+      "model_prompt": {
+        "name": "프롬프트"
+      },
+      "model_resolution": {
+        "name": "해상도"
+      },
+      "model_seed": {
+        "name": "시드"
+      },
+      "model_thinking_mode": {
+        "name": "사고 모드"
+      }
+    },
+    "outputs": {
+      "0": {
         "tooltip": null
       }
     }
@@ -13215,6 +13535,83 @@
       }
     }
   },
+  "MOSSImageControl": {
+    "description": "LoRA 로더로 로드한 MOSS-Image 색상/깊이 제어 어댑터에 색상 영역 및 깊이 맵을 추가합니다.",
+    "display_name": "MOSS-Image 색상/깊이 제어",
+    "inputs": {
+      "color_map": {
+        "name": "색상_맵",
+        "tooltip": "출력 크기에서 영역마다 하나의 단색입니다. 색상은 영역 ID일 뿐입니다."
+      },
+      "depth_map": {
+        "name": "깊이_맵",
+        "tooltip": "출력 크기의 깊이 맵이며, 가까운 곳은 흰색입니다."
+      },
+      "end_percent": {
+        "name": "종료_퍼센트",
+        "tooltip": "제어가 종료되는 샘플링 비율입니다. 일찍 종료하면 레이아웃과 깊이는 유지하면서 나머지 단계에서 형태가 더 느슨해집니다."
+      },
+      "negative": {
+        "name": "네거티브"
+      },
+      "positive": {
+        "name": "포지티브"
+      },
+      "start_percent": {
+        "name": "시작 백분율",
+        "tooltip": "제어가 시작되는 샘플링 백분율입니다."
+      },
+      "strength": {
+        "name": "강도",
+        "tooltip": "맵이 이미지 토큰에 기여하는 정도를 조절합니다. 0.0은 맵이 없는 것과 같고, 1.0은 학습된 강도입니다."
+      },
+      "vae": {
+        "name": "vae"
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "포지티브",
+        "tooltip": null
+      },
+      "1": {
+        "name": "네거티브",
+        "tooltip": null
+      }
+    }
+  },
+  "MOSSImageLayoutPrompt": {
+    "description": "프롬프트와 Create Bounding Boxes의 상자로 MOSS-Image 레이아웃 프롬프트를 만듭니다.",
+    "display_name": "MOSS-Image 레이아웃 프롬프트",
+    "inputs": {
+      "character_boxes": {
+        "name": "캐릭터_상자",
+        "tooltip": "Create Bounding Boxes 미리보기에서 태그된 대로 객체 대신 캐릭터로 레이블을 지정할 객체 상자의 번호입니다. 예: \"1, 3\"."
+      },
+      "element": {
+        "name": "요소",
+        "tooltip": "Create Bounding Boxes 노드의 프롬프트 요소입니다. 설명은 상자의 캡션이며, 텍스트 상자는 해당 텍스트도 렌더링합니다."
+      },
+      "height": {
+        "name": "높이",
+        "tooltip": "생성된 이미지의 높이입니다. 상자는 해당 이미지의 픽셀 단위로 배치됩니다."
+      },
+      "prompt": {
+        "name": "프롬프트",
+        "tooltip": "이미지 전체에 대한 설명입니다."
+      },
+      "width": {
+        "name": "너비",
+        "tooltip": "생성된 이미지의 너비입니다. 상자는 해당 이미지의 픽셀 단위로 배치됩니다."
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "프롬프트",
+        "tooltip": null
+      }
+    }
+  },
   "MagnificImageRelightNode": {
     "description": "이미지의 조명을 조정하고, 선택적으로 참조 기반의 조명 전송을 적용합니다.",
     "display_name": "Magnific 이미지 리라이트",
@@ -14761,6 +15158,71 @@
     "outputs": {
       "0": {
         "tooltip": null
+      }
+    }
+  },
+  "MireloTextToSFX": {
+    "description": "Mirelo SFX를 사용하여 텍스트 설명으로 음향 효과를 생성합니다.",
+    "display_name": "Mirelo 텍스트-SFX",
+    "inputs": {
+      "control_after_generate": {
+        "name": "생성 후 제어"
+      },
+      "model": {
+        "name": "모델",
+        "tooltip": "사용할 모델입니다."
+      },
+      "model_duration": {
+        "name": "길이"
+      },
+      "model_negative_prompt": {
+        "name": "네거티브 프롬프트"
+      },
+      "model_prompt": {
+        "name": "프롬프트"
+      },
+      "model_seed": {
+        "name": "시드"
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "MireloVideoToSFX": {
+    "description": "Mirelo SFX를 사용하여 비디오에 동기화된 음향 효과를 생성합니다.",
+    "display_name": "Mirelo 비디오-SFX",
+    "inputs": {
+      "control_after_generate": {
+        "name": "생성 후 제어"
+      },
+      "model": {
+        "name": "모델",
+        "tooltip": "사용할 모델입니다."
+      },
+      "model_negative_prompt": {
+        "name": "네거티브 프롬프트"
+      },
+      "model_preserve_speech": {
+        "name": "음성 유지"
+      },
+      "model_prompt": {
+        "name": "프롬프트"
+      },
+      "model_seed": {
+        "name": "시드"
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "오디오",
+        "tooltip": null
+      },
+      "1": {
+        "name": "음성",
+        "tooltip": "사운드트랙에서 분리된 대화입니다. 음성이 감지되지 않으면 무음입니다."
       }
     }
   },
@@ -17355,6 +17817,20 @@
       }
     }
   },
+  "NativeLoraTestOutput": {
+    "display_name": "NativeLoraTestOutput",
+    "inputs": {
+      "clip": {
+        "name": "clip"
+      },
+      "model": {
+        "name": "모델"
+      }
+    }
+  },
+  "NativeLoraTestSource": {
+    "display_name": "NativeLoraTestSource"
+  },
   "NormalizeImages": {
     "description": "평균과 표준편차를 사용하여 이미지를 정규화합니다.",
     "display_name": "이미지 정규화",
@@ -17676,6 +18152,47 @@
     },
     "outputs": {
       "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "PadImageNode": {
+    "description": "단색 또는 가장자리를 미러링한 복사본으로 이미지에 패딩을 추가합니다.",
+    "display_name": "이미지 패딩",
+    "inputs": {
+      "image": {
+        "name": "이미지"
+      },
+      "padding_style": {
+        "name": "패딩_스타일",
+        "tooltip": "패딩 영역을 채울 항목입니다."
+      },
+      "padding_style_color": {
+        "name": "색상"
+      },
+      "padding_style_feathering": {
+        "name": "페더링"
+      },
+      "padding_type": {
+        "name": "패딩_유형",
+        "tooltip": "추가할 패딩의 방식을 선택합니다: 각 면의 정확한 양, 크기 배율 또는 다음 배수까지."
+      },
+      "padding_type_bottom": {
+        "name": "하단"
+      },
+      "padding_type_left": {
+        "name": "왼쪽"
+      },
+      "padding_type_right": {
+        "name": "오른쪽"
+      },
+      "padding_type_top": {
+        "name": "상단"
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "이미지",
         "tooltip": null
       }
     }
@@ -18938,7 +19455,7 @@
       },
       "reasoning_effort": {
         "name": "reasoning_effort",
-        "tooltip": "그리기 전에 모델이 수행하는 추론의 양입니다. 수준이 높을수록 세부 묘사가 개선되지만 더 많은 토큰이 소모됩니다. Arrow 2 모델에서만 사용됩니다."
+        "tooltip": "그리기 전에 모델이 사용하는 추론량입니다. 높은 수준일수록 세부 묘사가 향상되지만 더 많은 토큰이 소모됩니다."
       },
       "seed": {
         "name": "seed",
@@ -19026,7 +19543,7 @@
       },
       "reasoning_effort": {
         "name": "reasoning_effort",
-        "tooltip": "그리기 전에 모델이 수행하는 추론의 양입니다. 수준이 높을수록 세부 묘사가 개선되지만 더 많은 토큰이 소모됩니다. Arrow 2 모델에서만 사용됩니다."
+        "tooltip": "그리기 전에 모델이 사용하는 추론의 양입니다. 수준이 높을수록 세부 묘사가 향상되지만 더 많은 토큰이 소모됩니다."
       },
       "reference_images": {
         "name": "reference_images",
@@ -19885,6 +20402,42 @@
       }
     }
   },
+  "ReferenceMultiLatent": {
+    "description": "참조 이미지를 인코딩하고 해당 잠재 공간을 편집 모델용 긍정 조건화 및 선택적 부정 조건화에 추가합니다.",
+    "display_name": "참조 다중 잠재 공간 설정",
+    "inputs": {
+      "images": {
+        "name": "이미지"
+      },
+      "negative": {
+        "name": "부정"
+      },
+      "positive": {
+        "name": "긍정"
+      },
+      "resolution": {
+        "name": "해상도"
+      },
+      "vae": {
+        "name": "vae",
+        "tooltip": "VAE가 연결되지 않으면 참조 이미지가 무시됩니다."
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "긍정",
+        "tooltip": null
+      },
+      "1": {
+        "name": "부정",
+        "tooltip": "부정 조건화가 연결되지 않은 경우 긍정 출력을 반환합니다."
+      },
+      "2": {
+        "name": "empty_latent",
+        "tooltip": "첫 번째 참조 잠재 공간에 0.0을 곱한 값 또는 선택한 해상도의 정사각형 빈 잠재 공간입니다."
+      }
+    }
+  },
   "ReferenceTimbreAudio": {
     "description": "이 노드는 timbre(ace step 1.5용) 기준 오디오를 설정합니다.",
     "display_name": "ReferenceTimbreAudio",
@@ -19999,7 +20552,7 @@
     "inputs": {
       "band": {
         "name": "band",
-        "tooltip": "복셀 단위의 협대역 폭입니다. UDF 모드에서는 표면도 오프셋합니다."
+        "tooltip": "복셀 단위의 좁은 밴드 너비입니다. udf 모드에서는 표면도 오프셋하며, solid 모드에서는 닫기 반경입니다. 이 크기에서 주름은 필렛 처리되고 틈은 연결되며, 표면은 복셀 반 개만큼 바깥쪽에 위치합니다."
       },
       "drop_small_components": {
         "name": "drop_small_components",
@@ -20026,7 +20579,7 @@
       },
       "sign_mode": {
         "name": "sign_mode",
-        "tooltip": "udf: 복잡한/non-manifold 입력에 강합니다. sdf: QEF (Quadratic Error Function)를 사용한 날카로운 특징 복원이 가능한 깔끔한 단일 표면이지만, 일관된 winding이 필요합니다."
+        "tooltip": "udf: 복잡하거나 비매니폴드인 입력에 강건합니다. sdf: QEF(이차 오차 함수)를 사용한 날카로운 특징 복원으로 깔끔한 단일 표면을 만들지만, 일관된 와인딩이 필요합니다. solid: 복잡한 입력에서 하나의 수밀 솔리드를 만듭니다. 전역 내부/외부 그래프 컷(CelloCut)이 이중 셸을 제거하고 작은 구멍을 닫습니다. 더 느립니다."
       },
       "sign_mode_drop_enclosed_components": {
         "name": "drop_enclosed_components"
@@ -24381,6 +24934,54 @@
       }
     }
   },
+  "TextEncodeFibo2": {
+    "description": "Fibo 2.0 프롬프트, 구조화된 JSON 캡션 또는 일반 텍스트를 인코딩합니다. 이미지가 있으면 프롬프트는 편집 지시문이 되거나 edit_instruction 키가 있는 결과의 JSON 캡션이 되며, vae가 연결된 경우 이미지는 두 출력의 참조 잠재 공간이 됩니다. 잠재 공간 출력을 샘플링하면 이미지가 크롭된 결과 크기가 생성됩니다.",
+    "display_name": "TextEncodeFibo2",
+    "inputs": {
+      "batch_size": {
+        "name": "batch_size"
+      },
+      "clip": {
+        "name": "clip"
+      },
+      "height": {
+        "name": "높이",
+        "tooltip": "결과의 높이입니다. 0 = 첫 번째 이미지의 종횡비에 대해 Fibo 2.0이 학습한 크기이며, 약 100만 픽셀입니다. 이미지가 없으면 1024입니다."
+      },
+      "images": {
+        "name": "이미지",
+        "tooltip": "편집할 이미지입니다. 지시문에서는 <image_1>, <image_2> 등으로 참조됩니다. 단일 이미지는 편집이 픽셀 단위로 정렬되므로 결과 크기에 맞게 크기 조정 및 중앙 크롭되며, 여러 이미지는 각각 학습된 자체 크기에 맞게 처리됩니다."
+      },
+      "negative_prompt": {
+        "name": "negative_prompt",
+        "tooltip": "비어 있으면 classifier-free guidance를 위해 Fibo 2.0이 학습한 null 캡션이 사용됩니다."
+      },
+      "prompt": {
+        "name": "프롬프트"
+      },
+      "vae": {
+        "name": "vae"
+      },
+      "width": {
+        "name": "너비",
+        "tooltip": "결과의 너비입니다. 0 = 첫 번째 이미지의 종횡비에 대해 Fibo 2.0이 학습한 크기이며, 약 100만 픽셀입니다. 이미지가 없으면 1024입니다."
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "긍정",
+        "tooltip": null
+      },
+      "1": {
+        "name": "부정",
+        "tooltip": null
+      },
+      "2": {
+        "name": "잠재 공간",
+        "tooltip": null
+      }
+    }
+  },
   "TextEncodeHunyuanVideo_ImageToVideo": {
     "display_name": "HunyuanVideo 텍스트 인코딩 (이미지 → 비디오)",
     "inputs": {
@@ -27332,6 +27933,119 @@
       "0": {
         "name": "복셀 색상",
         "tooltip": null
+      }
+    }
+  },
+  "VeedCleanAudioNode": {
+    "description": "VEED로 음성에서 배경 소음을 제거합니다. 모든 언어의 음성에 맞게 설계되어 음악과 음향 효과도 제거됩니다. 48kHz 모노 오디오를 반환합니다.",
+    "display_name": "VEED 클린 오디오",
+    "inputs": {
+      "audio": {
+        "name": "오디오",
+        "tooltip": "30분 미만의 음성 녹음입니다."
+      },
+      "loudness": {
+        "name": "음량"
+      },
+      "loudness_target_lufs": {
+        "name": "목표 LUFS"
+      },
+      "strength": {
+        "name": "강도",
+        "tooltip": "음성 아래에서 제거되는 소음의 양입니다. 낮게 설정하면 음성 뒤의 실내 잔향이 더 유지됩니다. 단어 사이의 무음 구간은 항상 완전히 정리되며, 기본값보다 높은 값은 변화가 거의 없습니다."
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "VeedCleanVideoAudioNode": {
+    "description": "VEED로 비디오의 음성에서 배경 소음을 제거합니다. 사운드트랙만 변경되며, 정리된 48 kHz 모노 음성으로 대체됩니다.",
+    "display_name": "VEED 오디오 정리(비디오 내)",
+    "inputs": {
+      "loudness": {
+        "name": "라우드니스"
+      },
+      "loudness_target_lufs": {
+        "name": "목표 LUFS"
+      },
+      "strength": {
+        "name": "강도",
+        "tooltip": "음성 아래의 소음을 얼마나 제거할지 설정합니다. 낮은 값은 음성 뒤의 룸 톤을 더 유지합니다. 단어 사이의 무음 구간은 항상 완전히 정리되며, 기본값보다 높은 값은 변화가 거의 없습니다."
+      },
+      "video": {
+        "name": "비디오",
+        "tooltip": "음성 사운드트랙이 포함된 30분 미만의 비디오입니다."
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "VeedFabricNode": {
+    "description": "VEED Fabric으로 정지 이미지와 음성 트랙을 말하고 립싱크하는 비디오로 변환합니다. 사진, 일러스트레이션, 마스코트에서 작동하며 비디오 길이는 오디오와 같습니다.",
+    "display_name": "VEED Fabric 1.0",
+    "inputs": {
+      "model": {
+        "name": "모델"
+      },
+      "model_resolution": {
+        "name": "해상도"
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "VeedLipsyncNode": {
+    "description": "VEED Lipsync으로 비디오 속 화자의 입 모양을 새 음성 트랙에 맞춰 다시 동기화합니다. 비디오당 화자는 한 명이며, 출력은 비디오의 해상도를 25 fps로 유지하고 길이는 오디오와 같습니다.",
+    "display_name": "VEED Lipsync 2.0",
+    "inputs": {
+      "control_after_generate": {
+        "name": "생성 후 제어"
+      },
+      "model": {
+        "name": "모델"
+      },
+      "model_seed": {
+        "name": "시드"
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "VeedRemoveVideoBackgroundNode": {
+    "description": "VEED로 비디오에서 피사체를 분리하고 프레임과 알파 마스크를 반환합니다. 합성에 사용하거나 Join Image with Alpha 및 Save WEBM과 결합하여 투명 비디오를 만들 수 있습니다.",
+    "display_name": "VEED 비디오 배경 제거",
+    "inputs": {
+      "model": {
+        "name": "모델",
+        "tooltip": "standard: 모든 배경에 적합하며, 가장자리 품질이 가장 좋고 최대 3840x2160으로 출력합니다. fast: 더 빠르며 최대 1920x1080으로 출력합니다. green screen: 녹색 배경을 제거하며 최대 3840x2160으로 출력합니다. 더 큰 비디오는 축소됩니다."
+      },
+      "model_refine_foreground_edges": {
+        "name": "전경 가장자리 개선"
+      },
+      "model_subject_is_person": {
+        "name": "피사체가 사람임"
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "이미지",
+        "tooltip": null
+      },
+      "1": {
+        "name": "마스크",
+        "tooltip": "배경이 제거된 위치는 1입니다. 투명 비디오에는 Join Image with Alpha 및 Save WEBM을 사용하세요. Image Composite Masked 전에 Invert Mask를 추가하세요."
       }
     }
   },

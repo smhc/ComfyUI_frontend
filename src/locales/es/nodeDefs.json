@@ -850,7 +850,7 @@
       },
       "1": {
         "name": "structured_prompt",
-        "tooltip": "Descripción estructurada de la imagen editada para una edición posterior con Bria FIBO Image Edit."
+        "tooltip": "Descripción estructurada de la imagen editada, para una edición posterior con Bria FIBO 2.0 Image Edit."
       }
     }
   },
@@ -876,7 +876,7 @@
       },
       "1": {
         "name": "structured_prompt",
-        "tooltip": "Descripción estructurada de la imagen editada para una edición posterior con Bria FIBO Image Edit."
+        "tooltip": "Descripción estructurada de la imagen editada, para una edición posterior con Bria FIBO 2.0 Image Edit."
       }
     }
   },
@@ -1003,8 +1003,8 @@
     }
   },
   "BriaImageEditNode": {
-    "description": "Edita imágenes usando el modelo más reciente de Bria",
-    "display_name": "Bria: Edición de imagen FIBO",
+    "description": "Edita imágenes con Bria FIBO 2.0.",
+    "display_name": "Edición de imágenes Bria FIBO 2.0",
     "inputs": {
       "control_after_generate": {
         "name": "control después de generar"
@@ -1052,6 +1052,49 @@
       "1": {
         "name": "prompt_estructurado",
         "tooltip": null
+      }
+    }
+  },
+  "BriaImageGenerate": {
+    "description": "Genera una imagen a partir de un prompt de texto, una imagen de referencia o un prompt estructurado con Bria FIBO 2.0.",
+    "display_name": "Generación de imágenes Bria FIBO 2.0",
+    "inputs": {
+      "aspect_ratio": {
+        "name": "aspect_ratio",
+        "tooltip": "16:10 y las proporciones posteriores requieren 1 MP y exactamente uno de prompt o structured_prompt."
+      },
+      "control_after_generate": {
+        "name": "control después de generar"
+      },
+      "image": {
+        "name": "image",
+        "tooltip": "Imagen de referencia en la que basarse. El resultado es una imagen nueva con la proporción seleccionada, no una edición de esta."
+      },
+      "moderation": {
+        "name": "moderation",
+        "tooltip": "Configuración de moderación"
+      },
+      "prompt": {
+        "name": "prompt"
+      },
+      "resolution": {
+        "name": "resolution"
+      },
+      "seed": {
+        "name": "seed"
+      },
+      "structured_prompt": {
+        "name": "structured_prompt",
+        "tooltip": "Prompt estructurado en JSON de un resultado anterior de Bria FIBO. Con la misma seed recrea esa imagen; cambia el JSON o añade un prompt para refinarla."
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      },
+      "1": {
+        "name": "structured_prompt",
+        "tooltip": "Descripción estructurada de la imagen generada para recrearla o refinarla con este nodo."
       }
     }
   },
@@ -1107,7 +1150,7 @@
       },
       "1": {
         "name": "structured_prompt",
-        "tooltip": "Descripción estructurada de la imagen editada para una edición posterior con Bria FIBO Image Edit."
+        "tooltip": "Descripción estructurada de la imagen editada, para una edición posterior con Bria FIBO 2.0 Image Edit."
       }
     }
   },
@@ -1236,7 +1279,7 @@
       },
       "1": {
         "name": "structured_prompt",
-        "tooltip": "Descripción estructurada de la imagen editada, para una edición posterior con Bria FIBO Image Edit."
+        "tooltip": "Descripción estructurada de la imagen editada, para una edición posterior con Bria FIBO 2.0 Image Edit."
       }
     }
   },
@@ -1262,7 +1305,7 @@
       },
       "1": {
         "name": "structured_prompt",
-        "tooltip": "Descripción estructurada de la imagen editada, para una edición posterior con Bria FIBO Image Edit."
+        "tooltip": "Descripción estructurada de la imagen editada, para una edición posterior con Bria FIBO 2.0 Image Edit."
       }
     }
   },
@@ -1284,7 +1327,7 @@
       },
       "1": {
         "name": "structured_prompt",
-        "tooltip": "Descripción estructurada de la imagen editada para una edición posterior con Bria FIBO Image Edit."
+        "tooltip": "Descripción estructurada de la imagen editada, para una edición posterior con Bria FIBO 2.0 Image Edit."
       }
     }
   },
@@ -2413,7 +2456,7 @@
     }
   },
   "CLIPLoader": {
-    "description": "Recetas:\nsd: clip-l\nstable cascade: clip-g\nsd3: t5 xxl / clip-g / clip-l\nstable audio: t5 base\nmochi: t5 xxl\ncogvideox: t5 xxl (relleno de 226 tokens)\ncosmos: t5 xxl antiguo\nlumina2: gemma 2 2B\nwan: umt5 xxl\nhidream: llama-3.1 (recomendado) o t5\nomnigen2: qwen vl 2.5 3B\njoyimage: qwen3-vl 8B\nlens: gpt-oss-20b\npixeldit: gemma 2 2B elm\nminimax: MiniMax H3 Qwen3-VL o Music3 Qwen/RVQ",
+    "description": "Recetas:\nsd: clip-l\nstable cascade: clip-g\nsd3: t5 xxl / clip-g / clip-l\nstable audio: t5 base\nmochi: t5 xxl\ncogvideox: t5 xxl (226-token padding)\ncosmos: old t5 xxl\nlumina2: gemma 2 2B\nwan: umt5 xxl\nhidream: llama-3.1 (Recommend) or t5\nomnigen2: qwen vl 2.5 3B\njoyimage: qwen3-vl 8B\nlens: gpt-oss-20b\npixeldit: gemma 2 2B elm\nminimax: MiniMax H3 Qwen3-VL or Music3 Qwen/RVQ\nflux3: qwen3-vl 4B\nfibo2: qwen3-vl 4B",
     "display_name": "Cargar CLIP",
     "inputs": {
       "clip_name": {
@@ -2956,6 +2999,24 @@
       },
       "model_scale_factor": {
         "name": "factor_de_escala"
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "ClarityCrystalVideoUpscaleNode": {
+    "description": "Mejora la resolución de un vídeo con Crystal Video Upscaler de Clarity AI, un mejorador de resolución de alta fidelidad que se mantiene fiel a la fuente. La salida está limitada a 9 megapíxeles por fotograma (por ejemplo, 4000x2250), y los clips largos se devuelven a una resolución menor. Los clips por encima de 30 fps cuestan 2x, por encima de 60 fps 3x, y así sucesivamente.",
+    "display_name": "Mejora de resolución de vídeo Clarity AI Crystal",
+    "inputs": {
+      "model": {
+        "name": "model",
+        "tooltip": "Modelo que se utilizará."
+      },
+      "model_scale_factor": {
+        "name": "scale_factor"
       }
     },
     "outputs": {
@@ -5893,8 +5954,8 @@
     }
   },
   "Flux3ImageNode": {
-    "description": "Genera una imagen con FLUX 3 a partir de un prompt, o edita y combina hasta 10 imágenes de referencia. Haga referencia a las imágenes en el prompt como imagen 1, imagen 2, etc.",
-    "display_name": "Flux 3 Image",
+    "description": "Genera una imagen con FLUX 3 Image a partir de un prompt, o edita y combina hasta 10 imágenes de referencia. Haz referencia a las imágenes en el prompt como imagen 1, imagen 2, y así sucesivamente.",
+    "display_name": "FLUX 3 Image",
     "inputs": {
       "aspect_ratio": {
         "name": "aspect_ratio",
@@ -5988,6 +6049,118 @@
       }
     }
   },
+  "Flux3LayoutPrompt": {
+    "description": "Añade los cuadros de Crear cuadros delimitadores a un prompt de FLUX 3 Image como su tabla de diseño.",
+    "display_name": "Prompt de diseño de FLUX 3 Image",
+    "inputs": {
+      "element": {
+        "name": "element",
+        "tooltip": "Elementos de prompt del nodo Crear cuadros delimitadores. Las paletas de colores no se utilizan; describe los colores en la descripción."
+      },
+      "prompt": {
+        "name": "prompt",
+        "tooltip": "El texto del prompt. Haz referencia al cuadro N como <obj_N> para vincularle palabras."
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "prompt",
+        "tooltip": null
+      }
+    }
+  },
+  "Flux3MaxImageToVideoNode": {
+    "description": "Anima de 1 a 10 imágenes con FLUX 3 Max. Cada imagen se convierte en un fotograma del clip: una imagen lo inicia, dos se convierten en su primer y último fotograma, y las demás se distribuyen a lo largo de él o se fijan en los tiempos que elijas.",
+    "display_name": "FLUX 3 Max de imagen a vídeo",
+    "inputs": {
+      "aspect_ratio": {
+        "name": "aspect_ratio",
+        "tooltip": "Relación de aspecto de salida. «auto» es 16:9 para indicaciones de texto y, de lo contrario, sigue la primera imagen."
+      },
+      "control_after_generate": {
+        "name": "control después de generar"
+      },
+      "duration": {
+        "name": "duración",
+        "tooltip": "Duración del clip en segundos."
+      },
+      "generate_audio": {
+        "name": "generate_audio",
+        "tooltip": "Genera audio sincronizado. Desactivado produce un vídeo sin pista de audio."
+      },
+      "keyframes": {
+        "name": "fotogramas clave",
+        "tooltip": "De 1 a 10 imágenes, en orden de reproducción."
+      },
+      "placement": {
+        "name": "ubicación",
+        "tooltip": "«distribuir a lo largo del clip» coloca la primera imagen al inicio, la última al final y las demás de manera uniforme entre ambas; «en momentos específicos» fija cada imagen al segundo que elijas."
+      },
+      "prompt": {
+        "name": "indicación",
+        "tooltip": "Cómo debe moverse y sonar la escena."
+      },
+      "reasoning_level": {
+        "name": "reasoning_level",
+        "tooltip": "Cuánto razona el modelo sobre la indicación y la amplía antes de generar. «alto» tarda más; el precio es el mismo."
+      },
+      "resolution": {
+        "name": "resolución",
+        "tooltip": "Resolución de salida."
+      },
+      "seed": {
+        "name": "semilla",
+        "tooltip": "La semilla controla si el nodo debe ejecutarse de nuevo; los resultados no son deterministas independientemente de la semilla."
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "Flux3MaxTextToVideoNode": {
+    "description": "Genera un vídeo con audio sincronizado a partir de una indicación de texto mediante FLUX 3 Max.",
+    "display_name": "FLUX 3 Max de texto a vídeo",
+    "inputs": {
+      "aspect_ratio": {
+        "name": "aspect_ratio",
+        "tooltip": "Relación de aspecto de salida. «auto» es 16:9 para indicaciones de texto y, de lo contrario, sigue la primera imagen."
+      },
+      "control_after_generate": {
+        "name": "control después de generar"
+      },
+      "duration": {
+        "name": "duración",
+        "tooltip": "Duración del clip en segundos."
+      },
+      "generate_audio": {
+        "name": "generate_audio",
+        "tooltip": "Genera audio sincronizado. Desactivado produce un vídeo sin pista de audio."
+      },
+      "prompt": {
+        "name": "indicación",
+        "tooltip": "Lo que quieres, en lenguaje natural. Describe por separado el sonido ambiente, la música y el habla para obtener audio por capas."
+      },
+      "reasoning_level": {
+        "name": "reasoning_level",
+        "tooltip": "Cuánto razona el modelo sobre la indicación y la amplía antes de generar. «alto» tarda más; el precio es el mismo."
+      },
+      "resolution": {
+        "name": "resolución",
+        "tooltip": "Resolución de salida."
+      },
+      "seed": {
+        "name": "semilla",
+        "tooltip": "La semilla controla si el nodo debe ejecutarse de nuevo; los resultados no son deterministas independientemente de la semilla."
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
   "Flux3TextToVideoNode": {
     "description": "Genera un video con audio sincronizado a partir de un prompt de texto mediante FLUX 3.",
     "display_name": "Flux 3 Texto a Video",
@@ -6067,7 +6240,7 @@
       },
       "video": {
         "name": "video",
-        "tooltip": "El clip a continuar."
+        "tooltip": "El clip que se va a continuar. Los clips con un área superior a 3840x2160 píxeles se reducen de escala para ajustarse."
       }
     },
     "outputs": {
@@ -7223,6 +7396,30 @@
       }
     }
   },
+  "GetAudioLatentSize": {
+    "description": "Devuelve la longitud, el número de canales de audio y el tamaño de lote de un latente de audio.",
+    "display_name": "Obtener tamaño del latente de audio",
+    "inputs": {
+      "latent": {
+        "name": "latente",
+        "tooltip": "El latente de audio o de audio/vídeo que se va a inspeccionar."
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "longitud",
+        "tooltip": "La longitud del latente de audio."
+      },
+      "1": {
+        "name": "audio_channels",
+        "tooltip": "El número de canales de audio. Los latentes sin una dimensión de canal de audio tienen un canal."
+      },
+      "2": {
+        "name": "batch_size",
+        "tooltip": "El número de latentes en el lote."
+      }
+    }
+  },
   "GetICLoRAParameters": {
     "description": "Extrae los parámetros IC-LoRA de los metadatos safetensors de un modelo cargado con LoRA y los proporciona para LTXVAddGuide (por ejemplo, reference_downscale_factor).",
     "display_name": "Obtener parámetros IC-LoRA",
@@ -7275,6 +7472,34 @@
     "outputs": {
       "0": {
         "tooltip": null
+      }
+    }
+  },
+  "GetLatentSize": {
+    "description": "Devuelve la anchura, la altura, el número de fotogramas y el tamaño del lote de un latente de imagen o vídeo.",
+    "display_name": "Obtener tamaño del latente de imagen/vídeo",
+    "inputs": {
+      "latent": {
+        "name": "latente",
+        "tooltip": "El latente de imagen o vídeo que se va a inspeccionar."
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "anchura",
+        "tooltip": "La anchura del latente."
+      },
+      "1": {
+        "name": "altura",
+        "tooltip": "La altura del latente."
+      },
+      "2": {
+        "name": "fotogramas",
+        "tooltip": "El número de fotogramas del latente. Los latentes de imagen tienen un fotograma."
+      },
+      "3": {
+        "name": "batch_size",
+        "tooltip": "El número de latentes en el lote."
       }
     }
   },
@@ -8038,6 +8263,66 @@
       "video": {
         "name": "video",
         "tooltip": "Video con voz para traducir."
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "HeyGenVoiceCloneNode": {
+    "description": "Clona una voz a partir de una grabación de un solo hablante con HeyGen Voice 1.0. Conecta voice_id a Texto a voz de HeyGen Voice 1.0, o a custom_voice_id en Vídeo de avatar de HeyGen y Foto parlante de HeyGen.",
+    "display_name": "Clonación instantánea de voz 1.0 de HeyGen",
+    "inputs": {
+      "audio": {
+        "name": "audio",
+        "tooltip": "Grabación de un solo hablante. Usa al menos 10 segundos de habla clara; solo se utilizan los primeros 3 minutos."
+      },
+      "control_after_generate": {
+        "name": "control después de generar"
+      },
+      "language": {
+        "name": "idioma",
+        "tooltip": "Idioma hablado en la grabación."
+      },
+      "remove_background_noise": {
+        "name": "remove_background_noise"
+      },
+      "seed": {
+        "name": "semilla",
+        "tooltip": "Cambia la semilla para volver a clonar la grabación; cada clon es una voz ligeramente diferente."
+      },
+      "similarity": {
+        "name": "similitud",
+        "tooltip": "Qué tan fielmente la voz sigue la grabación."
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "voice_id",
+        "tooltip": null
+      }
+    }
+  },
+  "HeyGenVoiceTextToSpeechNode": {
+    "description": "Convierte texto en voz con una voz clonada mediante HeyGen Voice 1.0 Instant Clone.",
+    "display_name": "Texto a voz de HeyGen Voice 1.0",
+    "inputs": {
+      "model": {
+        "name": "modelo"
+      },
+      "model_expressiveness_boost": {
+        "name": "expressiveness_boost"
+      },
+      "model_language": {
+        "name": "idioma"
+      },
+      "model_text": {
+        "name": "texto"
+      },
+      "model_voice_id": {
+        "name": "voice_id"
       }
     },
     "outputs": {
@@ -10612,6 +10897,41 @@
     "outputs": {
       "0": {
         "name": "style_reference",
+        "tooltip": null
+      }
+    }
+  },
+  "Krea3ImageNode": {
+    "description": "Edita imágenes con Krea 3 o genera una imagen nueva a partir de texto cuando no hay ninguna imagen conectada.",
+    "display_name": "Imagen Krea 3",
+    "inputs": {
+      "control_after_generate": {
+        "name": "control después de generar"
+      },
+      "model": {
+        "name": "modelo"
+      },
+      "model_aspect_ratio": {
+        "name": "relación_de_aspecto"
+      },
+      "model_precise_edit": {
+        "name": "edición_precisa"
+      },
+      "model_prompt": {
+        "name": "prompt"
+      },
+      "model_resolution": {
+        "name": "resolución"
+      },
+      "model_seed": {
+        "name": "semilla"
+      },
+      "model_thinking_mode": {
+        "name": "modo_de_razonamiento"
+      }
+    },
+    "outputs": {
+      "0": {
         "tooltip": null
       }
     }
@@ -13215,6 +13535,83 @@
       }
     }
   },
+  "MOSSImageControl": {
+    "description": "Añade la región de color y los mapas de profundidad para un adaptador de control de color/profundidad MOSS-Image cargado con un cargador LoRA.",
+    "display_name": "Control de color/profundidad de MOSS-Image",
+    "inputs": {
+      "color_map": {
+        "name": "color_map",
+        "tooltip": "Un color plano por región, al tamaño de salida. Los colores son solo identificadores de región."
+      },
+      "depth_map": {
+        "name": "depth_map",
+        "tooltip": "Mapa de profundidad al tamaño de salida; lo cercano es blanco."
+      },
+      "end_percent": {
+        "name": "end_percent",
+        "tooltip": "Porcentaje de muestreo en el que finaliza el control. Finalizar antes conserva el diseño y la profundidad, mientras que el resto de los pasos da más libertad a las formas."
+      },
+      "negative": {
+        "name": "negativo"
+      },
+      "positive": {
+        "name": "positivo"
+      },
+      "start_percent": {
+        "name": "porcentaje_de_inicio",
+        "tooltip": "Porcentaje de muestreo en el que comienza el control."
+      },
+      "strength": {
+        "name": "intensidad",
+        "tooltip": "Escala la contribución de los mapas a los tokens de imagen. 0.0 equivale a no usar mapas; 1.0 es la intensidad con la que se entrenó."
+      },
+      "vae": {
+        "name": "vae"
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "positive",
+        "tooltip": null
+      },
+      "1": {
+        "name": "negative",
+        "tooltip": null
+      }
+    }
+  },
+  "MOSSImageLayoutPrompt": {
+    "description": "Crea un prompt de diseño de MOSS-Image a partir del prompt y los cuadros de Create Bounding Boxes.",
+    "display_name": "Prompt de diseño de MOSS-Image",
+    "inputs": {
+      "character_boxes": {
+        "name": "character_boxes",
+        "tooltip": "Números de los cuadros de objetos que se deben etiquetar como personajes en lugar de objetos, tal como se etiqueta en la vista previa de Create Bounding Boxes; p. ej., \"1, 3\"."
+      },
+      "element": {
+        "name": "element",
+        "tooltip": "Elementos del prompt del nodo Create Bounding Boxes. La descripción es el texto del cuadro; los cuadros de texto también renderizan su texto."
+      },
+      "height": {
+        "name": "height",
+        "tooltip": "Altura de la imagen generada; los cuadros se colocan en sus píxeles."
+      },
+      "prompt": {
+        "name": "prompt",
+        "tooltip": "Descripción de toda la imagen."
+      },
+      "width": {
+        "name": "width",
+        "tooltip": "Anchura de la imagen generada; los cuadros se colocan en sus píxeles."
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "prompt",
+        "tooltip": null
+      }
+    }
+  },
   "MagnificImageRelightNode": {
     "description": "Ilumina una imagen con ajustes de luz y transferencia de luz basada en referencia opcional.",
     "display_name": "Magnific relight de imagen",
@@ -14761,6 +15158,71 @@
     "outputs": {
       "0": {
         "tooltip": null
+      }
+    }
+  },
+  "MireloTextToSFX": {
+    "description": "Genera efectos de sonido a partir de una descripción de texto con Mirelo SFX.",
+    "display_name": "Mirelo Texto a SFX",
+    "inputs": {
+      "control_after_generate": {
+        "name": "control después de generar"
+      },
+      "model": {
+        "name": "modelo",
+        "tooltip": "Modelo que se va a usar."
+      },
+      "model_duration": {
+        "name": "duración"
+      },
+      "model_negative_prompt": {
+        "name": "prompt_negativo"
+      },
+      "model_prompt": {
+        "name": "prompt"
+      },
+      "model_seed": {
+        "name": "semilla"
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "MireloVideoToSFX": {
+    "description": "Genera efectos de sonido sincronizados con un video usando Mirelo SFX.",
+    "display_name": "Mirelo Video a SFX",
+    "inputs": {
+      "control_after_generate": {
+        "name": "control después de generar"
+      },
+      "model": {
+        "name": "modelo",
+        "tooltip": "Modelo que se va a usar."
+      },
+      "model_negative_prompt": {
+        "name": "prompt_negativo"
+      },
+      "model_preserve_speech": {
+        "name": "preservar_voz"
+      },
+      "model_prompt": {
+        "name": "prompt"
+      },
+      "model_seed": {
+        "name": "semilla"
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "audio",
+        "tooltip": null
+      },
+      "1": {
+        "name": "voz",
+        "tooltip": "El diálogo separado de la banda sonora; permanece silencioso cuando no se encuentra voz."
       }
     }
   },
@@ -17355,6 +17817,20 @@
       }
     }
   },
+  "NativeLoraTestOutput": {
+    "display_name": "NativeLoraTestOutput",
+    "inputs": {
+      "clip": {
+        "name": "clip"
+      },
+      "model": {
+        "name": "model"
+      }
+    }
+  },
+  "NativeLoraTestSource": {
+    "display_name": "NativeLoraTestSource"
+  },
   "NormalizeImages": {
     "description": "Normaliza imágenes usando la media y la desviación estándar.",
     "display_name": "Normalizar imágenes",
@@ -17676,6 +18152,47 @@
     },
     "outputs": {
       "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "PadImageNode": {
+    "description": "Rellena una imagen con un color sólido o una copia reflejada de sus bordes.",
+    "display_name": "Rellenar imagen",
+    "inputs": {
+      "image": {
+        "name": "image"
+      },
+      "padding_style": {
+        "name": "padding_style",
+        "tooltip": "Con qué rellenar el área añadida."
+      },
+      "padding_style_color": {
+        "name": "color"
+      },
+      "padding_style_feathering": {
+        "name": "feathering"
+      },
+      "padding_type": {
+        "name": "padding_type",
+        "tooltip": "Selecciona cuánto relleno añadir: cantidades exactas por lado, un multiplicador de tamaño o hasta el siguiente múltiplo."
+      },
+      "padding_type_bottom": {
+        "name": "bottom"
+      },
+      "padding_type_left": {
+        "name": "left"
+      },
+      "padding_type_right": {
+        "name": "right"
+      },
+      "padding_type_top": {
+        "name": "top"
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "image",
         "tooltip": null
       }
     }
@@ -18938,7 +19455,7 @@
       },
       "reasoning_effort": {
         "name": "reasoning_effort",
-        "tooltip": "Cuánto razonamiento emplea el modelo antes de dibujar. Los niveles más altos mejoran el detalle y consumen más tokens. Solo lo utilizan los modelos Arrow 2."
+        "tooltip": "Cuánto razonamiento realiza el modelo antes de dibujar. Los niveles más altos mejoran el detalle y cuestan más tokens."
       },
       "seed": {
         "name": "semilla",
@@ -19026,7 +19543,7 @@
       },
       "reasoning_effort": {
         "name": "reasoning_effort",
-        "tooltip": "Cuánto razonamiento emplea el modelo antes de dibujar. Los niveles más altos mejoran el detalle y consumen más tokens. Solo lo utilizan los modelos Arrow 2."
+        "tooltip": "Cuánto razonamiento realiza el modelo antes de dibujar. Los niveles más altos mejoran el detalle y consumen más tokens."
       },
       "reference_images": {
         "name": "imágenes_de_referencia",
@@ -19885,6 +20402,42 @@
       }
     }
   },
+  "ReferenceMultiLatent": {
+    "description": "Codifica imágenes de referencia y añade sus latentes al condicionamiento positivo y al negativo opcional para modelos de edición.",
+    "display_name": "Establecer múltiples latentes de referencia",
+    "inputs": {
+      "images": {
+        "name": "imágenes"
+      },
+      "negative": {
+        "name": "negativo"
+      },
+      "positive": {
+        "name": "positivo"
+      },
+      "resolution": {
+        "name": "resolución"
+      },
+      "vae": {
+        "name": "vae",
+        "tooltip": "Las imágenes de referencia se ignoran cuando no hay ningún VAE conectado."
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "positivo",
+        "tooltip": null
+      },
+      "1": {
+        "name": "negativo",
+        "tooltip": "Devuelve la salida positiva cuando el condicionamiento negativo no está conectado."
+      },
+      "2": {
+        "name": "empty_latent",
+        "tooltip": "El primer latente de referencia multiplicado por 0.0, o un latente vacío cuadrado con la resolución seleccionada."
+      }
+    }
+  },
   "ReferenceTimbreAudio": {
     "description": "Este nodo establece el audio de referencia para el timbre (para ace step 1.5)",
     "display_name": "Audio de referencia",
@@ -19999,7 +20552,7 @@
     "inputs": {
       "band": {
         "name": "band",
-        "tooltip": "Ancho de la banda estrecha en unidades de vóxel. En modo UDF también desplaza la superficie."
+        "tooltip": "Ancho de banda estrecha en unidades de vóxel. En el modo udf también desplaza la superficie; en el modo solid es el radio de cierre: las aristas se redondean y los huecos se unen a este tamaño; la superficie queda medio vóxel hacia afuera."
       },
       "drop_small_components": {
         "name": "drop_small_components",
@@ -20026,7 +20579,7 @@
       },
       "sign_mode": {
         "name": "sign_mode",
-        "tooltip": "udf: robusto ante entradas desordenadas/no manifold. sdf: superficie única limpia con recuperación de rasgos nítidos mediante QEF (función de error cuadrático), pero requiere una orientación coherente."
+        "tooltip": "udf: resistente a entradas desordenadas/no manifold. sdf: una superficie única limpia con recuperación de elementos afilados mediante QEF (Función de error cuadrático), pero requiere una orientación coherente. solid: un sólido estanco a partir de una entrada desordenada: un corte de grafo global de interior/exterior (CelloCut) elimina las capas dobles y cierra agujeros pequeños. Más lento."
       },
       "sign_mode_drop_enclosed_components": {
         "name": "drop_enclosed_components"
@@ -24381,6 +24934,54 @@
       }
     }
   },
+  "TextEncodeFibo2": {
+    "description": "Codifica un prompt de Fibo 2.0, una descripción JSON estructurada o texto sin formato. Con imágenes, el prompt es la instrucción de edición, o una descripción JSON del resultado con una clave edit_instruction, y las imágenes se convierten en latentes de referencia de ambas salidas cuando se conecta un vae. Muestrea la salida latente; el tamaño del resultado es el tamaño al que se recortan las imágenes.",
+    "display_name": "TextEncodeFibo2",
+    "inputs": {
+      "batch_size": {
+        "name": "batch_size"
+      },
+      "clip": {
+        "name": "clip"
+      },
+      "height": {
+        "name": "alto",
+        "tooltip": "Alto del resultado. 0 = el tamaño con el que se entrenó Fibo 2.0 para la relación de aspecto de la primera imagen, aproximadamente 1 megapíxel, o 1024 sin imágenes."
+      },
+      "images": {
+        "name": "imágenes",
+        "tooltip": "Imágenes que editar, a las que se hace referencia como <image_1>, <image_2> y así sucesivamente en la instrucción. Una sola imagen se escala y recorta desde el centro al tamaño del resultado, ya que la edición se alinea con ella píxel a píxel; varias imágenes, cada una a su propio tamaño de entrenamiento."
+      },
+      "negative_prompt": {
+        "name": "negative_prompt",
+        "tooltip": "Vacío es la descripción nula con la que se entrenó Fibo 2.0 para la guía sin clasificador."
+      },
+      "prompt": {
+        "name": "prompt"
+      },
+      "vae": {
+        "name": "vae"
+      },
+      "width": {
+        "name": "ancho",
+        "tooltip": "Ancho del resultado. 0 = el tamaño con el que se entrenó Fibo 2.0 para la relación de aspecto de la primera imagen, aproximadamente 1 megapíxel, o 1024 sin imágenes."
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "positivo",
+        "tooltip": null
+      },
+      "1": {
+        "name": "negativo",
+        "tooltip": null
+      },
+      "2": {
+        "name": "latente",
+        "tooltip": null
+      }
+    }
+  },
   "TextEncodeHunyuanVideo_ImageToVideo": {
     "display_name": "Codificar texto HunyuanVideo imagen a video",
     "inputs": {
@@ -27332,6 +27933,119 @@
       "0": {
         "name": "voxel_colors",
         "tooltip": null
+      }
+    }
+  },
+  "VeedCleanAudioNode": {
+    "description": "Elimina el ruido de fondo del habla con VEED. Diseñado para habla en cualquier idioma: también elimina la música y los efectos de sonido. Devuelve audio mono de 48 kHz.",
+    "display_name": "VEED Clean Audio",
+    "inputs": {
+      "audio": {
+        "name": "audio",
+        "tooltip": "Grabación de voz de menos de 30 minutos."
+      },
+      "loudness": {
+        "name": "sonoridad"
+      },
+      "loudness_target_lufs": {
+        "name": "target_lufs"
+      },
+      "strength": {
+        "name": "intensidad",
+        "tooltip": "Cuánto ruido se elimina bajo el habla. Los valores más bajos conservan más sonido ambiente tras la voz; las pausas entre palabras siempre se limpian por completo, y los valores superiores al predeterminado cambian poco."
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "VeedCleanVideoAudioNode": {
+    "description": "Elimina el ruido de fondo de la voz en un vídeo con VEED. Solo cambia la banda sonora: se sustituye por la voz mono limpia a 48 kHz.",
+    "display_name": "VEED Limpiar audio (en vídeo)",
+    "inputs": {
+      "loudness": {
+        "name": "sonoridad"
+      },
+      "loudness_target_lufs": {
+        "name": "target_lufs"
+      },
+      "strength": {
+        "name": "intensidad",
+        "tooltip": "Cuánto ruido se elimina durante la voz. Un valor más bajo conserva más sonido ambiente detrás de la voz; las pausas entre palabras siempre se limpian por completo, y los valores superiores al predeterminado cambian poco."
+      },
+      "video": {
+        "name": "vídeo",
+        "tooltip": "Vídeo con una banda sonora de voz, de menos de 30 minutos."
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "VeedFabricNode": {
+    "description": "Convierte una imagen fija y una pista de voz en un vídeo parlante con sincronización labial mediante VEED Fabric. Funciona con fotos, ilustraciones y mascotas; el vídeo dura lo mismo que el audio.",
+    "display_name": "VEED Fabric 1.0",
+    "inputs": {
+      "model": {
+        "name": "modelo"
+      },
+      "model_resolution": {
+        "name": "resolución"
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "VeedLipsyncNode": {
+    "description": "Vuelve a sincronizar la boca de una persona que habla en un vídeo con una nueva pista de voz mediante VEED Lipsync. Un hablante por vídeo; la salida conserva la resolución del vídeo a 25 fps y dura lo mismo que el audio.",
+    "display_name": "VEED Lipsync 2.0",
+    "inputs": {
+      "control_after_generate": {
+        "name": "control después de generar"
+      },
+      "model": {
+        "name": "modelo"
+      },
+      "model_seed": {
+        "name": "semilla"
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "VeedRemoveVideoBackgroundNode": {
+    "description": "Recorta el sujeto de un vídeo con VEED y devuelve los fotogramas junto con una máscara alfa. Úsalos para composición, o combínalos con Join Image with Alpha y Save WEBM para crear un vídeo transparente.",
+    "display_name": "VEED Eliminar fondo de vídeo",
+    "inputs": {
+      "model": {
+        "name": "modelo",
+        "tooltip": "estándar: cualquier fondo, mejores bordes, salida de hasta 3840x2160. rápido: más veloz, salida de hasta 1920x1080. pantalla verde: elimina un fondo verde, salida de hasta 3840x2160. Los vídeos más grandes se reducen de escala."
+      },
+      "model_refine_foreground_edges": {
+        "name": "refine_foreground_edges"
+      },
+      "model_subject_is_person": {
+        "name": "subject_is_person"
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "imágenes",
+        "tooltip": null
+      },
+      "1": {
+        "name": "máscara",
+        "tooltip": "1 donde se eliminó el fondo. Usa Join Image with Alpha y Save WEBM para obtener un vídeo transparente; añade Invert Mask antes de Image Composite Masked."
       }
     }
   },

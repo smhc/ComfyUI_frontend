@@ -850,7 +850,7 @@
       },
       "1": {
         "name": "structured_prompt",
-        "tooltip": "توضیح ساختاریافتهٔ تصویر ویرایش‌شده، برای ویرایش بعدی با Bria FIBO Image Edit."
+        "tooltip": "توصیف ساختاریافتهٔ تصویر ویرایش‌شده، برای یک ویرایش تکمیلی با Bria FIBO 2.0 Image Edit."
       }
     }
   },
@@ -876,7 +876,7 @@
       },
       "1": {
         "name": "structured_prompt",
-        "tooltip": "توضیح ساختاریافتهٔ تصویر ویرایش‌شده، برای ویرایش بعدی با Bria FIBO Image Edit."
+        "tooltip": "توصیف ساختاریافتهٔ تصویر ویرایش‌شده، برای یک ویرایش تکمیلی با Bria FIBO 2.0 Image Edit."
       }
     }
   },
@@ -1003,8 +1003,8 @@
     }
   },
   "BriaImageEditNode": {
-    "description": "ویرایش تصاویر با استفاده از جدیدترین مدل Bria",
-    "display_name": "ویرایش تصویر Bria",
+    "description": "تصاویر را با Bria FIBO 2.0 ویرایش کنید.",
+    "display_name": "ویرایش تصویر Bria FIBO 2.0",
     "inputs": {
       "control_after_generate": {
         "name": "کنترل پس از تولید"
@@ -1052,6 +1052,49 @@
       "1": {
         "name": "پرامپت ساختاریافته",
         "tooltip": null
+      }
+    }
+  },
+  "BriaImageGenerate": {
+    "description": "با استفاده از Bria FIBO 2.0، از یک پرامپت متنی، یک تصویر مرجع یا یک پرامپت ساختاریافته تصویر تولید کنید.",
+    "display_name": "تولید تصویر Bria FIBO 2.0",
+    "inputs": {
+      "aspect_ratio": {
+        "name": "aspect_ratio",
+        "tooltip": "16:10 و نسبت‌های پس از آن به 1MP و دقیقاً یکی از prompt یا structured_prompt نیاز دارند."
+      },
+      "control_after_generate": {
+        "name": "کنترل پس از تولید"
+      },
+      "image": {
+        "name": "تصویر",
+        "tooltip": "تصویر مرجعی که بر اساس آن تولید می‌شود. نتیجه تصویری جدید با نسبت ابعاد انتخاب‌شده است، نه ویرایشی از این تصویر."
+      },
+      "moderation": {
+        "name": "تعدیل محتوا",
+        "tooltip": "تنظیمات تعدیل محتوا"
+      },
+      "prompt": {
+        "name": "پرامپت"
+      },
+      "resolution": {
+        "name": "رزولوشن"
+      },
+      "seed": {
+        "name": "بذر"
+      },
+      "structured_prompt": {
+        "name": "structured_prompt",
+        "tooltip": "پرامپت ساختاریافتهٔ JSON از یک نتیجهٔ پیشین Bria FIBO. با همان seed آن تصویر را بازتولید می‌کند؛ برای اصلاح آن، JSON را تغییر دهید یا یک prompt اضافه کنید."
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      },
+      "1": {
+        "name": "structured_prompt",
+        "tooltip": "توصیف ساختاریافتهٔ تصویر تولیدشده، برای بازتولید یا اصلاح آن با این node."
       }
     }
   },
@@ -1107,7 +1150,7 @@
       },
       "1": {
         "name": "structured_prompt",
-        "tooltip": "توضیح ساختاریافتهٔ تصویر ویرایش‌شده، برای ویرایش بعدی با Bria FIBO Image Edit."
+        "tooltip": "توصیف ساختاریافتهٔ تصویر ویرایش‌شده، برای یک ویرایش تکمیلی با Bria FIBO 2.0 Image Edit."
       }
     }
   },
@@ -1236,7 +1279,7 @@
       },
       "1": {
         "name": "structured_prompt",
-        "tooltip": "توضیح ساخت‌یافتهٔ تصویر ویرایش‌شده، برای ویرایش بعدی با Bria FIBO Image Edit."
+        "tooltip": "توصیف ساختاریافتهٔ تصویر ویرایش‌شده، برای یک ویرایش تکمیلی با Bria FIBO 2.0 Image Edit."
       }
     }
   },
@@ -1262,7 +1305,7 @@
       },
       "1": {
         "name": "structured_prompt",
-        "tooltip": "توضیح ساخت‌یافتهٔ تصویر ویرایش‌شده، برای ویرایش بعدی با Bria FIBO Image Edit."
+        "tooltip": "توصیف ساختاریافتهٔ تصویر ویرایش‌شده، برای یک ویرایش تکمیلی با Bria FIBO 2.0 Image Edit."
       }
     }
   },
@@ -1284,7 +1327,7 @@
       },
       "1": {
         "name": "structured_prompt",
-        "tooltip": "توصیف ساختاریافتهٔ تصویر ویرایش‌شده، برای ویرایش بعدی با Bria FIBO Image Edit."
+        "tooltip": "توصیف ساختاریافتهٔ تصویر ویرایش‌شده، برای یک ویرایش تکمیلی با Bria FIBO 2.0 Image Edit."
       }
     }
   },
@@ -2413,7 +2456,7 @@
     }
   },
   "CLIPLoader": {
-    "description": "ترکیب‌ها:\nsd: clip-l\nstable cascade: clip-g\nsd3: t5 xxl / clip-g / clip-l\nstable audio: t5 base\nmochi: t5 xxl\ncogvideox: t5 xxl (پدینگ ۲۲۶-token)\ncosmos: old t5 xxl\nlumina2: gemma 2 2B\nwan: umt5 xxl\nhidream: llama-3.1 (توصیه‌شده) یا t5\nomnigen2: qwen vl 2.5 3B\njoyimage: qwen3-vl 8B\nlens: gpt-oss-20b\npixeldit: gemma 2 2B elm\nminimax: MiniMax H3 Qwen3-VL یا Music3 Qwen/RVQ",
+    "description": "دستورها:\nsd: clip-l\nstable cascade: clip-g\nsd3: t5 xxl / clip-g / clip-l\nstable audio: t5 base\nmochi: t5 xxl\ncogvideox: t5 xxl (پدینگ ۲۲۶ توکنی)\ncosmos: t5 xxl قدیمی\nlumina2: gemma 2 2B\nwan: umt5 xxl\nhidream: llama-3.1 (توصیه‌شده) یا t5\nomnigen2: qwen vl 2.5 3B\njoyimage: qwen3-vl 8B\nlens: gpt-oss-20b\npixeldit: gemma 2 2B elm\nminimax: MiniMax H3 Qwen3-VL یا Music3 Qwen/RVQ\nflux3: qwen3-vl 4B\nfibo2: qwen3-vl 4B",
     "display_name": "بارگذاری CLIP",
     "inputs": {
       "clip_name": {
@@ -2953,6 +2996,24 @@
       },
       "model_creativity": {
         "name": "creativity"
+      },
+      "model_scale_factor": {
+        "name": "scale_factor"
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "ClarityCrystalVideoUpscaleNode": {
+    "description": "یک ویدئو را با Crystal Video Upscaler از Clarity AI ارتقای وضوح دهید؛ افزایندهٔ وضوح با وفاداری بالایی که به منبع وفادار می‌ماند. خروجی به ۹ مگاپیکسل برای هر فریم محدود است (برای مثال ۴۰۰۰x۲۲۵۰) و کلیپ‌های بلند با رزولوشن پایین‌تری بازگردانده می‌شوند. کلیپ‌های بالاتر از ۳۰ fps، ۲ برابر هزینه دارند؛ بالاتر از ۶۰ fps، ۳ برابر؛ و به همین ترتیب.",
+    "display_name": "ارتقای وضوح ویدئوی Crystal در Clarity AI",
+    "inputs": {
+      "model": {
+        "name": "مدل",
+        "tooltip": "مدلی که استفاده می‌شود."
       },
       "model_scale_factor": {
         "name": "scale_factor"
@@ -5893,8 +5954,8 @@
     }
   },
   "Flux3ImageNode": {
-    "description": "با FLUX 3 از یک پرامپت تصویر تولید می‌کند، یا حداکثر ۱۰ تصویر مرجع را ویرایش و ترکیب می‌کند. در پرامپت، به مراجع به‌صورت تصویر ۱، تصویر ۲ و الی آخر اشاره کنید.",
-    "display_name": "Flux 3 تصویر",
+    "description": "با FLUX 3 Image از یک پرامپت تصویر تولید می‌کند، یا حداکثر ۱۰ تصویر مرجع را ویرایش و ترکیب می‌کند. در پرامپت، به مرجع‌ها با عنوان تصویر ۱، تصویر ۲ و به همین ترتیب ارجاع دهید.",
+    "display_name": "تصویر FLUX 3",
     "inputs": {
       "aspect_ratio": {
         "name": "aspect_ratio",
@@ -5988,6 +6049,118 @@
       }
     }
   },
+  "Flux3LayoutPrompt": {
+    "description": "کادرهای Create Bounding Boxes را به‌عنوان جدول چیدمان آن به یک پرامپت FLUX 3 Image اضافه می‌کند.",
+    "display_name": "پرامپت چیدمان تصویر FLUX 3",
+    "inputs": {
+      "element": {
+        "name": "عنصر",
+        "tooltip": "عناصر پرامپت از node Create Bounding Boxes. پالت‌های رنگی استفاده نمی‌شوند؛ رنگ‌ها را در توضیحات توصیف کنید."
+      },
+      "prompt": {
+        "name": "پرامپت",
+        "tooltip": "متن پرامپت. برای پیوند دادن واژه‌ها به آن، به کادر N با <obj_N> ارجاع دهید."
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "پرامپت",
+        "tooltip": null
+      }
+    }
+  },
+  "Flux3MaxImageToVideoNode": {
+    "description": "با FLUX 3 Max، ۱ تا ۱۰ تصویر را متحرک می‌کند. هر تصویر به یک فریم از کلیپ تبدیل می‌شود: با یک تصویر، کلیپ آغاز می‌شود؛ با دو تصویر، فریم اول و آخر آن را تشکیل می‌دهند؛ و با تصاویر بیشتر، تصاویر در سراسر کلیپ پخش می‌شوند یا به زمان‌های انتخابی شما سنجاق می‌شوند.",
+    "display_name": "تبدیل تصویر به ویدئوی FLUX 3 Max",
+    "inputs": {
+      "aspect_ratio": {
+        "name": "aspect_ratio",
+        "tooltip": "نسبت ابعاد خروجی. «خودکار» برای پرامپت‌های متنی ۱۶:۹ است و در غیر این صورت از تصویر اول پیروی می‌کند."
+      },
+      "control_after_generate": {
+        "name": "کنترل پس از تولید"
+      },
+      "duration": {
+        "name": "مدت",
+        "tooltip": "طول کلیپ بر حسب ثانیه."
+      },
+      "generate_audio": {
+        "name": "generate_audio",
+        "tooltip": "تولید صدای همگام. حالت خاموش ویدیویی بدون مسیر صوتی تولید می‌کند."
+      },
+      "keyframes": {
+        "name": "فریم‌های کلیدی",
+        "tooltip": "۱ تا ۱۰ تصویر، به ترتیب پخش."
+      },
+      "placement": {
+        "name": "جای‌گذاری",
+        "tooltip": "«پخش در سراسر کلیپ» تصویر اول را در ابتدا، تصویر آخر را در انتها و بقیه را به‌طور یکنواخت میان آن‌ها قرار می‌دهد؛ «در زمان‌ها» هر تصویر را به ثانیه‌ای که انتخاب می‌کنید سنجاق می‌کند."
+      },
+      "prompt": {
+        "name": "پرامپت",
+        "tooltip": "نحوهٔ حرکت و صدای صحنه."
+      },
+      "reasoning_level": {
+        "name": "reasoning_level",
+        "tooltip": "میزان استدلال و گسترش پرامپت توسط مدل پیش از تولید. «زیاد» زمان بیشتری می‌برد؛ هزینه یکسان است."
+      },
+      "resolution": {
+        "name": "وضوح",
+        "tooltip": "وضوح خروجی."
+      },
+      "seed": {
+        "name": "بذر",
+        "tooltip": "بذر تعیین می‌کند که node دوباره اجرا شود یا نه؛ نتایج صرف‌نظر از بذر غیرقطعی هستند."
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "Flux3MaxTextToVideoNode": {
+    "description": "با استفاده از FLUX 3 Max، از یک پرامپت متنی ویدیویی با صدای همگام تولید می‌کند.",
+    "display_name": "تبدیل متن به ویدیو با FLUX 3 Max",
+    "inputs": {
+      "aspect_ratio": {
+        "name": "aspect_ratio",
+        "tooltip": "نسبت ابعاد خروجی. «خودکار» برای پرامپت‌های متنی ۱۶:۹ است و در غیر این صورت از تصویر اول پیروی می‌کند."
+      },
+      "control_after_generate": {
+        "name": "کنترل پس از تولید"
+      },
+      "duration": {
+        "name": "مدت",
+        "tooltip": "طول کلیپ بر حسب ثانیه."
+      },
+      "generate_audio": {
+        "name": "generate_audio",
+        "tooltip": "تولید صدای همگام. حالت خاموش ویدیویی بدون مسیر صوتی تولید می‌کند."
+      },
+      "prompt": {
+        "name": "پرامپت",
+        "tooltip": "آنچه می‌خواهید، به زبان ساده. برای صدای لایه‌ای، صدای محیط، موسیقی و گفتار را جداگانه توصیف کنید."
+      },
+      "reasoning_level": {
+        "name": "reasoning_level",
+        "tooltip": "میزان استدلال و گسترش پرامپت توسط مدل پیش از تولید. «زیاد» زمان بیشتری می‌برد؛ هزینه یکسان است."
+      },
+      "resolution": {
+        "name": "وضوح",
+        "tooltip": "وضوح خروجی."
+      },
+      "seed": {
+        "name": "بذر",
+        "tooltip": "بذر تعیین می‌کند که node دوباره اجرا شود یا نه؛ نتایج صرف‌نظر از بذر غیرقطعی هستند."
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
   "Flux3TextToVideoNode": {
     "description": "تولید ویدیو با صدای همگام از طریق پرامپت متنی با استفاده از FLUX 3.",
     "display_name": "تبدیل متن به ویدیو Flux 3",
@@ -6067,7 +6240,7 @@
       },
       "video": {
         "name": "ویدیو",
-        "tooltip": "کلیپی که باید ادامه یابد."
+        "tooltip": "کلیپی که باید ادامه یابد. کلیپ‌های با ابعاد بیش از ۳۸۴۰x۲۱۶۰ پیکسل برای جا شدن کوچک‌مقیاس می‌شوند."
       }
     },
     "outputs": {
@@ -7223,6 +7396,30 @@
       }
     }
   },
+  "GetAudioLatentSize": {
+    "description": "طول، تعداد کانال‌های صوتی و اندازهٔ دسته‌ای یک latent صوتی را برمی‌گرداند.",
+    "display_name": "دریافت اندازهٔ latent صوتی",
+    "inputs": {
+      "latent": {
+        "name": "latent",
+        "tooltip": "latent صوتی یا صوتی/ویدیویی برای بررسی."
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "طول",
+        "tooltip": "طول latent صوتی."
+      },
+      "1": {
+        "name": "audio_channels",
+        "tooltip": "تعداد کانال‌های صوتی. latentهایی که بُعد کانال صوتی ندارند، یک کانال دارند."
+      },
+      "2": {
+        "name": "batch_size",
+        "tooltip": "تعداد latentها در دسته."
+      }
+    }
+  },
   "GetICLoRAParameters": {
     "description": "پارامترهای IC-LoRA را از متادیتای safetensors یک مدل بارگذاری‌شده LoRA استخراج می‌کند و آن‌ها را برای LTXVAddGuide (مثلاً reference_downscale_factor) خروجی می‌دهد.",
     "display_name": "دریافت پارامترهای IC-LoRA",
@@ -7275,6 +7472,34 @@
     "outputs": {
       "0": {
         "tooltip": null
+      }
+    }
+  },
+  "GetLatentSize": {
+    "description": "عرض، ارتفاع، تعداد فریم‌ها و اندازه دسته یک latent تصویر یا ویدیو را برمی‌گرداند.",
+    "display_name": "دریافت اندازه latent تصویر/ویدیو",
+    "inputs": {
+      "latent": {
+        "name": "latent",
+        "tooltip": "latent تصویر یا ویدیو برای بررسی."
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "عرض",
+        "tooltip": "عرض latent."
+      },
+      "1": {
+        "name": "ارتفاع",
+        "tooltip": "ارتفاع latent."
+      },
+      "2": {
+        "name": "فریم‌ها",
+        "tooltip": "تعداد فریم‌های latent. latentهای تصویر یک فریم دارند."
+      },
+      "3": {
+        "name": "batch_size",
+        "tooltip": "تعداد latentها در دسته."
       }
     }
   },
@@ -8038,6 +8263,66 @@
       "video": {
         "name": "ویدیو",
         "tooltip": "ویدیویی با گفتار برای ترجمه."
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "HeyGenVoiceCloneNode": {
+    "description": "یک صدا را از ضبط یک گوینده با HeyGen Voice ۱.۰ کلون کنید. voice_id را به تبدیل متن به گفتار HeyGen Voice ۱.۰، یا به custom_voice_id در HeyGen Avatar Video و HeyGen Talking Photo متصل کنید.",
+    "display_name": "کلون فوری HeyGen Voice ۱.۰",
+    "inputs": {
+      "audio": {
+        "name": "صدا",
+        "tooltip": "ضبط یک گوینده. از دست‌کم ۱۰ ثانیه گفتار واضح استفاده کنید؛ فقط ۳ دقیقه نخست استفاده می‌شود."
+      },
+      "control_after_generate": {
+        "name": "کنترل پس از تولید"
+      },
+      "language": {
+        "name": "زبان",
+        "tooltip": "زبان گفتاری در ضبط."
+      },
+      "remove_background_noise": {
+        "name": "remove_background_noise"
+      },
+      "seed": {
+        "name": "بذر",
+        "tooltip": "برای کلون‌کردن دوباره ضبط، بذر را تغییر دهید؛ هر کلون صدایی کمی متفاوت دارد."
+      },
+      "similarity": {
+        "name": "شباهت",
+        "tooltip": "میزان شباهت صدا به ضبط."
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "voice_id",
+        "tooltip": null
+      }
+    }
+  },
+  "HeyGenVoiceTextToSpeechNode": {
+    "description": "متن را با صدایی که با کلون فوری HeyGen Voice ۱.۰ کلون شده است، به گفتار تبدیل کنید.",
+    "display_name": "تبدیل متن به گفتار HeyGen Voice ۱.۰",
+    "inputs": {
+      "model": {
+        "name": "مدل"
+      },
+      "model_expressiveness_boost": {
+        "name": "model_expressiveness_boost"
+      },
+      "model_language": {
+        "name": "زبان"
+      },
+      "model_text": {
+        "name": "متن"
+      },
+      "model_voice_id": {
+        "name": "model_voice_id"
       }
     },
     "outputs": {
@@ -10612,6 +10897,41 @@
     "outputs": {
       "0": {
         "name": "style_reference",
+        "tooltip": null
+      }
+    }
+  },
+  "Krea3ImageNode": {
+    "description": "تصاویر را با Krea ۳ ویرایش کنید، یا وقتی هیچ تصویری متصل نیست، تصویری جدید از متن تولید کنید.",
+    "display_name": "تصویر Krea ۳",
+    "inputs": {
+      "control_after_generate": {
+        "name": "کنترل پس از تولید"
+      },
+      "model": {
+        "name": "مدل"
+      },
+      "model_aspect_ratio": {
+        "name": "aspect_ratio"
+      },
+      "model_precise_edit": {
+        "name": "precise_edit"
+      },
+      "model_prompt": {
+        "name": "پرامپت"
+      },
+      "model_resolution": {
+        "name": "وضوح"
+      },
+      "model_seed": {
+        "name": "بذر"
+      },
+      "model_thinking_mode": {
+        "name": "thinking_mode"
+      }
+    },
+    "outputs": {
+      "0": {
         "tooltip": null
       }
     }
@@ -13215,6 +13535,83 @@
       }
     }
   },
+  "MOSSImageControl": {
+    "description": "ناحیهٔ رنگی و نقشه‌های عمق را برای آداپتر کنترل رنگ/عمق MOSS-Image که با بارگذارندهٔ LoRA بارگذاری شده است، اضافه می‌کند.",
+    "display_name": "کنترل رنگ/عمق MOSS-Image",
+    "inputs": {
+      "color_map": {
+        "name": "نقشه رنگ",
+        "tooltip": "برای هر ناحیه یک رنگ تخت، در اندازه خروجی. رنگ‌ها فقط شناسه‌های ناحیه هستند."
+      },
+      "depth_map": {
+        "name": "نقشه عمق",
+        "tooltip": "نقشه عمق در اندازه خروجی؛ نزدیک سفید است."
+      },
+      "end_percent": {
+        "name": "درصد پایان",
+        "tooltip": "درصد نمونه‌برداری که کنترل در آن پایان می‌یابد. پایان دادن زودهنگام چیدمان و عمق را حفظ می‌کند، در حالی که مراحل باقی‌مانده شکل‌ها را آزادتر می‌کنند."
+      },
+      "negative": {
+        "name": "منفی"
+      },
+      "positive": {
+        "name": "مثبت"
+      },
+      "start_percent": {
+        "name": "start_percent",
+        "tooltip": "درصد نمونه‌برداری که کنترل از آن آغاز می‌شود."
+      },
+      "strength": {
+        "name": "قدرت",
+        "tooltip": "میزان مشارکت نقشه‌ها در توکن‌های تصویر را مقیاس‌بندی می‌کند. ۰.۰ همانند نبودن نقشه است و ۱.۰ قدرت آموزش‌دیده است."
+      },
+      "vae": {
+        "name": "vae"
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "مثبت",
+        "tooltip": null
+      },
+      "1": {
+        "name": "منفی",
+        "tooltip": null
+      }
+    }
+  },
+  "MOSSImageLayoutPrompt": {
+    "description": "یک پرامپت چیدمان MOSS-Image از پرامپت و کادرهای Create Bounding Boxes می‌سازد.",
+    "display_name": "پرامپت چیدمان MOSS-Image",
+    "inputs": {
+      "character_boxes": {
+        "name": "کادرهای کاراکتر",
+        "tooltip": "شماره‌های کادرهای شیء که باید به‌جای شیء، به‌عنوان کاراکتر برچسب‌گذاری شوند؛ مطابق برچسب‌گذاری در پیش‌نمایش Create Bounding Boxes، برای نمونه «۱، ۳»."
+      },
+      "element": {
+        "name": "عنصر",
+        "tooltip": "عناصر پرامپت از node ‏Create Bounding Boxes. توضیح، عنوان کادر است؛ کادرهای متن نیز متن خود را رندر می‌کنند."
+      },
+      "height": {
+        "name": "ارتفاع",
+        "tooltip": "ارتفاع تصویر تولیدشده؛ کادرها بر حسب پیکسل‌های آن قرار می‌گیرند."
+      },
+      "prompt": {
+        "name": "پرامپت",
+        "tooltip": "توضیح کل تصویر."
+      },
+      "width": {
+        "name": "عرض",
+        "tooltip": "عرض تصویر تولیدشده؛ کادرها بر حسب پیکسل‌های آن قرار می‌گیرند."
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "پرامپت",
+        "tooltip": null
+      }
+    }
+  },
   "MagnificImageRelightNode": {
     "description": "بازنورپردازی تصویر با تنظیمات نور و انتقال نور مبتنی بر مرجع (اختیاری).",
     "display_name": "بازنورپردازی تصویر Magnific",
@@ -14761,6 +15158,71 @@
     "outputs": {
       "0": {
         "tooltip": null
+      }
+    }
+  },
+  "MireloTextToSFX": {
+    "description": "با Mirelo SFX از یک توضیح متنی، جلوه‌های صوتی تولید کنید.",
+    "display_name": "تبدیل متن به SFX با Mirelo",
+    "inputs": {
+      "control_after_generate": {
+        "name": "کنترل پس از تولید"
+      },
+      "model": {
+        "name": "مدل",
+        "tooltip": "مدلی که باید استفاده شود."
+      },
+      "model_duration": {
+        "name": "مدت‌زمان"
+      },
+      "model_negative_prompt": {
+        "name": "negative_prompt"
+      },
+      "model_prompt": {
+        "name": "پرامپت"
+      },
+      "model_seed": {
+        "name": "بذر"
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "MireloVideoToSFX": {
+    "description": "با Mirelo SFX، جلوه‌های صوتی همگام با ویدیو تولید کنید.",
+    "display_name": "تبدیل ویدیو به SFX با Mirelo",
+    "inputs": {
+      "control_after_generate": {
+        "name": "کنترل پس از تولید"
+      },
+      "model": {
+        "name": "مدل",
+        "tooltip": "مدلی که باید استفاده شود."
+      },
+      "model_negative_prompt": {
+        "name": "negative_prompt"
+      },
+      "model_preserve_speech": {
+        "name": "preserve_speech"
+      },
+      "model_prompt": {
+        "name": "پرامپت"
+      },
+      "model_seed": {
+        "name": "بذر"
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "صدا",
+        "tooltip": null
+      },
+      "1": {
+        "name": "گفتار",
+        "tooltip": "دیالوگِ جداشده از موسیقی متن؛ در صورت پیدا نشدن گفتار، بی‌صدا است."
       }
     }
   },
@@ -17355,6 +17817,20 @@
       }
     }
   },
+  "NativeLoraTestOutput": {
+    "display_name": "NativeLoraTestOutput",
+    "inputs": {
+      "clip": {
+        "name": "clip"
+      },
+      "model": {
+        "name": "مدل"
+      }
+    }
+  },
+  "NativeLoraTestSource": {
+    "display_name": "NativeLoraTestSource"
+  },
   "NormalizeImages": {
     "description": "نرمال‌سازی تصاویر با استفاده از میانگین و انحراف معیار.",
     "display_name": "نرمال‌سازی تصاویر",
@@ -17676,6 +18152,47 @@
     },
     "outputs": {
       "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "PadImageNode": {
+    "description": "به یک تصویر با رنگ یکدست یا نسخه آینه‌ای لبه‌های آن حاشیه اضافه می‌کند.",
+    "display_name": "حاشیه‌گذاری تصویر",
+    "inputs": {
+      "image": {
+        "name": "تصویر"
+      },
+      "padding_style": {
+        "name": "سبک حاشیه‌گذاری",
+        "tooltip": "ناحیه حاشیه‌گذاری‌شده با چه چیزی پُر شود."
+      },
+      "padding_style_color": {
+        "name": "رنگ"
+      },
+      "padding_style_feathering": {
+        "name": "محوکردن لبه"
+      },
+      "padding_type": {
+        "name": "نوع حاشیه‌گذاری",
+        "tooltip": "نحوه و مقدار حاشیه‌گذاری را انتخاب کنید: مقدار دقیق برای هر سمت، ضریب اندازه، یا تا مضرب بعدی."
+      },
+      "padding_type_bottom": {
+        "name": "پایین"
+      },
+      "padding_type_left": {
+        "name": "چپ"
+      },
+      "padding_type_right": {
+        "name": "راست"
+      },
+      "padding_type_top": {
+        "name": "بالا"
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "تصویر",
         "tooltip": null
       }
     }
@@ -18938,7 +19455,7 @@
       },
       "reasoning_effort": {
         "name": "reasoning_effort",
-        "tooltip": "میزان استدلالی که مدل پیش از رسم انجام می‌دهد. سطوح بالاتر جزئیات را بهبود می‌دهند و توکن‌های بیشتری هزینه دارند. فقط توسط مدل‌های Arrow 2 استفاده می‌شود."
+        "tooltip": "میزان استدلالی که مدل پیش از ترسیم صرف می‌کند. سطوح بالاتر جزئیات را بهبود می‌دهند و توکن بیشتری مصرف می‌کنند."
       },
       "seed": {
         "name": "seed",
@@ -19026,7 +19543,7 @@
       },
       "reasoning_effort": {
         "name": "reasoning_effort",
-        "tooltip": "میزان استدلالی که مدل پیش از رسم انجام می‌دهد. سطوح بالاتر جزئیات را بهبود می‌دهند و توکن‌های بیشتری هزینه دارند. فقط توسط مدل‌های Arrow 2 استفاده می‌شود."
+        "tooltip": "مدل پیش از ترسیم چه‌میزان استدلال انجام می‌دهد. سطوح بالاتر جزئیات را بهبود می‌دهند و توکن‌های بیشتری مصرف می‌کنند."
       },
       "reference_images": {
         "name": "reference_images",
@@ -19885,6 +20402,42 @@
       }
     }
   },
+  "ReferenceMultiLatent": {
+    "description": "تصاویر مرجع را کدگذاری می‌کند و latentهای آن‌ها را به conditioning مثبت و conditioning منفیِ اختیاری برای مدل‌های ویرایش می‌افزاید.",
+    "display_name": "تنظیم latentهای چندگانهٔ مرجع",
+    "inputs": {
+      "images": {
+        "name": "تصاویر"
+      },
+      "negative": {
+        "name": "منفی"
+      },
+      "positive": {
+        "name": "مثبت"
+      },
+      "resolution": {
+        "name": "وضوح"
+      },
+      "vae": {
+        "name": "vae",
+        "tooltip": "وقتی هیچ VAEی متصل نباشد، تصاویر مرجع نادیده گرفته می‌شوند."
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "مثبت",
+        "tooltip": null
+      },
+      "1": {
+        "name": "منفی",
+        "tooltip": "وقتی conditioning منفی متصل نباشد، خروجی مثبت را برمی‌گرداند."
+      },
+      "2": {
+        "name": "empty_latent",
+        "tooltip": "نخستین latent مرجعِ ضرب‌شده در ۰٫۰، یا یک latent خالیِ مربعی در وضوح انتخاب‌شده."
+      }
+    }
+  },
   "ReferenceTimbreAudio": {
     "description": "این نود صدای مرجع برای timbre را تنظیم می‌کند (برای ace step 1.5)",
     "display_name": "ReferenceTimbreAudio",
@@ -19999,7 +20552,7 @@
     "inputs": {
       "band": {
         "name": "باند",
-        "tooltip": "پهنای باند باریک بر حسب واحدهای voxel. در حالت UDF، سطح را نیز جابه‌جا می‌کند."
+        "tooltip": "پهنای باند باریک بر حسب واحدهای voxel. در حالت udf سطح را نیز جابه‌جا می‌کند؛ در حالت solid شعاع بستن است: چین‌ها در این اندازه گرد می‌شوند و شکاف‌ها پر می‌شوند، و سطح نیم voxel به بیرون قرار می‌گیرد."
       },
       "drop_small_components": {
         "name": "drop_small_components",
@@ -20026,7 +20579,7 @@
       },
       "sign_mode": {
         "name": "sign_mode",
-        "tooltip": "udf: در برابر ورودی نامرتب/غیرمنیفلد مقاوم است. sdf: سطح تکی تمیز با بازیابی ویژگی‌های تیز QEF (Quadratic Error Function)، اما به جهت‌گیری سازگار نیاز دارد."
+        "tooltip": "udf: در برابر ورودی‌های نامرتب/غیرمانیفولد مقاوم است. sdf: یک سطح تمیزِ واحد با بازیابی ویژگی‌های تیز توسط QEF (تابع خطای درجه‌دوم)، اما به جهت‌دهی سازگار نیاز دارد. solid: یک جسم ضدآب از ورودی نامرتب؛ یک برش گراف سراسری برای داخل/خارج (CelloCut) پوسته‌های دوتایی را حذف می‌کند و سوراخ‌های کوچک را می‌بندد. کندتر است."
       },
       "sign_mode_drop_enclosed_components": {
         "name": "drop_enclosed_components"
@@ -24381,6 +24934,54 @@
       }
     }
   },
+  "TextEncodeFibo2": {
+    "description": "یک prompt از Fibo 2.0، یک شرح JSON ساختاریافته یا متن ساده را کدگذاری می‌کند. با تصاویر، prompt دستور ویرایش است، یا شرح JSON نتیجه با کلید edit_instruction؛ و هنگامی که یک vae متصل باشد، تصاویر به latentهای مرجعِ هر دو خروجی تبدیل می‌شوند. از خروجی latent نمونه‌برداری کنید؛ اندازهٔ نتیجه همان اندازه‌ای است که تصاویر برای آن برش می‌خورند.",
+    "display_name": "TextEncodeFibo2",
+    "inputs": {
+      "batch_size": {
+        "name": "batch_size"
+      },
+      "clip": {
+        "name": "clip"
+      },
+      "height": {
+        "name": "ارتفاع",
+        "tooltip": "ارتفاع نتیجه. 0 = اندازه‌ای که Fibo 2.0 برای نسبت ابعاد نخستین تصویر با آن آموزش دیده است، حدود ۱ مگاپیکسل، یا بدون تصویر ۱۰۲۴."
+      },
+      "images": {
+        "name": "تصاویر",
+        "tooltip": "تصاویر برای ویرایش که در دستور به‌صورت <image_1>، <image_2> و مانند آن‌ها ارجاع داده می‌شوند. یک تصویر منفرد به اندازهٔ نتیجه مقیاس‌بندی و از مرکز برش می‌خورد، زیرا ویرایش با آن پیکسل‌به‌پیکسل هم‌تراز است؛ چند تصویر نیز هرکدام به اندازهٔ آموزشی خود برش می‌خورند."
+      },
+      "negative_prompt": {
+        "name": "negative_prompt",
+        "tooltip": "خالی بودن، شرح تهی‌ای است که Fibo 2.0 برای راهنمایی بدون طبقه‌بند با آن آموزش دیده است."
+      },
+      "prompt": {
+        "name": "prompt"
+      },
+      "vae": {
+        "name": "vae"
+      },
+      "width": {
+        "name": "عرض",
+        "tooltip": "عرض نتیجه. 0 = اندازه‌ای که Fibo 2.0 برای نسبت ابعاد نخستین تصویر با آن آموزش دیده است، حدود ۱ مگاپیکسل، یا بدون تصویر ۱۰۲۴."
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "مثبت",
+        "tooltip": null
+      },
+      "1": {
+        "name": "منفی",
+        "tooltip": null
+      },
+      "2": {
+        "name": "latent",
+        "tooltip": null
+      }
+    }
+  },
   "TextEncodeHunyuanVideo_ImageToVideo": {
     "display_name": "TextEncodeHunyuanVideo_ImageToVideo",
     "inputs": {
@@ -27332,6 +27933,119 @@
       "0": {
         "name": "رنگ‌های وکسل",
         "tooltip": null
+      }
+    }
+  },
+  "VeedCleanAudioNode": {
+    "description": "نویز پس‌زمینه را با VEED از گفتار حذف می‌کند. برای گفتار در هر زبانی ساخته شده است: موسیقی و افکت‌های صوتی نیز حذف می‌شوند. صدای مونوی ۴۸ kHz برمی‌گرداند.",
+    "display_name": "پاک‌سازی صدای VEED",
+    "inputs": {
+      "audio": {
+        "name": "صدا",
+        "tooltip": "ضبط گفتار، کوتاه‌تر از ۳۰ دقیقه."
+      },
+      "loudness": {
+        "name": "بلندی صدا"
+      },
+      "loudness_target_lufs": {
+        "name": "target_lufs"
+      },
+      "strength": {
+        "name": "شدت",
+        "tooltip": "میزان نویزی که در پس‌زمینهٔ گفتار حذف می‌شود. مقادیر کمتر صدای محیط بیشتری را پشت صدا حفظ می‌کنند؛ مکث‌های بین واژه‌ها همیشه به‌طور کامل پاک می‌شوند و مقادیر بالاتر از پیش‌فرض تغییر اندکی ایجاد می‌کنند."
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "VeedCleanVideoAudioNode": {
+    "description": "با VEED نویز پس‌زمینه را از گفتارِ یک ویدئو حذف کنید. فقط موسیقی متن تغییر می‌کند: با گفتار تک‌کانالهٔ پاک‌سازی‌شده با فرکانس ۴۸ kHz جایگزین می‌شود.",
+    "display_name": "VEED پاک‌سازی صدا (در ویدئو)",
+    "inputs": {
+      "loudness": {
+        "name": "بلندی صدا"
+      },
+      "loudness_target_lufs": {
+        "name": "target_lufs"
+      },
+      "strength": {
+        "name": "شدت",
+        "tooltip": "میزان نویزی که در زیر گفتار حذف می‌شود. مقدار کمتر، صدای محیط بیشتری را پشت صدا حفظ می‌کند؛ مکث‌های میان کلمات همیشه کاملاً پاک‌سازی می‌شوند و مقادیر بالاتر از پیش‌فرض تغییر اندکی ایجاد می‌کنند."
+      },
+      "video": {
+        "name": "ویدئو",
+        "tooltip": "ویدئو با موسیقی متنِ گفتاری، کوتاه‌تر از ۳۰ دقیقه."
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "VeedFabricNode": {
+    "description": "با VEED Fabric یک تصویر ثابت و یک ترک گفتار را به ویدئویی سخنگو با همگام‌سازی لب تبدیل کنید. با عکس‌ها، تصویرسازی‌ها و شخصیت‌های نمادین کار می‌کند؛ طول ویدئو برابر با طول صدا است.",
+    "display_name": "VEED Fabric 1.0",
+    "inputs": {
+      "model": {
+        "name": "مدل"
+      },
+      "model_resolution": {
+        "name": "وضوح"
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "VeedLipsyncNode": {
+    "description": "با VEED Lipsync دهان یک گوینده را در ویدئو با یک ترک گفتار جدید دوباره همگام‌سازی کنید. هر ویدئو یک گوینده دارد؛ خروجی وضوح ویدئو را با ۲۵ fps حفظ می‌کند و طول آن برابر با طول صدا است.",
+    "display_name": "VEED Lipsync 2.0",
+    "inputs": {
+      "control_after_generate": {
+        "name": "کنترل پس از تولید"
+      },
+      "model": {
+        "name": "مدل"
+      },
+      "model_seed": {
+        "name": "seed"
+      }
+    },
+    "outputs": {
+      "0": {
+        "tooltip": null
+      }
+    }
+  },
+  "VeedRemoveVideoBackgroundNode": {
+    "description": "با VEED سوژه را از یک ویدئو جدا کنید و فریم‌ها را به‌همراه یک ماسک آلفا برگردانید. از آن‌ها برای کامپوزیت استفاده کنید، یا آن‌ها را با Join Image with Alpha و Save WEBM ترکیب کنید تا یک ویدئوی شفاف بنویسید.",
+    "display_name": "حذف پس‌زمینهٔ ویدئو با VEED",
+    "inputs": {
+      "model": {
+        "name": "مدل",
+        "tooltip": "استاندارد: هر نوع پس‌زمینه، بهترین لبه‌ها، خروجی تا ۳۸۴۰×۲۱۶۰. سریع: سریع‌تر، خروجی تا ۱۹۲۰×۱۰۸۰. پردهٔ سبز: پس‌زمینهٔ سبز را حذف می‌کند، خروجی تا ۳۸۴۰×۲۱۶۰. ویدئوهای بزرگ‌تر کوچک‌مقیاس می‌شوند."
+      },
+      "model_refine_foreground_edges": {
+        "name": "refine_foreground_edges"
+      },
+      "model_subject_is_person": {
+        "name": "subject_is_person"
+      }
+    },
+    "outputs": {
+      "0": {
+        "name": "تصاویر",
+        "tooltip": null
+      },
+      "1": {
+        "name": "ماسک",
+        "tooltip": "۱ در جایی که پس‌زمینه حذف شده است. برای ویدئوی شفاف از Join Image with Alpha و Save WEBM استفاده کنید؛ پیش از Image Composite Masked، Invert Mask را اضافه کنید."
       }
     }
   },
