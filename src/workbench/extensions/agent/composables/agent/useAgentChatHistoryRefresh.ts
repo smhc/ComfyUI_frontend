@@ -40,9 +40,6 @@ export function useAgentChatHistoryRefresh({
   let latestStartedRefresh = 0
   let latestAppliedRefresh = 0
   let latestSurfacedRefresh = 0
-  // Each thread shows its newest sighting unless a newer complete listing
-  // covering that sighting's workflow left it out. Resolution order then
-  // cannot matter: the view equals applying every listing in start order.
   const newestSighting = new Map<
     string,
     { generation: number; session: ChatSession }

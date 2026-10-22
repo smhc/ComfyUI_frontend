@@ -14,8 +14,6 @@ const workflowIds = ['wf-a', 'wf-b', 'wf-c']
 
 type Listing = { workflowId?: string; result: ThreadListing }
 
-// Between two listings the server moves or deletes one thread, then a
-// listing snapshots it: the whole history, or one workflow's threads.
 const arbListings = fc
   .record({
     initial: fc.array(fc.constantFrom(...workflowIds, ''), {
