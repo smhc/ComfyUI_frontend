@@ -3,8 +3,6 @@ import {
   comfyPageFixture as test
 } from '@e2e/fixtures/ComfyPage'
 
-const ADDED_NODE_POSITION = { x: 1200, y: 900 }
-
 test.describe('Workflow tab switch keeps the graph instance', () => {
   test('keeps the same node objects after switching to another tab and back', async ({
     comfyPage
@@ -47,11 +45,10 @@ test.describe('Workflow tab switch keeps the graph instance', () => {
 
     const copyRootGraphId = await comfyPage.subgraph.getRootGraphId()
     expect(copyRootGraphId).not.toBe(originalRootGraphId)
-    const addedNode = await comfyPage.nodeOps.addNode(
-      'Note',
-      undefined,
-      ADDED_NODE_POSITION
-    )
+    const addedNode = await comfyPage.nodeOps.addNode('Note', undefined, {
+      x: 1200,
+      y: 900
+    })
     const addedNodeId = String(addedNode.id)
 
     await topbar.getTab(0).click()
