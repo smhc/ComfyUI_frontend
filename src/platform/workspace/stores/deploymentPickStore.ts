@@ -183,7 +183,8 @@ export const useDeploymentPickStore = defineStore('deploymentPick', () => {
       retryDelaysMs,
       () => workspaceStore.workspaceId === id
     )
-    if (workspaceStore.workspaceId !== id) return
+    const workspaceChangedMeanwhile = workspaceStore.workspaceId !== id
+    if (workspaceChangedMeanwhile) return
     applyAnswer(id, request, event)
   }
 
